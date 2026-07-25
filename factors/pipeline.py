@@ -1,3 +1,4 @@
+import pandas as pd
 from .base import FactorPipeline
 from .preprocessing import winsorize, cross_sectional_standardize, neutralize, orthogonalize
 
