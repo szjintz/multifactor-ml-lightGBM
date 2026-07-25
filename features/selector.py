@@ -19,16 +19,21 @@ def compute_icir(ic_series: pd.Series) -> float:
 def ic_prefilter(factor_df: pd.DataFrame, returns: pd.DataFrame,
                  min_ic=0.02, min_icir=0.5, p_threshold=0.05) -> list[str]:
     selected = []
+    unique_dates = sorted(factor_df.index.levels[0].unique())
     for col in factor_df.columns:
         ic_values = []
-        for date in factor_df.index.levels[0][:min(252, len(factor_df.index.levels[0]))]:
+        for date in unique_dates:
             try:
                 f = factor_df.loc[date, col]
                 r = returns.loc[date]
+                if isinstance(r, pd.DataFrame):
+                    r = r.iloc[:, 0]
                 ic = compute_ic(f, r)
                 ic_values.append(ic)
-            except (KeyError, AttributeError):
+            except (KeyError, AttributeError, ValueError):
                 continue
+        if len(ic_values) < 20:
+            continue
         ic_series = pd.Series(ic_values)
         mean_ic = ic_series.mean()
         icir = compute_icir(ic_series)

@@ -15,8 +15,8 @@ def denoise_label(labels: pd.Series, method: str = None) -> pd.Series:
     return labels
 
 
-def compute_labels(close: pd.DataFrame, periods=20, skip=1, denoise=None) -> pd.Series:
+def compute_labels(close: pd.DataFrame, periods=20, skip=1, denoise=None) -> pd.DataFrame:
     labels = compute_forward_return(close, periods, skip)
     if denoise:
         labels = denoise_label(labels, denoise)
-    return labels.unstack() if isinstance(labels, pd.DataFrame) else labels
+    return labels

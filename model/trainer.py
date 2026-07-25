@@ -39,9 +39,17 @@ class WalkForwardTrainer:
             if len(X_train) < 100 or len(X_test) < 10:
                 continue
 
+            val_size = max(int(len(X_train) * 0.2), 1)
+            X_val, y_val = X_train.iloc[-val_size:], y_train.iloc[-val_size:]
+            X_train, y_train = X_train.iloc[:-val_size], y_train.iloc[:-val_size]
+
             dtrain = lgb.Dataset(
                 X_train.values, label=y_train.values,
                 feature_name=list(X_train.columns)
+            )
+            dval = lgb.Dataset(
+                X_val.values, label=y_val.values,
+                reference=dtrain,
             )
 
             lgb_params = cfg.get("lgb_params", {})
@@ -62,6 +70,7 @@ class WalkForwardTrainer:
                 params,
                 dtrain,
                 num_boost_round=500,
+                valid_sets=[dval],
                 callbacks=[lgb.early_stopping(
                     cfg.get("early_stopping_rounds", 30),
                     first_metric_only=True

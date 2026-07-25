@@ -24,13 +24,14 @@ class BacktestEngine:
             n = self.config.get("portfolio", {}).get("top_n", 50)
             top_stocks = date_preds.nlargest(n)
 
-            w = pd.Series(1.0 / len(top_stocks), index=top_stocks.index)
+            stock_names = top_stocks.index.get_level_values(-1)
+            w = pd.Series(1.0 / len(stock_names), index=stock_names)
 
             cost = 0.0
             if current_weights is not None:
-                turnover = w.reindex(current_weights.index, fill_value=0).sub(
-                    current_weights.reindex(w.index, fill_value=0)
-                ).abs().sum() / 2
+                current_w = current_weights.reindex(w.index, fill_value=0)
+                new_w = w.reindex(current_weights.index, fill_value=0)
+                turnover = new_w.sub(current_w).abs().sum() / 2
                 cost = turnover * (self.slippage + self.market_impact)
 
             weights_history.append(w)

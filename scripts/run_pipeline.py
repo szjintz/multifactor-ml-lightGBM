@@ -44,7 +44,7 @@ def run_pipeline(config_path="config/config.yaml"):
 
     print("[3/8] Preprocessing factors...")
     preprocessor = FactorPreprocessingPipeline(config["factors"]["preprocessing"])
-    factor_df = preprocessor.process(factor_df)
+    factor_df = preprocessor.process(factor_df, data)
 
     processor = FeatureProcessor()
     factor_df = processor.process(factor_df, "3sigma")
@@ -55,7 +55,6 @@ def run_pipeline(config_path="config/config.yaml"):
     factor_df = factor_df[selected]
     print(f"  Selected {len(selected)} features after IC filter")
 
-    factor_df = build_cross_features(factor_df, data.get("market_cap", pd.Series(1, index=factor_df.index)))
     factor_df = build_momentum_features(factor_df)
 
     print("[5/8] Computing labels...")
@@ -74,7 +73,7 @@ def run_pipeline(config_path="config/config.yaml"):
     engine = BacktestEngine(config)
     portfolio_returns, benchmark_returns, weights = engine.run(predictions, prices)
 
-    report = MetricsReport(portfolio_returns, benchmark_returns, predictions, labels, weights)
+    report = MetricsReport(portfolio_returns, benchmark_returns, predictions, labels.unstack() if isinstance(labels, pd.DataFrame) else labels, weights)
     metrics = report.generate()
     print("\n=== Performance Metrics ===")
     for k, v in metrics.items():

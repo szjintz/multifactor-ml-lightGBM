@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from .base import FactorPipeline
 from .preprocessing import winsorize, cross_sectional_standardize, neutralize, orthogonalize
@@ -20,9 +21,15 @@ class FactorPreprocessingPipeline:
         # Step 3: Neutralization
         if self.config.get("neutralize") and market_data is not None:
             exog_cols = self.config["neutralize"]
-            exog_data = market_data[[c for c in exog_cols if c in market_data.columns]]
-            for col in result.columns:
-                result[col] = neutralize(result[col], exog_data)
+            exog_data = pd.DataFrame(index=market_data.index)
+            if "market_cap" in exog_cols and "close" in market_data and "factor" in market_data:
+                exog_data["market_cap"] = np.log(market_data["close"] * market_data["factor"])
+            for col_name in exog_cols:
+                if col_name in market_data.columns and col_name not in exog_data.columns:
+                    exog_data[col_name] = market_data[col_name]
+            if exog_data.shape[1] > 0:
+                for col in result.columns:
+                    result[col] = neutralize(result[col], exog_data)
 
         # Step 4: Orthogonalization
         if self.config.get("orthogonalize"):
