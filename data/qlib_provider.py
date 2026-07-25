@@ -1,7 +1,4 @@
-import pandas as pd
-import numpy as np
 from qlib.data import D
-from qlib.config import REG_CN
 
 
 class QlibDataProvider:
@@ -26,10 +23,10 @@ class QlibDataProvider:
         instruments = D.instruments(market=self.market)
         return D.features(instruments, fields, self.start_date, self.end_date)
 
-    def get_market_cap(self):
+    def get_market_cap(self, field="$market_cap"):
         return D.features(
             D.instruments(market=self.market),
-            ["$close", "$volume"],
+            [field],
             self.start_date,
             self.end_date,
         )
