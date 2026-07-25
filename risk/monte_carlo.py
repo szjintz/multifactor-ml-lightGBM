@@ -12,7 +12,8 @@ class MonteCarloSimulator:
         self.seed = mc_cfg.get("seed", 42)
 
     def run(self, factor_df: pd.DataFrame, prices: pd.DataFrame,
-            benchmark_returns: pd.Series = None) -> dict:
+            benchmark_returns: pd.Series = None,
+            models: list = None, dates: list = None) -> dict:
         results = {}
         for noise_level in self.noise_levels:
             sharpe_list = []
@@ -25,10 +26,21 @@ class MonteCarloSimulator:
                 perturbed.index = factor_df.index
                 perturbed.columns = factor_df.columns
 
-                predictions = pd.Series(
-                    perturbed.mean(axis=1).values,
-                    index=factor_df.index
-                )
+                if models and dates:
+                    predictions_list = []
+                    for model, date in zip(models, dates):
+                        mask = perturbed.index.get_level_values(0) == date
+                        X = perturbed[mask]
+                        if len(X) == 0:
+                            continue
+                        pred = model.predict(X.values)
+                        predictions_list.append(pd.Series(pred, index=X.index))
+                    predictions = pd.concat(predictions_list) if predictions_list else pd.Series(dtype=float)
+                else:
+                    predictions = pd.Series(
+                        perturbed.mean(axis=1).values,
+                        index=factor_df.index
+                    )
 
                 engine = BacktestEngine(self.config)
                 returns, bench, weights = engine.run(predictions, prices, benchmark_returns)

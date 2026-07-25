@@ -4,10 +4,11 @@ import lightgbm as lgb
 
 
 class WalkForwardTrainer:
-    def __init__(self, config: dict = None):
+    def __init__(self, config: dict = None, tuner=None):
         self.config = config or {}
         self.models: list[lgb.Booster] = []
         self.dates: list[str] = []
+        self.tuner = tuner
 
     def _get_train_test_dates(self, all_dates: list, window_size: int, step_size: int):
         splits = []
@@ -25,6 +26,7 @@ class WalkForwardTrainer:
         step_size = 21
         splits = self._get_train_test_dates(dates, window_size, step_size)
 
+        active_features = list(features.columns)
         all_predictions = []
         for train_start, train_end, test_start, test_end in splits:
             train_mask = (features.index.get_level_values(0) >= train_start) & \
@@ -32,9 +34,9 @@ class WalkForwardTrainer:
             test_mask = (features.index.get_level_values(0) >= test_start) & \
                         (features.index.get_level_values(0) < test_end)
 
-            X_train = features[train_mask]
+            X_train = features.loc[train_mask, active_features]
             y_train = labels[train_mask]
-            X_test = features[test_mask]
+            X_test = features.loc[test_mask, active_features]
 
             if len(X_train) < 100 or len(X_test) < 10:
                 continue
@@ -53,8 +55,19 @@ class WalkForwardTrainer:
             )
 
             lgb_params = cfg.get("lgb_params", {})
+
+            if self.tuner is not None and len(self.models) == 0:
+                print(f"  Tuning hyperparameters with Optuna ({self.tuner.n_trials} trials)...")
+                tuned = self.tuner.tune(
+                    np.vstack([X_train.values, X_val.values]),
+                    np.concatenate([y_train.values, y_val.values]),
+                    X_val.values, y_val.values,
+                )
+                lgb_params.update(tuned)
+                print(f"  Best params: {tuned}")
+
             params = {
-                "objective": cfg.get("objective", "lambdarank"),
+                "objective": lgb_params.get("objective", cfg.get("objective", "lambdarank")),
                 "num_leaves": lgb_params.get("num_leaves", 31),
                 "min_child_samples": lgb_params.get("min_child_samples", 20),
                 "learning_rate": lgb_params.get("learning_rate", 0.05),
@@ -82,5 +95,14 @@ class WalkForwardTrainer:
             pred = model.predict(X_test.values)
             pred_series = pd.Series(pred, index=X_test.index)
             all_predictions.append(pred_series)
+
+            feature_imp = pd.Series(
+                model.feature_importance(importance_type="gain"),
+                index=active_features,
+            )
+            feature_imp = feature_imp / feature_imp.sum()
+            low_imp = list(feature_imp[feature_imp < 0.01].index)
+            if low_imp and len(active_features) - len(low_imp) >= 20:
+                active_features = [f for f in active_features if f not in low_imp]
 
         return pd.concat(all_predictions) if all_predictions else pd.Series(dtype=float)
