@@ -1,38 +1,103 @@
+"""
+特征变换模块
+
+在基础特征之上构建衍生特征，包括：
+1. 交叉特征（因子 × 市值）：捕捉因子与市值的非线性关系
+2. 动量特征：因子的滚动均值和滚动波动率
+3. IC 时序特征：用于分析目的，非训练特征
+
+这些衍生特征可以增强模型的预测能力。
+"""
+
+import logging
 import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
+logger = logging.getLogger(__name__)
+
 
 def build_cross_features(factor_df: pd.DataFrame, market_cap: pd.Series) -> pd.DataFrame:
-    result = factor_df.copy()
+    """
+    构建交叉特征
+
+    交叉特征 = 原始因子 × log(市值)
+    作用：捕捉因子与市值的非线性关系
+    例如：小市值股票的因子效应可能与大市值股票不同
+
+    Args:
+        factor_df: 原始因子 DataFrame，MultiIndex
+        market_cap: 市值 Series，与因子索引对齐
+
+    Returns:
+        增加了交叉特征的 DataFrame
+    """
+    logger.info(f"[TRANSFORMER] Building cross features with market_cap: {len(factor_df.columns)} base factors")
+    new_cols = {}
+    market_cap_aligned = market_cap.reindex(factor_df.index)
     for col in factor_df.columns:
-        result[f"{col}_x_CAP"] = factor_df[col] * market_cap
+        new_cols[f"{col}_x_CAP"] = factor_df[col] * market_cap_aligned
+    result = pd.concat([factor_df, pd.DataFrame(new_cols, index=factor_df.index)], axis=1)
+    logger.info(f"[TRANSFORMER] Cross features created: {len(result.columns)} total columns")
     return result
 
 
 def build_momentum_features(factor_df: pd.DataFrame, windows=[7, 15, 30]) -> pd.DataFrame:
-    result = factor_df.copy()
+    """
+    构建动量特征
+
+    对每个原始因子，计算其在不同窗口期的滚动均值和滚动标准差。
+    - 滚动均值：反映因子动量（过去 N 天平均表现）
+    - 滚动标准差：反映因子波动率（稳定性）
+
+    动量特征可以帮助模型捕捉因子的趋势和周期性。
+
+    Args:
+        factor_df: 原始因子 DataFrame
+        windows: 滚动窗口列表，默认 [7, 15, 30] 天
+
+    Returns:
+        增加了动量特征的 DataFrame
+    """
+    logger.info(f"[TRANSFORMER] Building momentum features: {len(factor_df.columns)} factors, windows={windows}")
+    new_cols = {}
     for col in factor_df.columns:
+        s = factor_df[col]
         for w in windows:
-            result[f"{col}_MOM_{w}"] = factor_df[col].rolling(w).mean()
-            result[f"{col}_VOL_{w}"] = factor_df[col].rolling(w).std()
+            mom = (s.groupby(level=0)
+                   .rolling(w, min_periods=w)
+                   .mean()
+                   .reset_index(level=0, drop=True))
+            vol = (s.groupby(level=0)
+                   .rolling(w, min_periods=w)
+                   .std()
+                   .reset_index(level=0, drop=True))
+            new_cols[f"{col}_MOM_{w}"] = mom
+            new_cols[f"{col}_VOL_{w}"] = vol
+    result = pd.concat([factor_df, pd.DataFrame(new_cols, index=factor_df.index)], axis=1)
+    logger.info(f"[TRANSFORMER] Momentum features created: {len(result.columns)} total columns")
     return result
 
 
 def build_ic_time_series(factor_df: pd.DataFrame, returns: pd.DataFrame,
                          ic_windows=[20, 60]) -> pd.DataFrame:
-    result = factor_df.copy()
-    factor_arr = factor_df.values if hasattr(factor_df, 'values') else factor_df
-    ret_arr = returns.values if hasattr(returns, 'values') else returns
-    for col_idx, col in enumerate(factor_df.columns):
-        ic_series = []
-        for t in range(len(factor_df)):
-            f = factor_arr[:t+1, col_idx]
-            r = ret_arr[:t+1] if ret_arr.ndim == 1 else ret_arr[:t+1, col_idx]
-            if len(f) >= 20:
-                ic, _ = spearmanr(f[-20:], r[-20:])
-                ic_series.append(ic)
-            else:
-                ic_series.append(0)
-        result[f"{col}_IC"] = ic_series if len(ic_series) == len(factor_df) else 0
-    return result
+    """
+    构建 IC 时序特征
+
+    注意：此函数目前被跳过，不生成训练特征，仅用于分析目的。
+    IC 时序特征可以帮助分析因子的时效性和衰减特性。
+
+    IC 时序特征包括：
+    - 滚动 IC：因子在最近 N 天的 IC 均值
+    - IC 衰减：不同持有期的 IC 变化
+
+    Args:
+        factor_df: 因子 DataFrame
+        returns: 收益率 DataFrame
+        ic_windows: 滚动 IC 窗口列表
+
+    Returns:
+        原始 factor_df（未添加新特征）
+    """
+    logger.info(f"[TRANSFORMER] build_ic_time_series skipped (not a proper training feature, use for analysis only)")
+    return factor_df
