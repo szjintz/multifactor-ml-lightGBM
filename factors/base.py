@@ -83,7 +83,7 @@ class FactorPipeline:
         初始化因子管线
         """
         self.factors: list[BaseFactor] = []
-        logger.debug(f"[因子管线] 初始化FactorPipeline，当前注册因子数：{len(self.factors)}")
+        logger.debug(f"[PIPELINE] FactorPipeline initialized with {len(self.factors)} factors")
 
     def register(self, factor: BaseFactor):
         """
@@ -96,7 +96,7 @@ class FactorPipeline:
             self，支持链式调用
         """
         self.factors.append(factor)
-        logger.info(f"[因子管线] 注册因子：{factor.name}（总计：{len(self.factors)})")
+        logger.info(f"[PIPELINE] Registered factor: {factor.name} (total: {len(self.factors)})")
         return self
 
     def compute_all(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -111,20 +111,20 @@ class FactorPipeline:
         Returns:
             包含所有因子值的 DataFrame，列名为因子名称
         """
-        logger.info(f"[因子管线] 开始计算全部{len(self.factors)}个因子，数据形状={data.shape}")
+        logger.info(f"[PIPELINE] Computing all {len(self.factors)} factors, data shape={data.shape}")
         results = {}
         t_start = time.time()
         for i, f in enumerate(self.factors):
             t0 = time.time()
-            logger.debug(f"[因子管线] 正在计算因子{i+1}/{len(self.factors)}：{f.name}")
+            logger.debug(f"[PIPELINE] Computing factor {i+1}/{len(self.factors)}: {f.name}")
             result = f.compute(data)
             elapsed = time.time() - t0
             results[f.name] = result
             nan_pct = result.isna().sum() / len(result) * 100
-            logger.info(f"[因子管线] 因子{f.name}：{len(result)}行，{nan_pct:.1f}%缺失值，耗时{elapsed:.1f}秒")
+            logger.info(f"[PIPELINE] Factor {f.name}: {len(result)} rows, {nan_pct:.1f}% NaN, {elapsed:.1f}s")
             if elapsed > 10:
-                logger.warning(f"[因子管线] 因子计算缓慢（{elapsed:.1f}秒）：{f.name}")
+                logger.warning(f"[PIPELINE] Slow factor computation ({elapsed:.1f}s): {f.name}")
         total = time.time() - t_start
         df = pd.DataFrame(results)
-        logger.info(f"[因子管线] 全部因子计算完成：{len(df.columns)}个因子，{len(df)}行，形状={df.shape}，总耗时{total:.1f}秒")
+        logger.info(f"[PIPELINE] All factors computed: {len(df.columns)} factors, {len(df)} rows, shape={df.shape}, total {total:.1f}s")
         return df

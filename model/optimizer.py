@@ -40,7 +40,7 @@ class OptunaTuner:
         self.best_params = None
         logger.info(f"[OPTUNA] OptunaTuner initialized: {n_trials} trials")
 
-    def objective(self, trial, X_train, y_train, X_val, y_val, group_train=None, group_val=None):
+    def objective(self, trial, X_train, y_train, X_val, y_val):
         """
         Optuna 目标函数：单次试验评估
 
@@ -55,56 +55,45 @@ class OptunaTuner:
             y_val: 验证标签向量
 
         Returns:
-            IC 的绝对值（越大越好）
+            IC 值（保留符号，Optuna 最大化）
         """
         # 定义超参数搜索空间
         params = {
-            "objective": "lambdarank",  # 学习排序任务
-            # num_leaves: 单棵树的最大叶子数，控制模型复杂度
+            "objective": "regression",  # 回归目标更适合 IC 优化
             "num_leaves": trial.suggest_int("num_leaves", 15, 127),
-            # min_child_samples: 叶子节点的最小样本数，防止过拟合
             "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
-            # learning_rate: 学习率，使用对数尺度搜索
-            "learning_rate": trial.suggest_float("learning_rate", 0.005, 0.1, log=True),
-            # reg_alpha: L1 正则化系数
-            "reg_alpha": trial.suggest_float("reg_alpha", 1e-3, 10, log=True),
-            # reg_lambda: L2 正则化系数
-            "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 10, log=True),
-            # bagging_fraction: 行采样比例，加速和防止过拟合
+            "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.1, log=True),
+            "reg_alpha": trial.suggest_float("reg_alpha", 1e-3, 1.0, log=True),
+            "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 1.0, log=True),
             "bagging_fraction": trial.suggest_float("bagging_fraction", 0.5, 1.0),
-            # feature_fraction: 列采样比例，增加模型多样性
             "feature_fraction": trial.suggest_float("feature_fraction", 0.5, 1.0),
-            # min_gain_to_split: 分裂的最小增益阈值
-            "min_gain_to_split": trial.suggest_float("min_gain_to_split", 0.0, 1.0),
-            "verbosity": -1,  # 禁用 LightGBM 日志输出
-            "label_gain": list(range(int(max(y_train.max(), y_val.max())) + 1)),
+            "min_gain_to_split": trial.suggest_float("min_gain_to_split", 0.0, 0.5),
+            "verbosity": -1,
         }
 
-        # 创建 LightGBM 数据集
-        dtrain = lgb.Dataset(X_train, label=y_train, group=group_train)
-        dval = lgb.Dataset(X_val, label=y_val, reference=dtrain, group=group_val)
+        # 创建 LightGBM 数据集（回归模式不需要 group）
+        dtrain = lgb.Dataset(X_train, label=y_train)
+        dval = lgb.Dataset(X_val, label=y_val, reference=dtrain)
 
         # 训练 LightGBM 模型
-        # num_boost_round: 最大迭代次数
-        # early_stopping: 如果验证集30轮内没有提升则停止
         model = lgb.train(
             params, dtrain,
-            num_boost_round=500,
+            num_boost_round=300,
             valid_sets=[dval],
-            callbacks=[lgb.early_stopping(30), lgb.log_evaluation(0)],
+            callbacks=[lgb.early_stopping(50), lgb.log_evaluation(0)],
         )
 
-        # 在验证集上预测并计算 IC
+        # 在验证集上预测并计算 IC（使用 Pearson 相关衡量预测与实际收益的相关性）
         pred = model.predict(X_val)
         ic, _ = spearmanr(pred, y_val)
         if np.isnan(ic):
             ic = 0.0
-        logger.debug(f"[OPTUNA] Trial {trial.number}: IC={abs(ic):.4f}")
+        logger.debug(f"[OPTUNA] Trial {trial.number}: IC={ic:.4f}")
 
-        # 返回 IC 的绝对值作为目标（Optuna 最大化）
-        return abs(ic)
+        # 返回 IC（保留符号，Optuna 最大化）
+        return ic
 
-    def tune(self, X_train, y_train, X_val, y_val, group_train=None, group_val=None):
+    def tune(self, X_train, y_train, X_val, y_val):
         """
         执行完整的超参数搜索过程
 
@@ -116,8 +105,6 @@ class OptunaTuner:
             y_train: 训练标签向量
             X_val: 验证特征矩阵
             y_val: 验证标签向量
-            group_train: 训练集的 query group 大小列表（lambdarank 需要）
-            group_val: 验证集的 query group 大小列表
 
         Returns:
             最优超参数字典
@@ -129,7 +116,7 @@ class OptunaTuner:
 
         # 执行优化搜索，gc_after_trial=True 在每次试验后强制垃圾回收以节省内存
         study.optimize(
-            lambda trial: self.objective(trial, X_train, y_train, X_val, y_val, group_train, group_val),
+            lambda trial: self.objective(trial, X_train, y_train, X_val, y_val),
             n_trials=self.n_trials,
             gc_after_trial=True,
         )

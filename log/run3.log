@@ -1,0 +1,447 @@
+INFO:__main__:============================================================
+INFO:__main__:[主流程] Pipeline开始...
+INFO:__main__:============================================================
+INFO:__main__:[主流程] 配置已加载: 市场=csi300, 开始=2022-01-01, 结束=2026-06-30
+[320766:MainThread](2026-07-27 03:51:51,214) INFO - qlib.Initialization - [config.py:452] - default_conf: client.
+[320766:MainThread](2026-07-27 03:51:51,945) INFO - qlib.Initialization - [__init__.py:75] - qlib successfully initialized based on client settings.
+[320766:MainThread](2026-07-27 03:51:51,945) INFO - qlib.Initialization - [__init__.py:77] - data_path={'__DEFAULT_FREQ': PosixPath('/home/jinqh/.qlib/qlib_data/cn_data')}
+INFO:__main__:[主流程] Qlib初始化完成
+INFO:__main__:[1/8] 从Qlib+Akshare加载数据...
+INFO:data.qlib_provider:[QLIB数据] 开始数据增强流程...
+INFO:data.qlib_provider:[QLIB数据] 获取日线数据: 9 个字段, 范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 日线数据: 325309 行, 9 列, 日期范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB数据] 获取交易日历, 范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 交易日历: 1085 个交易日, 范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB数据] 获取基本面数据...
+INFO:data.qlib_provider:[QLIB数据] 获取所有标的, 市场=csi300, 日期范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 从Qlib获取到 2 个标的
+INFO:data.qlib_provider:[QLIB数据] 初始化基本面数据提供器，标的数量: 421
+INFO:data.qlib_provider:[QLIB数据] 获取所有标的, 市场=csi300, 日期范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 从Qlib获取到 2 个标的
+INFO:data.qlib_provider:[QLIB数据] 基本面数据提供器初始化完成: 421 个标的, 缓存目录=None
+2026-07-27 03:51:54,739 - data.fundamental_provider - INFO - [基本面合并] 开始合并数据: 1085 个交易日, 421 只股票
+INFO:data.fundamental_provider:[基本面合并] 开始合并数据: 1085 个交易日, 421 只股票
+2026-07-27 03:51:54,784 - data.fundamental_provider - WARNING - [DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+WARNING:data.fundamental_provider:[DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+2026-07-27 03:51:54,784 - data.fundamental_provider - INFO - [DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+INFO:data.fundamental_provider:[DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+2026-07-27 03:51:54,787 - data.fundamental_provider - WARNING - [QUARTERLY] Skipping 1 previously failed instruments: ['SZ001280']
+WARNING:data.fundamental_provider:[QUARTERLY] Skipping 1 previously failed instruments: ['SZ001280']
+2026-07-27 03:51:54,787 - data.fundamental_provider - INFO - [QUARTERLY] All missing instruments previously failed, returning cached data
+INFO:data.fundamental_provider:[QUARTERLY] All missing instruments previously failed, returning cached data
+2026-07-27 03:51:54,828 - data.fundamental_provider - INFO - [基本面合并] 数据中的股票数量: 493
+INFO:data.fundamental_provider:[基本面合并] 数据中的股票数量: 493
+2026-07-27 03:51:54,828 - data.fundamental_provider - INFO - [基本面合并] 日线数据行数: 449075, 季度数据行数: 15896
+INFO:data.fundamental_provider:[基本面合并] 日线数据行数: 449075, 季度数据行数: 15896
+2026-07-27 03:51:56,390 - data.fundamental_provider - INFO - [基本面合并] 日线数据已合并: 449075 行 -> 449501 个非空流通股数值
+INFO:data.fundamental_provider:[基本面合并] 日线数据已合并: 449075 行 -> 449501 个非空流通股数值
+2026-07-27 03:51:56,390 - data.fundamental_provider - INFO - [基本面合并] 处理季度财务数据对齐...
+INFO:data.fundamental_provider:[基本面合并] 处理季度财务数据对齐...
+2026-07-27 03:52:00,153 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Shifted quarterly data: 8808 rows, 492 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Shifted quarterly data: 8808 rows, 492 instruments
+2026-07-27 03:52:00,209 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 533590/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 533590/534905 (99.8%) non-NaN values
+2026-07-27 03:52:00,279 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 533763/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 533763/534905 (99.8%) non-NaN values
+2026-07-27 03:52:00,345 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 533820/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 533820/534905 (99.8%) non-NaN values
+2026-07-27 03:52:00,403 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROA' merged: 533820/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROA' merged: 533820/534905 (99.8%) non-NaN values
+2026-07-27 03:52:00,456 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 533763/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 533763/534905 (99.8%) non-NaN values
+2026-07-27 03:52:00,511 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 460040/534905 (86.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 460040/534905 (86.0%) non-NaN values
+2026-07-27 03:52:00,566 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 533820/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 533820/534905 (99.8%) non-NaN values
+2026-07-27 03:52:00,633 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Final combined data: 533957 rows, 493 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Final combined data: 533957 rows, 493 instruments
+INFO:data.qlib_provider:[QLIB数据] 基本面数据合并完成: 533957 行
+INFO:data.qlib_provider:[QLIB数据] 合并后: 325309 行, 18 列
+INFO:data.qlib_provider:[QLIB数据] 计算市值: 流通股本 × 收盘价
+INFO:data.qlib_provider:[QLIB数据] 市值计算完成: 323415/325309 非空值 (99.4%)
+INFO:data.qlib_provider:[QLIB数据] 增强数据准备完成: 325309 行, 19 列, 日期范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB数据] 获取交易日历, 范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 交易日历: 1085 个交易日, 范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:__main__:[1/8] 数据加载完成: 325309 行, 19 列
+INFO:__main__:[2/8] 计算因子...
+INFO:factors.base:[因子管线] 注册因子：RET_5（总计：1)
+INFO:factors.base:[因子管线] 注册因子：RET_10（总计：2)
+INFO:factors.base:[因子管线] 注册因子：RET_20（总计：3)
+INFO:factors.base:[因子管线] 注册因子：RET_60（总计：4)
+INFO:factors.base:[因子管线] 注册因子：WMA_5（总计：5)
+INFO:factors.base:[因子管线] 注册因子：WMA_10（总计：6)
+INFO:factors.base:[因子管线] 注册因子：WMA_20（总计：7)
+INFO:factors.base:[因子管线] 注册因子：RS_14（总计：8)
+INFO:factors.base:[因子管线] 注册因子：RS_28（总计：9)
+INFO:factors.base:[因子管线] 注册因子：BIAS_5（总计：10)
+INFO:factors.base:[因子管线] 注册因子：BIAS_10（总计：11)
+INFO:factors.base:[因子管线] 注册因子：MACD（总计：12)
+INFO:factors.base:[因子管线] 注册因子：REV_1（总计：13)
+INFO:factors.base:[因子管线] 注册因子：REV_2（总计：14)
+INFO:factors.base:[因子管线] 注册因子：REV_5（总计：15)
+INFO:factors.base:[因子管线] 注册因子：MAXRET_5（总计：16)
+INFO:factors.base:[因子管线] 注册因子：MINRET_5（总计：17)
+INFO:factors.base:[因子管线] 注册因子：MAXRET_10（总计：18)
+INFO:factors.base:[因子管线] 注册因子：MINRET_10（总计：19)
+INFO:factors.base:[因子管线] 注册因子：STD_5（总计：20)
+INFO:factors.base:[因子管线] 注册因子：STD_10（总计：21)
+INFO:factors.base:[因子管线] 注册因子：STD_20（总计：22)
+INFO:factors.base:[因子管线] 注册因子：STD_60（总计：23)
+INFO:factors.base:[因子管线] 注册因子：ATR_5（总计：24)
+INFO:factors.base:[因子管线] 注册因子：ATR_14（总计：25)
+INFO:factors.base:[因子管线] 注册因子：BETA_60（总计：26)
+INFO:factors.base:[因子管线] 注册因子：RVOL_5（总计：27)
+INFO:factors.base:[因子管线] 注册因子：RVOL_20（总计：28)
+INFO:factors.base:[因子管线] 注册因子：VOLR_5（总计：29)
+INFO:factors.base:[因子管线] 注册因子：TURN_5（总计：30)
+INFO:factors.base:[因子管线] 注册因子：VOLR_20（总计：31)
+INFO:factors.base:[因子管线] 注册因子：TURN_20（总计：32)
+INFO:factors.base:[因子管线] 注册因子：VWAP_DEV（总计：33)
+INFO:factors.base:[因子管线] 注册因子：PVC_20（总计：34)
+INFO:factors.alpha_volume:[FACTOR] Registered 34 volume/price factors: ['RET_5', 'RET_10', 'RET_20', 'RET_60', 'WMA_5', 'WMA_10', 'WMA_20', 'RS_14', 'RS_28', 'BIAS_5', 'BIAS_10', 'MACD', 'REV_1', 'REV_2', 'REV_5', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10', 'STD_5', 'STD_10', 'STD_20', 'STD_60', 'ATR_5', 'ATR_14', 'BETA_60', 'RVOL_5', 'RVOL_20', 'VOLR_5', 'TURN_5', 'VOLR_20', 'TURN_20', 'VWAP_DEV', 'PVC_20']
+INFO:factors.base:[因子管线] 注册因子：EP（总计：35)
+INFO:factors.base:[因子管线] 注册因子：BP（总计：36)
+INFO:factors.base:[因子管线] 注册因子：ROE_TTM（总计：37)
+INFO:factors.base:[因子管线] 注册因子：ROA（总计：38)
+INFO:factors.base:[因子管线] 注册因子：GROSS_MARGIN（总计：39)
+INFO:factors.base:[因子管线] 注册因子：DEBT_RATIO（总计：40)
+INFO:factors.base:[因子管线] 注册因子：REV_GROW_QoQ（总计：41)
+INFO:factors.base:[因子管线] 注册因子：REV_GROW_YoY（总计：42)
+INFO:factors.fundamental:[FACTOR] Registered 8 fundamental factors: ['EP', 'BP', 'ROE_TTM', 'ROA', 'GROSS_MARGIN', 'DEBT_RATIO', 'REV_GROW_QoQ', 'REV_GROW_YoY']
+INFO:factors.base:[因子管线] 注册因子：TURN_ANOM_20（总计：43)
+INFO:factors.base:[因子管线] 注册因子：TURN_ANOM_60（总计：44)
+INFO:factors.base:[因子管线] 注册因子：IVOL_60（总计：45)
+INFO:factors.base:[因子管线] 注册因子：ILLIQ_20（总计：46)
+INFO:factors.base:[因子管线] 注册因子：ILLIQ_60（总计：47)
+INFO:factors.base:[因子管线] 注册因子：RSKEW_20（总计：48)
+INFO:factors.base:[因子管线] 注册因子：RKURT_20（总计：49)
+INFO:factors.base:[因子管线] 注册因子：RSKEW_60（总计：50)
+INFO:factors.base:[因子管线] 注册因子：RKURT_60（总计：51)
+INFO:factors.alternative:[FACTOR] Registered 9 alternative factors: ['TURN_ANOM_20', 'TURN_ANOM_60', 'IVOL_60', 'ILLIQ_20', 'ILLIQ_60', 'RSKEW_20', 'RKURT_20', 'RSKEW_60', 'RKURT_60']
+INFO:factors.base:[因子管线] 开始计算全部51个因子，数据形状=(325309, 19)
+INFO:factors.base:[因子管线] 因子RET_5：325309行，0.6%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子RET_10：325309行，1.2%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子RET_20：325309行，2.5%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子RET_60：325309行，7.5%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子WMA_5：388889行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子WMA_10：386864行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子WMA_20：382814行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RS_14：325309行，1.8%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子RS_28：325309行，3.5%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子BIAS_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子BIAS_10：325309行，1.3%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MACD：325309行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子REV_1：325309行，0.1%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子REV_2：325309行，0.3%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子REV_5：325309行，0.6%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子MAXRET_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MINRET_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MAXRET_10：325309行，1.2%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MINRET_10：325309行，1.2%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子STD_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子STD_10：325309行，1.2%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子STD_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子STD_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子ATR_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子ATR_14：325309行，1.9%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子BETA_60：367019行，0.0%缺失值，耗时0.3秒
+INFO:factors.base:[因子管线] 因子RVOL_5：389294行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RVOL_20：383219行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子VOLR_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子TURN_5：325309行，0.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子VOLR_20：325309行，2.7%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子TURN_20：325309行，2.4%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子VWAP_DEV：325309行，0.1%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子PVC_20：319375行，0.0%缺失值，耗时0.3秒
+INFO:factors.base:[因子管线] 因子EP：325309行，0.1%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子BP：325309行，0.1%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子ROE_TTM：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子ROA：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子GROSS_MARGIN：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子DEBT_RATIO：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子REV_GROW_QoQ：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子REV_GROW_YoY：325309行，15.6%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子TURN_ANOM_20：325309行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子TURN_ANOM_60：325309行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子IVOL_60：431525行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子ILLIQ_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子ILLIQ_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RSKEW_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RKURT_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RSKEW_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RKURT_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 全部因子计算完成：51个因子，449525行，形状=(449525, 51)，总耗时4.4秒
+INFO:__main__:[2/8] 因子计算完成: 生成 51 个因子
+INFO:__main__:[3/8] 因子预处理...
+INFO:__main__:[3/8] 市值向前填充 (inst_level=1): 空值 1894 -> 0
+INFO:factors.pipeline:[因子预处理] 初始化预处理管线，配置：{'winsorize': '3sigma', 'standardize': 'cross_sectional', 'neutralize': ['market_cap'], 'orthogonalize': 'none'}
+INFO:factors.pipeline:[PREPROCESS] 开始预处理：51个因子，449525行
+INFO:factors.pipeline:[PREPROCESS] 步骤1/4：缩尾处理，方法=3sigma
+INFO:factors.pipeline:[PREPROCESS] 缩尾处理完成
+INFO:factors.pipeline:[PREPROCESS] 步骤2/4：截面标准化
+/home/jinqh/myquant/.venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+/home/jinqh/myquant/.venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+INFO:factors.pipeline:[PREPROCESS] 标准化完成：形状=(449525, 51)
+INFO:factors.pipeline:【DEBUG】标准化后因子总数据量:22925775, NaN数量:1144460, Inf数量:0, 全零数量:0
+INFO:factors.pipeline:【DEBUG】因子非空有效数据数量：21781315
+INFO:factors.pipeline:[PREPROCESS] 步骤3/4：中性化，外生变量=['market_cap']
+INFO:factors.pipeline:[PREPROCESS] market_data可用列：['open', 'high', 'low', 'close', 'volume', 'amount', 'vwap', 'change', 'factor', 'turnover', 'outstanding_share', 'earnings_per_share', 'book_value_per_share', 'ROE_TTM', 'ROA', 'debt_ratio', 'revenue_growth_yoy', 'gross_margin', 'market_cap']
+INFO:factors.pipeline:[PREPROCESS] Neutralization data prepared: ['market_cap']
+INFO:factors.pipeline:[PREPROCESS] market_cap non-NaN: 325309/325309
+WARNING:factors.preprocessing:[PREPROCESS] Neutralize: only 0 valid points, skipping
+INFO:factors.pipeline:[PREPROCESS] Neutralization complete
+INFO:factors.pipeline:[PREPROCESS] Step 4/4: Skipped (no orthogonalize config)
+INFO:factors.pipeline:[PREPROCESS] Preprocessing complete: 51 factors, 449525 rows, 4.99% NaN
+INFO:__main__:[3/8] 预处理完成: 剩余 51 个因子
+INFO:__main__:[4/8] 特征选择+构建衍生特征...
+INFO:features.label:[LABEL] Computing labels: close shape=(1085, 421), periods=20, skip=1, denoise=None
+INFO:features.label:[LABEL] Computing forward returns: close shape=(1085, 421), periods=20, skip=1
+INFO:features.label:[LABEL] Forward returns computed: shape=(1085, 421), 69.3% non-NaN
+INFO:features.label:[LABEL] Labels computed: shape=(1085, 421), date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:__main__:[4/8] 股票池缩减: 1084 -> 800 只, 行数: 336800
+INFO:features.selector:[SELECTOR] 开始IC预筛选: 51个因子, min_ic=0.02, min_icir=0.1, p_threshold=0.05
+INFO:features.selector:[SELECTOR] Using level 1 for dates: 1085 unique dates
+INFO:features.selector:[SELECTOR] Filtering over 1085 periods
+WARNING:features.selector:[SELECTOR] RET_5: mean_ic=-0.006181, icir=-0.0311, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_10: mean_ic=-0.025927, icir=-0.1315, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_20: mean_ic=-0.045812, icir=-0.2303, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_60: mean_ic=-0.043605, icir=-0.2060, valid_dates=800/800, total_nan=0
+INFO:features.selector:[SELECTOR] IC prefilter complete: 31/51 factors selected, 20 rejected
+INFO:features.selector:[SELECTOR] Selected factors: ['RET_10', 'RET_20', 'RET_60', 'WMA_20', 'RS_14', 'RS_28', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10']...
+INFO:__main__:[4/8] 特征选择完成: 选出 31 个特征
+INFO:__main__:[4/8] 因子拥挤监控: 因子收益计算失败，跳过
+INFO:features.transformer:[TRANSFORMER] Building momentum features: 31 factors, windows=[7, 15, 30]
+INFO:features.transformer:[TRANSFORMER] Momentum features created: 217 total columns
+INFO:features.transformer:[TRANSFORMER] build_ic_time_series skipped (not a proper training feature, use for analysis only)
+INFO:__main__:[4/8] 特征工程完成: 共 217 个特征
+INFO:__main__:[5/8] 训练模型 (Walk-Forward)...
+INFO:__main__:[5/8] 训练数据: 336800 行, 217 个特征, 800 个交易日, 范围=2022-04-08 00:00:00 到 2025-07-24 00:00:00
+INFO:model.optimizer:[OPTUNA] OptunaTuner initialized: 10 trials
+INFO:model.trainer:[训练器] WalkForwardTrainer 初始化: window_months=24, tuner=True
+INFO:model.trainer:[训练器] 开始训练: 217 个特征, 336800 行, 800 个日期, market_cap=Yes
+INFO:model.trainer:[训练器] 剔除标签 NaN 后: 237588 行, 800 个日期
+INFO:model.trainer:[训练器] 生成 14 个训练/测试窗口, window_size=504, step_size=21
+INFO:model.trainer:[训练器] Fold 1: 使用 Optuna 进行超参数调优(10次试验)...
+INFO:model.optimizer:[OPTUNA] Starting hyperparameter tuning: 10 trials, train=30000, val=29972
+/home/jinqh/lightGBM_qlib/model/optimizer.py:88: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic, _ = spearmanr(pred, y_val)
+INFO:model.optimizer:[OPTUNA] Tuning complete: best_value=0.0000, best_params={'num_leaves': 57, 'min_child_samples': 96, 'learning_rate': 0.044803926826840625, 'reg_alpha': 0.24810409748678125, 'reg_lambda': 0.004207988669606638, 'bagging_fraction': 0.5779972601681014, 'feature_fraction': 0.5290418060840998, 'min_gain_to_split': 0.8661761457749352}
+INFO:model.trainer:[训练器] Fold 1: 最佳参数: {'num_leaves': 57, 'min_child_samples': 96, 'learning_rate': 0.044803926826840625, 'reg_alpha': 0.24810409748678125, 'reg_lambda': 0.004207988669606638, 'bagging_fraction': 0.5779972601681014, 'feature_fraction': 0.5290418060840998, 'min_gain_to_split': 0.8661761457749352}
+INFO:model.trainer:[训练器] Fold 1/14: 训练 LightGBM, train=119888, val=29972, test=6228, 特征=217
+INFO:model.trainer:[训练器] Fold 1: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(2.7829702312664146e-10)})})
+INFO:model.trainer:[训练器] Fold 2/14: 训练 LightGBM, train=119838, val=29959, test=6138, 特征=217
+INFO:model.trainer:[训练器] Fold 2: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(2.785292992661485e-10)})})
+INFO:model.trainer:[训练器] Fold 3/14: 训练 LightGBM, train=119866, val=29966, test=6279, 特征=217
+INFO:model.trainer:[训练器] Fold 3: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(2.7839918881781973e-10)})})
+INFO:model.trainer:[训练器] Fold 4/14: 训练 LightGBM, train=120123, val=30030, test=6231, 特征=217
+INFO:model.trainer:[训练器] Fold 4: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(2.772092076591532e-10)})})
+INFO:model.trainer:[训练器] Fold 5/14: 训练 LightGBM, train=120084, val=30020, test=6252, 特征=217
+INFO:model.trainer:[训练器] Fold 5: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.0001998603753207518)})})
+INFO:model.trainer:[训练器] Fold 6/14: 训练 LightGBM, train=120053, val=30013, test=6300, 特征=217
+INFO:model.trainer:[训练器] Fold 6: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.0009662160427039674)})})
+INFO:model.trainer:[训练器] Fold 7/14: 训练 LightGBM, train=120054, val=30013, test=6178, 特征=217
+INFO:model.trainer:[训练器] Fold 7: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.0009662160429674664)})})
+INFO:model.trainer:[训练器] Fold 8/14: 训练 LightGBM, train=119962, val=29990, test=6081, 特征=217
+INFO:model.trainer:[训练器] Fold 8: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.0009669570311090005)})})
+INFO:model.trainer:[训练器] Fold 9/14: 训练 LightGBM, train=119892, val=29973, test=6262, 特征=217
+INFO:model.trainer:[训练器] Fold 9: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.0009675054483498753)})})
+INFO:model.trainer:[训练器] Fold 10/14: 训练 LightGBM, train=119996, val=29998, test=6249, 特征=217
+INFO:model.trainer:[训练器] Fold 10: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.0007666199934808586)})})
+INFO:model.trainer:[训练器] Fold 11/14: 训练 LightGBM, train=119955, val=29988, test=6269, 特征=217
+INFO:model.trainer:[训练器] Fold 11: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(6.254690138037901e-08)})})
+INFO:model.trainer:[训练器] Fold 12/14: 训练 LightGBM, train=119930, val=29982, test=6259, 特征=217
+INFO:model.trainer:[训练器] Fold 12: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(5.84709740177543e-08)})})
+INFO:model.trainer:[训练器] Fold 13/14: 训练 LightGBM, train=119897, val=29974, test=6147, 特征=217
+INFO:model.trainer:[训练器] Fold 13: 模型训练完成, best_iteration=3, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(5.850316510982387e-08)})})
+INFO:model.trainer:[训练器] Fold 14/14: 训练 LightGBM, train=119777, val=29944, test=6257, 特征=217
+INFO:model.trainer:[训练器] Fold 14: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(5.862044800283562e-08)})})
+INFO:model.trainer:[训练器] 训练完成: 14 个模型, 87130 个预测
+INFO:__main__:[5/8] 训练完成: 87130 个预测
+INFO:__main__:[6/8] 回测...
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=2.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=30, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 15 rebalance periods, 87130 predictions, holding_period=20, use_optimizer=True
+INFO:backtest.engine:[BACKTEST] Backtest complete: 15 rebalances, total_return=0.1823, ann_periods_per_year=12.60, sharpe=0.8222, max_drawdown=-0.0893
+INFO:backtest.metrics:[METRICS] MetricsReport initialized: 14 periods (hp=20), 87130 predictions
+INFO:backtest.metrics:[METRICS] Computing performance metrics...
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:111: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+INFO:backtest.metrics:[METRICS] Performance metrics computed:
+INFO:backtest.metrics:  annualized_return: 0.1626
+INFO:backtest.metrics:  benchmark_return: 0.18718266487121582
+INFO:backtest.metrics:  excess_return: -0.0245
+INFO:backtest.metrics:  annualized_vol: 0.2072
+INFO:backtest.metrics:  sharpe_ratio: 0.7015
+INFO:backtest.metrics:  calmar_ratio: 1.8218
+INFO:backtest.metrics:  max_drawdown: -0.0893
+INFO:backtest.metrics:  annual_turnover: 0.4520
+INFO:backtest.metrics:  ic_mean: -0.0159
+INFO:backtest.metrics:  ic_std: 0.1941
+INFO:backtest.metrics:  ir: -0.0820
+INFO:backtest.metrics:  hit_rate: 0.4375
+INFO:__main__:
+=== 绩效指标 ===
+INFO:__main__:  annualized_return: 0.1626
+INFO:__main__:  benchmark_return: 0.18718266487121582
+INFO:__main__:  excess_return: -0.0245
+INFO:__main__:  annualized_vol: 0.2072
+INFO:__main__:  sharpe_ratio: 0.7015
+INFO:__main__:  calmar_ratio: 1.8218
+INFO:__main__:  max_drawdown: -0.0893
+INFO:__main__:  annual_turnover: 0.4520
+INFO:__main__:  ic_mean: -0.0159
+INFO:__main__:  ic_std: 0.1941
+INFO:__main__:  ir: -0.0820
+INFO:__main__:  hit_rate: 0.4375
+INFO:__main__:[7/8] 模型可解释性分析...
+INFO:__main__:  SHAP重要性前10特征: ['RSKEW_60_VOL_30', 'RSKEW_60_MOM_30', 'RSKEW_60_VOL_15', 'RSKEW_60_MOM_15', 'RSKEW_60_VOL_7', 'RSKEW_60_MOM_7', 'RSKEW_20_VOL_30', 'RSKEW_20_MOM_30', 'RSKEW_20_VOL_15', 'RSKEW_20_MOM_15']
+/home/jinqh/myquant/.venv/lib/python3.12/site-packages/seaborn/matrix.py:202: RuntimeWarning: All-NaN slice encountered
+  vmin = np.nanmin(calc_data)
+/home/jinqh/myquant/.venv/lib/python3.12/site-packages/seaborn/matrix.py:207: RuntimeWarning: All-NaN slice encountered
+  vmax = np.nanmax(calc_data)
+WARNING:__main__:  重要性跟踪不可用: Image data of dtype datetime64[ns] cannot be converted to float
+INFO:__main__:[8/8] 运行蒙特卡洛模拟...
+INFO:risk.monte_carlo:[MC] MonteCarloSimulator initialized: noise_levels=[0.001, 0.005, 0.01, 0.02, 0.05], n_simulations=200, seed=42
+INFO:risk.monte_carlo:[MC] Starting Monte Carlo simulation: 200 runs x 5 noise levels, factors=(336800, 217)
+WARNING:risk.monte_carlo:[MC] Estimated memory 1.1GB/sim, reducing simulations 200 -> 20
+INFO:risk.monte_carlo:[MC] Running 20 simulations with noise_level=0.001, streaming=True
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=2.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=30, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 1 rebalance periods, 5894 predictions, holding_period=20, use_optimizer=True
+INFO:backtest.engine:[BACKTEST] Backtest complete: 1 rebalances, total_return=0.0000, ann_periods_per_year=12.60, sharpe=0.0000, max_drawdown=nan
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 1.11111e-09
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 2.78297e-10
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 2.78529e-10
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[2]	valid_0's l2: 2.78399e-10
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 2.77209e-10
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[2]	valid_0's l2: 0.00019986
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 0.000966216
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 0.000966216
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[2]	valid_0's l2: 0.000966957
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 0.000967505
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[2]	valid_0's l2: 0.00076662
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 6.25469e-08
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 5.8471e-08
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[3]	valid_0's l2: 5.85032e-08
+Evaluated only: l2
+Training until validation scores don't improve for 30 rounds
+Early stopping, best iteration is:
+[1]	valid_0's l2: 5.86204e-08
+Evaluated only: l2
+[320766:MainThread](2026-07-27 03:57:10,849) ERROR - qlib.workflow - [utils.py:41] - An exception has been raised[ValueError: too many values to unpack (expected 3)].
+  File "/home/jinqh/lightGBM_qlib/scripts/run_pipeline.py", line 304, in <module>
+    run_pipeline()
+  File "/home/jinqh/lightGBM_qlib/scripts/run_pipeline.py", line 294, in run_pipeline
+    mc_results = mc.run(factor_df, prices, benchmark_ret,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jinqh/lightGBM_qlib/risk/monte_carlo.py", line 135, in run
+    returns, bench, weights = engine.run(predictions, prices, benchmark_returns)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 3)

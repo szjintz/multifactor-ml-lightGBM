@@ -41,5 +41,7 @@ class PortfolioConstraints:
         self.max_weight = config.get("max_weight", 0.08)
         self.sector_neutral = config.get("sector_neutral", True)
         self.size_neutral = config.get("size_neutral", True)
-        self.sector_dev = config.get("sector_dev", 0.03)
-        self.cap_dev = config.get("cap_dev", 0.03)
+        # 行业偏离/市值偏离：放宽默认值以避免不可行；实际值通过 config 可调
+        self.sector_dev = config.get("sector_dev", 0.10)
+        # cap_dev 解释为「标准化市值暴露」的偏离上限（而不是原始 log(mc)）
+        self.cap_dev = config.get("cap_dev", 0.50)

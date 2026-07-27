@@ -10,6 +10,7 @@
 """
 
 import logging
+import numpy as np
 import pandas as pd
 
 from .base import BaseFactor
@@ -177,8 +178,19 @@ class RevenueGrowthFactor(BaseFactor):
 
     def compute(self, data: pd.DataFrame) -> pd.Series:
         key = f"revenue_growth_{self._period.lower()}"
-        result = data.get(key, pd.Series(0, index=data.index))
-        result = result.groupby(level=0).ffill()
+        result = data.get(key)
+        if result is None or result.isna().all():
+            # 列不存在或全部 NaN 时，回退到 YoY 增长率，避免下游死值
+            fallback = data.get("revenue_growth_yoy")
+            if fallback is not None:
+                logger.debug(f"[FACTOR] {self._name}: 列 {key} 不可用，回退至 revenue_growth_yoy")
+                result = fallback.copy()
+            else:
+                logger.warning(f"[FACTOR] {self._name}: 列 {key} 与回退列均不可用，使用全 NaN")
+                return pd.Series(np.nan, index=data.index)
+        # 按股票向前填充缺失值（季度数据通常稀疏）
+        if result.isna().any():
+            result = result.groupby(level=0).ffill()
         nan_pct = result.isna().sum() / len(result) * 100
         logger.debug(f"[FACTOR] {self._name}: {nan_pct:.1f}% NaN")
         return result

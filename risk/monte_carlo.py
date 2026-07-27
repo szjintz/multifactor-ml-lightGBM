@@ -78,12 +78,13 @@ class MonteCarloSimulator:
         mem_per_sim = n_rows * n_cols * 8 * 2 / 1024**3
         streaming = mem_per_sim > 0.3
         if mem_per_sim > 0.5:
-            adjusted_sims = max(1, int(0.5 / mem_per_sim))
-            if adjusted_sims < 20:
-                logger.warning(f"[MC] Estimated memory {mem_per_sim:.1f}GB/sim, insufficient for meaningful MC (need ≥20 sims). Skipping.")
-                return {}
-            logger.warning(f"[MC] Estimated memory per simulation {mem_per_sim:.1f}GB, reducing simulations from {self.n_simulations} to {adjusted_sims}")
-            self.n_simulations = adjusted_sims
+            # 即便单次模拟内存较高，仍可通过 streaming 模式逐个 fold 处理，
+            # 而不是一次性分配整个扰动矩阵。仅在内存极其有限时减少模拟次数。
+            adjusted_sims = max(20, int(0.5 / mem_per_sim))  # 至少保留 20 次
+            if adjusted_sims < self.n_simulations:
+                logger.warning(f"[MC] Estimated memory {mem_per_sim:.1f}GB/sim, reducing simulations {self.n_simulations} -> {adjusted_sims}")
+                self.n_simulations = adjusted_sims
+            streaming = True  # 强制 streaming 模式以降低峰值内存
 
         results = {}
         date_level = 0 if factor_df.index.nlevels >= 2 and np.issubdtype(
@@ -131,7 +132,9 @@ class MonteCarloSimulator:
                     continue
 
                 engine = BacktestEngine(self.config)
-                returns, bench, weights = engine.run(predictions, prices, benchmark_returns)
+                # 蒙特卡洛下每个 fold 只有一个预测日期，强制 holding_period=1 以避免 rebalance[]=0
+                engine.holding_period = 1
+                returns, bench, weights, _ = engine.run(predictions, prices, benchmark_returns)
                 sharpe_list.append(self._compute_sharpe(returns))
                 max_dd_list.append(self._compute_max_dd(returns))
                 del predictions, engine, returns

@@ -268,6 +268,17 @@ class BacktestEngine:
         returns_idx = rebalance_dates[:len(portfolio_returns)]
         returns = pd.Series(portfolio_returns, index=returns_idx)
 
+        # 计算实际年化参数（基于交易日历）
+        if len(returns_idx) >= 2 and isinstance(returns_idx[0], pd.Timestamp):
+            total_trading_days = sum(
+                len([d for d in dates if returns_idx[i] <= d < returns_idx[min(i+1, len(returns_idx)-1)]])
+                for i in range(len(returns_idx) - 1)
+            )
+            actual_periods_per_year = total_trading_days / (len(returns_idx) - 1) if len(returns_idx) > 1 else hp
+            ann_periods_per_year = 252.0 / actual_periods_per_year if actual_periods_per_year > 0 else 252.0 / hp
+        else:
+            ann_periods_per_year = 252.0 / hp  # 后备：使用 hp 估算
+
         # 处理基准收益（按持有期复合，对齐到回测日期）
         if benchmark_returns is not None:
             bench_list = []
@@ -283,8 +294,10 @@ class BacktestEngine:
 
         weights_df = pd.DataFrame(weights_history, index=rebalance_dates[:len(weights_history)])
         total_return = (1 + returns).prod() - 1
-        ann_factor = 252 / hp
-        sharpe = returns.mean() / returns.std() * np.sqrt(ann_factor) if returns.std() > 0 else 0
+        ann_factor = 252.0 / hp
+        # 使用正确的年化Sharpe（基于实际 periods_per_year）
+        periods_per_year_for_sharpe = ann_periods_per_year
+        sharpe = returns.mean() / returns.std() * np.sqrt(periods_per_year_for_sharpe) if returns.std() > 0 else 0
         max_dd = ((1 + returns).cumprod() / (1 + returns).cumprod().cummax() - 1).min()
-        logger.info(f"[BACKTEST] Backtest complete: {len(rebalance_dates)} rebalances, total_return={total_return:.4f}, sharpe={sharpe:.4f}, max_drawdown={max_dd:.4f}")
-        return returns, bench, weights_df
+        logger.info(f"[BACKTEST] Backtest complete: {len(rebalance_dates)} rebalances, total_return={total_return:.4f}, ann_periods_per_year={periods_per_year_for_sharpe:.2f}, sharpe={sharpe:.4f}, max_drawdown={max_dd:.4f}")
+        return returns, bench, weights_df, ann_periods_per_year

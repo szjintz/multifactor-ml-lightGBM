@@ -34,18 +34,23 @@ class ImportanceTracker:
         """
         self.importance_history = []
 
-    def record(self, model, date: str, feature_names: list):
+    def record(self, model, date: str, feature_names: list = None):
         """
         记录单个模型的特征重要性
 
         Args:
             model: 训练好的 LightGBM 模型
             date: 对应的日期
-            feature_names: 特征名称列表
+            feature_names: 特征名称列表（可选，优先使用 model.feature_name()）
         """
+        # 优先使用模型内置的特征名列表（保证长度匹配）
+        try:
+            model_feature_names = model.feature_name()
+        except Exception:
+            model_feature_names = feature_names or []
         importance = pd.Series(
             model.feature_importance(importance_type="gain"),
-            index=feature_names
+            index=model_feature_names
         )
         importance = importance / importance.sum()  # 归一化为概率分布
         importance["date"] = date

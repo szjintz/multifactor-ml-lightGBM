@@ -1,0 +1,379 @@
+INFO:__main__:============================================================
+INFO:__main__:[主流程] Pipeline开始...
+INFO:__main__:============================================================
+INFO:__main__:[主流程] 配置已加载: 市场=csi300, 开始=2022-01-01, 结束=2026-06-30
+[279151:MainThread](2026-07-26 22:29:50,807) INFO - qlib.Initialization - [config.py:452] - default_conf: client.
+[279151:MainThread](2026-07-26 22:29:52,428) INFO - qlib.Initialization - [__init__.py:75] - qlib successfully initialized based on client settings.
+[279151:MainThread](2026-07-26 22:29:52,429) INFO - qlib.Initialization - [__init__.py:77] - data_path={'__DEFAULT_FREQ': PosixPath('/home/jinqh/.qlib/qlib_data/cn_data')}
+INFO:__main__:[主流程] Qlib初始化完成
+INFO:__main__:[1/8] 从Qlib+Akshare加载数据...
+INFO:data.qlib_provider:[QLIB数据] 开始数据增强流程...
+INFO:data.qlib_provider:[QLIB数据] 获取日线数据: 9 个字段, 范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 日线数据: 325309 行, 9 列, 日期范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB数据] 获取交易日历, 范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 交易日历: 1085 个交易日, 范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB数据] 获取基本面数据...
+INFO:data.qlib_provider:[QLIB数据] 获取所有标的, 市场=csi300, 日期范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 从Qlib获取到 2 个标的
+INFO:data.qlib_provider:[QLIB数据] 初始化基本面数据提供器，标的数量: 421
+INFO:data.qlib_provider:[QLIB数据] 获取所有标的, 市场=csi300, 日期范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 从Qlib获取到 2 个标的
+INFO:data.qlib_provider:[QLIB数据] 基本面数据提供器初始化完成: 421 个标的, 缓存目录=None
+2026-07-26 22:30:02,284 - data.fundamental_provider - INFO - [基本面合并] 开始合并数据: 1085 个交易日, 421 只股票
+INFO:data.fundamental_provider:[基本面合并] 开始合并数据: 1085 个交易日, 421 只股票
+2026-07-26 22:30:02,419 - data.fundamental_provider - WARNING - [DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+WARNING:data.fundamental_provider:[DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+2026-07-26 22:30:02,419 - data.fundamental_provider - INFO - [DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+INFO:data.fundamental_provider:[DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+2026-07-26 22:30:02,428 - data.fundamental_provider - WARNING - [QUARTERLY] Skipping 1 previously failed instruments: ['SZ001280']
+WARNING:data.fundamental_provider:[QUARTERLY] Skipping 1 previously failed instruments: ['SZ001280']
+2026-07-26 22:30:02,429 - data.fundamental_provider - INFO - [QUARTERLY] All missing instruments previously failed, returning cached data
+INFO:data.fundamental_provider:[QUARTERLY] All missing instruments previously failed, returning cached data
+2026-07-26 22:30:02,525 - data.fundamental_provider - INFO - [基本面合并] 数据中的股票数量: 493
+INFO:data.fundamental_provider:[基本面合并] 数据中的股票数量: 493
+2026-07-26 22:30:02,525 - data.fundamental_provider - INFO - [基本面合并] 日线数据行数: 449075, 季度数据行数: 15896
+INFO:data.fundamental_provider:[基本面合并] 日线数据行数: 449075, 季度数据行数: 15896
+2026-07-26 22:30:05,465 - data.fundamental_provider - INFO - [基本面合并] 日线数据已合并: 449075 行 -> 449501 个非空流通股数值
+INFO:data.fundamental_provider:[基本面合并] 日线数据已合并: 449075 行 -> 449501 个非空流通股数值
+2026-07-26 22:30:05,465 - data.fundamental_provider - INFO - [基本面合并] 处理季度财务数据对齐...
+INFO:data.fundamental_provider:[基本面合并] 处理季度财务数据对齐...
+2026-07-26 22:30:11,653 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Shifted quarterly data: 8808 rows, 492 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Shifted quarterly data: 8808 rows, 492 instruments
+2026-07-26 22:30:11,744 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 533590/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 533590/534905 (99.8%) non-NaN values
+2026-07-26 22:30:11,830 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 533763/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 533763/534905 (99.8%) non-NaN values
+2026-07-26 22:30:11,917 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 533820/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 533820/534905 (99.8%) non-NaN values
+2026-07-26 22:30:12,021 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROA' merged: 533820/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROA' merged: 533820/534905 (99.8%) non-NaN values
+2026-07-26 22:30:12,119 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 533763/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 533763/534905 (99.8%) non-NaN values
+2026-07-26 22:30:12,209 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 460040/534905 (86.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 460040/534905 (86.0%) non-NaN values
+2026-07-26 22:30:12,295 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 533820/534905 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 533820/534905 (99.8%) non-NaN values
+2026-07-26 22:30:12,406 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Final combined data: 533957 rows, 493 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Final combined data: 533957 rows, 493 instruments
+INFO:data.qlib_provider:[QLIB数据] 基本面数据合并完成: 533957 行
+INFO:data.qlib_provider:[QLIB数据] 合并后: 325309 行, 18 列
+INFO:data.qlib_provider:[QLIB数据] 计算市值: 流通股本 × 收盘价
+INFO:data.qlib_provider:[QLIB数据] 市值计算完成: 323415/325309 非空值 (99.4%)
+INFO:data.qlib_provider:[QLIB数据] 增强数据准备完成: 325309 行, 19 列, 日期范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB数据] 获取交易日历, 范围: 2022-01-01 到 2026-06-30
+INFO:data.qlib_provider:[QLIB数据] 交易日历: 1085 个交易日, 范围: 2022-01-04 00:00:00 到 2026-06-30 00:00:00
+INFO:__main__:[1/8] 数据加载完成: 325309 行, 19 列
+INFO:__main__:[2/8] 计算因子...
+INFO:factors.base:[因子管线] 注册因子：RET_5（总计：1)
+INFO:factors.base:[因子管线] 注册因子：RET_10（总计：2)
+INFO:factors.base:[因子管线] 注册因子：RET_20（总计：3)
+INFO:factors.base:[因子管线] 注册因子：RET_60（总计：4)
+INFO:factors.base:[因子管线] 注册因子：WMA_5（总计：5)
+INFO:factors.base:[因子管线] 注册因子：WMA_10（总计：6)
+INFO:factors.base:[因子管线] 注册因子：WMA_20（总计：7)
+INFO:factors.base:[因子管线] 注册因子：RS_14（总计：8)
+INFO:factors.base:[因子管线] 注册因子：RS_28（总计：9)
+INFO:factors.base:[因子管线] 注册因子：BIAS_5（总计：10)
+INFO:factors.base:[因子管线] 注册因子：BIAS_10（总计：11)
+INFO:factors.base:[因子管线] 注册因子：MACD（总计：12)
+INFO:factors.base:[因子管线] 注册因子：REV_1（总计：13)
+INFO:factors.base:[因子管线] 注册因子：REV_2（总计：14)
+INFO:factors.base:[因子管线] 注册因子：REV_5（总计：15)
+INFO:factors.base:[因子管线] 注册因子：MAXRET_5（总计：16)
+INFO:factors.base:[因子管线] 注册因子：MINRET_5（总计：17)
+INFO:factors.base:[因子管线] 注册因子：MAXRET_10（总计：18)
+INFO:factors.base:[因子管线] 注册因子：MINRET_10（总计：19)
+INFO:factors.base:[因子管线] 注册因子：STD_5（总计：20)
+INFO:factors.base:[因子管线] 注册因子：STD_10（总计：21)
+INFO:factors.base:[因子管线] 注册因子：STD_20（总计：22)
+INFO:factors.base:[因子管线] 注册因子：STD_60（总计：23)
+INFO:factors.base:[因子管线] 注册因子：ATR_5（总计：24)
+INFO:factors.base:[因子管线] 注册因子：ATR_14（总计：25)
+INFO:factors.base:[因子管线] 注册因子：BETA_60（总计：26)
+INFO:factors.base:[因子管线] 注册因子：RVOL_5（总计：27)
+INFO:factors.base:[因子管线] 注册因子：RVOL_20（总计：28)
+INFO:factors.base:[因子管线] 注册因子：VOLR_5（总计：29)
+INFO:factors.base:[因子管线] 注册因子：TURN_5（总计：30)
+INFO:factors.base:[因子管线] 注册因子：VOLR_20（总计：31)
+INFO:factors.base:[因子管线] 注册因子：TURN_20（总计：32)
+INFO:factors.base:[因子管线] 注册因子：VWAP_DEV（总计：33)
+INFO:factors.base:[因子管线] 注册因子：PVC_20（总计：34)
+INFO:factors.alpha_volume:[FACTOR] Registered 34 volume/price factors: ['RET_5', 'RET_10', 'RET_20', 'RET_60', 'WMA_5', 'WMA_10', 'WMA_20', 'RS_14', 'RS_28', 'BIAS_5', 'BIAS_10', 'MACD', 'REV_1', 'REV_2', 'REV_5', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10', 'STD_5', 'STD_10', 'STD_20', 'STD_60', 'ATR_5', 'ATR_14', 'BETA_60', 'RVOL_5', 'RVOL_20', 'VOLR_5', 'TURN_5', 'VOLR_20', 'TURN_20', 'VWAP_DEV', 'PVC_20']
+INFO:factors.base:[因子管线] 注册因子：EP（总计：35)
+INFO:factors.base:[因子管线] 注册因子：BP（总计：36)
+INFO:factors.base:[因子管线] 注册因子：ROE_TTM（总计：37)
+INFO:factors.base:[因子管线] 注册因子：ROA（总计：38)
+INFO:factors.base:[因子管线] 注册因子：GROSS_MARGIN（总计：39)
+INFO:factors.base:[因子管线] 注册因子：DEBT_RATIO（总计：40)
+INFO:factors.base:[因子管线] 注册因子：REV_GROW_QoQ（总计：41)
+INFO:factors.base:[因子管线] 注册因子：REV_GROW_YoY（总计：42)
+INFO:factors.fundamental:[FACTOR] Registered 8 fundamental factors: ['EP', 'BP', 'ROE_TTM', 'ROA', 'GROSS_MARGIN', 'DEBT_RATIO', 'REV_GROW_QoQ', 'REV_GROW_YoY']
+INFO:factors.base:[因子管线] 注册因子：TURN_ANOM_20（总计：43)
+INFO:factors.base:[因子管线] 注册因子：TURN_ANOM_60（总计：44)
+INFO:factors.base:[因子管线] 注册因子：IVOL_60（总计：45)
+INFO:factors.base:[因子管线] 注册因子：ILLIQ_20（总计：46)
+INFO:factors.base:[因子管线] 注册因子：ILLIQ_60（总计：47)
+INFO:factors.base:[因子管线] 注册因子：RSKEW_20（总计：48)
+INFO:factors.base:[因子管线] 注册因子：RKURT_20（总计：49)
+INFO:factors.base:[因子管线] 注册因子：RSKEW_60（总计：50)
+INFO:factors.base:[因子管线] 注册因子：RKURT_60（总计：51)
+INFO:factors.alternative:[FACTOR] Registered 9 alternative factors: ['TURN_ANOM_20', 'TURN_ANOM_60', 'IVOL_60', 'ILLIQ_20', 'ILLIQ_60', 'RSKEW_20', 'RKURT_20', 'RSKEW_60', 'RKURT_60']
+INFO:factors.base:[因子管线] 开始计算全部51个因子，数据形状=(325309, 19)
+INFO:factors.base:[因子管线] 因子RET_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RET_10：325309行，1.2%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RET_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RET_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子WMA_5：388889行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子WMA_10：386864行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子WMA_20：382814行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子RS_14：325309行，1.8%缺失值，耗时0.3秒
+INFO:factors.base:[因子管线] 因子RS_28：325309行，3.5%缺失值，耗时0.3秒
+INFO:factors.base:[因子管线] 因子BIAS_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子BIAS_10：325309行，1.3%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MACD：325309行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子REV_1：325309行，0.1%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子REV_2：325309行，0.3%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子REV_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MAXRET_5：325309行，0.6%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子MINRET_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MAXRET_10：325309行，1.2%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子MINRET_10：325309行，1.2%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子STD_5：325309行，0.6%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子STD_10：325309行，1.2%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子STD_20：325309行，2.5%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子STD_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子ATR_5：325309行，0.6%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子ATR_14：325309行，1.9%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子BETA_60：367019行，0.0%缺失值，耗时0.5秒
+INFO:factors.base:[因子管线] 因子RVOL_5：389294行，0.0%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RVOL_20：383219行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子VOLR_5：325309行，0.6%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子TURN_5：325309行，0.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子VOLR_20：325309行，2.7%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子TURN_20：325309行，2.4%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子VWAP_DEV：325309行，0.1%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子PVC_20：319375行，0.0%缺失值，耗时0.5秒
+INFO:factors.base:[因子管线] 因子EP：325309行，0.1%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子BP：325309行，0.1%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子ROE_TTM：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子ROA：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子GROSS_MARGIN：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子DEBT_RATIO：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子REV_GROW_QoQ：325309行，0.0%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子REV_GROW_YoY：325309行，15.6%缺失值，耗时0.0秒
+INFO:factors.base:[因子管线] 因子TURN_ANOM_20：325309行，0.0%缺失值，耗时0.3秒
+INFO:factors.base:[因子管线] 因子TURN_ANOM_60：325309行，0.0%缺失值，耗时0.3秒
+INFO:factors.base:[因子管线] 因子IVOL_60：431525行，0.0%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子ILLIQ_20：325309行，2.5%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子ILLIQ_60：325309行，7.5%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 因子RSKEW_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RKURT_20：325309行，2.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RSKEW_60：325309行，7.5%缺失值，耗时0.1秒
+INFO:factors.base:[因子管线] 因子RKURT_60：325309行，7.5%缺失值，耗时0.2秒
+INFO:factors.base:[因子管线] 全部因子计算完成：51个因子，449525行，形状=(449525, 51)，总耗时7.4秒
+INFO:__main__:[2/8] 因子计算完成: 生成 51 个因子
+INFO:__main__:[3/8] 因子预处理...
+INFO:__main__:[3/8] 市值向前填充 (inst_level=1): 空值 1894 -> 0
+INFO:factors.pipeline:[因子预处理] 初始化预处理管线，配置：{'winsorize': '3sigma', 'standardize': 'cross_sectional', 'neutralize': ['market_cap'], 'orthogonalize': 'pca'}
+INFO:factors.pipeline:[PREPROCESS] 开始预处理：51个因子，449525行
+INFO:factors.pipeline:[PREPROCESS] 步骤1/4：缩尾处理，方法=3sigma
+INFO:factors.pipeline:[PREPROCESS] 缩尾处理完成
+INFO:factors.pipeline:[PREPROCESS] 步骤2/4：截面标准化
+/home/jinqh/myquant/.venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+/home/jinqh/myquant/.venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+INFO:factors.pipeline:[PREPROCESS] 标准化完成：形状=(449525, 51)
+INFO:factors.pipeline:【DEBUG】标准化后因子总数据量:22925775, NaN数量:1144460, Inf数量:0, 全零数量:0
+INFO:factors.pipeline:【DEBUG】因子非空有效数据数量：21781315
+INFO:factors.pipeline:[PREPROCESS] 步骤3/4：中性化，外生变量=['market_cap']
+INFO:factors.pipeline:[PREPROCESS] market_data可用列：['open', 'high', 'low', 'close', 'volume', 'amount', 'vwap', 'change', 'factor', 'turnover', 'outstanding_share', 'earnings_per_share', 'book_value_per_share', 'ROE_TTM', 'ROA', 'debt_ratio', 'revenue_growth_yoy', 'gross_margin', 'market_cap']
+INFO:factors.pipeline:[PREPROCESS] Neutralization data prepared: ['market_cap']
+INFO:factors.pipeline:[PREPROCESS] market_cap non-NaN: 325309/325309
+WARNING:factors.preprocessing:[PREPROCESS] Neutralize: only 0 valid points, skipping
+INFO:factors.pipeline:[PREPROCESS] Neutralization complete
+INFO:factors.pipeline:[PREPROCESS] Step 4/4: Orthogonalization against pca
+INFO:factors.preprocessing:[PREPROCESS] Orthogonalizing 51 factors using method=pca
+INFO:factors.preprocessing:[PREPROCESS] PCA orthogonalization: 51 -> 51 components
+INFO:factors.preprocessing:[PREPROCESS] PCA explained variance ratio: [0.21550242 0.13411788 0.0799817  0.06616987 0.05005938]...
+INFO:factors.pipeline:[PREPROCESS] Orthogonalization complete
+INFO:factors.pipeline:[PREPROCESS] Preprocessing complete: 51 factors, 449525 rows, 0.00% NaN
+INFO:__main__:[3/8] 预处理完成: 剩余 51 个因子
+INFO:__main__:[4/8] 特征选择+构建衍生特征...
+INFO:features.label:[LABEL] Computing labels: close shape=(1085, 421), periods=20, skip=1, denoise=None
+INFO:features.label:[LABEL] Computing forward returns: close shape=(1085, 421), periods=20, skip=1
+INFO:features.label:[LABEL] Forward returns computed: shape=(1085, 421), 69.3% non-NaN
+INFO:features.label:[LABEL] Labels computed: shape=(1085, 421), date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:__main__:[4/8] 股票池缩减: 1084 -> 800 只, 行数: 336800
+INFO:features.selector:[SELECTOR] 开始IC预筛选: 51个因子, min_ic=0.005, min_icir=0.3, p_threshold=0.05
+INFO:features.selector:[SELECTOR] Using level 1 for dates: 1085 unique dates
+INFO:features.selector:[SELECTOR] Filtering over 1085 periods
+WARNING:features.selector:[SELECTOR] RET_5: mean_ic=0.068754, icir=0.3781, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_10: mean_ic=-0.064280, icir=-0.2759, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_20: mean_ic=0.025490, icir=0.1781, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_60: mean_ic=0.017506, icir=0.1301, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] WMA_5: mean_ic=-0.033262, icir=-0.1999, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] WMA_10: mean_ic=-0.014682, icir=-0.1014, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] WMA_20: mean_ic=-0.009181, icir=-0.0563, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RS_14: mean_ic=-0.026749, icir=-0.1961, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RS_28: mean_ic=0.021242, icir=0.1393, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] BIAS_5: mean_ic=0.021227, icir=0.1407, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] BIAS_10: mean_ic=0.015572, icir=0.1266, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] MACD: mean_ic=0.009484, icir=0.0709, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] REV_1: mean_ic=-0.000845, icir=-0.0058, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] REV_2: mean_ic=-0.030635, icir=-0.1874, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] REV_5: mean_ic=0.028103, icir=0.2266, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] MAXRET_5: mean_ic=0.011260, icir=0.0928, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] MINRET_5: mean_ic=0.006839, icir=0.0587, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] MAXRET_10: mean_ic=0.007033, icir=0.0495, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] MINRET_10: mean_ic=0.008573, icir=0.0706, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] STD_5: mean_ic=-0.020159, icir=-0.1755, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] STD_10: mean_ic=-0.017327, icir=-0.1653, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] STD_20: mean_ic=0.008456, icir=0.0599, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] STD_60: mean_ic=0.003247, icir=0.0255, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] ATR_5: mean_ic=0.001468, icir=0.0140, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] ATR_14: mean_ic=-0.019839, icir=-0.1403, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] BETA_60: mean_ic=0.003383, icir=0.0238, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RVOL_5: mean_ic=0.015210, icir=0.1012, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RVOL_20: mean_ic=0.003853, icir=0.0286, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] VOLR_5: mean_ic=0.034249, icir=0.2710, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] TURN_5: mean_ic=-0.006948, icir=-0.0537, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] VOLR_20: mean_ic=0.016423, icir=0.1266, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] TURN_20: mean_ic=0.017344, icir=0.1184, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] VWAP_DEV: mean_ic=-0.007052, icir=-0.0493, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] PVC_20: mean_ic=0.001475, icir=0.0145, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] EP: mean_ic=0.021616, icir=0.1735, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] BP: mean_ic=0.003135, icir=0.0240, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] ROE_TTM: mean_ic=-0.026416, icir=-0.1969, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] ROA: mean_ic=0.020939, icir=0.1475, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] GROSS_MARGIN: mean_ic=0.002083, icir=0.0132, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] DEBT_RATIO: mean_ic=0.021662, icir=0.2139, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] REV_GROW_QoQ: mean_ic=0.009802, icir=0.0795, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] REV_GROW_YoY: mean_ic=-0.004699, icir=-0.0283, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] TURN_ANOM_20: mean_ic=-0.003950, icir=-0.0228, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] TURN_ANOM_60: mean_ic=-0.009880, icir=-0.0807, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] IVOL_60: mean_ic=0.014039, icir=0.1805, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] ILLIQ_20: mean_ic=-0.004188, icir=-0.0375, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] ILLIQ_60: mean_ic=-0.009953, icir=-0.0711, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RSKEW_20: mean_ic=-0.002721, icir=-0.0198, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RKURT_20: mean_ic=0.000168, icir=0.0012, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RSKEW_60: mean_ic=-0.011936, icir=-0.0898, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RKURT_60: mean_ic=-0.010408, icir=-0.0663, valid_dates=800/800, total_nan=0
+INFO:features.selector:[SELECTOR] IC prefilter complete: 1/51 factors selected, 50 rejected
+INFO:features.selector:[SELECTOR] Selected factors: ['RET_5']
+WARNING:__main__:[4/8] 仅 1 个特征通过IC筛选，保留全部
+INFO:__main__:[4/8] 特征选择完成: 选出 51 个特征
+INFO:__main__:[4/8] 因子拥挤监控: 因子收益计算失败，跳过
+INFO:features.transformer:[TRANSFORMER] Building momentum features: 51 factors, windows=[7, 15, 30]
+INFO:features.transformer:[TRANSFORMER] Momentum features created: 357 total columns
+INFO:features.transformer:[TRANSFORMER] build_ic_time_series skipped (not a proper training feature, use for analysis only)
+INFO:__main__:[4/8] 特征工程完成: 共 357 个特征
+INFO:__main__:[5/8] 训练模型 (Walk-Forward)...
+INFO:__main__:[5/8] 训练数据: 336800 行, 357 个特征, 800 个交易日, 范围=2022-04-08 00:00:00 到 2025-07-24 00:00:00
+INFO:model.optimizer:[OPTUNA] OptunaTuner initialized: 10 trials
+INFO:model.trainer:[训练器] WalkForwardTrainer 初始化: window_months=24, tuner=True
+INFO:model.trainer:[训练器] 开始训练: 357 个特征, 336800 行, 800 个日期, market_cap=Yes
+INFO:model.trainer:[训练器] 剔除标签 NaN 后: 237588 行, 800 个日期
+INFO:model.trainer:[训练器] 生成 14 个训练/测试窗口, window_size=504, step_size=21
+INFO:model.trainer:[训练器] Fold 1: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 1: 使用 Optuna 进行超参数调优(10次试验)...
+INFO:model.optimizer:[OPTUNA] Starting hyperparameter tuning: 10 trials, train=30000, val=29972
+INFO:model.optimizer:[OPTUNA] Tuning complete: best_value=0.1633, best_params={'num_leaves': 28, 'min_child_samples': 52, 'learning_rate': 0.005542561258655853, 'reg_alpha': 4.337920697490942, 'reg_lambda': 0.010842262717330166, 'bagging_fraction': 0.831261142176991, 'feature_fraction': 0.6558555380447055, 'min_gain_to_split': 0.5200680211778108}
+INFO:model.trainer:[训练器] Fold 1: 最佳参数: {'num_leaves': 28, 'min_child_samples': 52, 'learning_rate': 0.005542561258655853, 'reg_alpha': 4.337920697490942, 'reg_lambda': 0.010842262717330166, 'bagging_fraction': 0.831261142176991, 'feature_fraction': 0.6558555380447055, 'min_gain_to_split': 0.5200680211778108}
+INFO:model.trainer:[训练器] Fold 1/14: 训练 LightGBM, train=100000, val=29972, test=6228, 特征=357
+INFO:model.trainer:[训练器] Fold 1: 模型训练完成, best_iteration=3, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6708558972177908), 'ndcg@2': np.float64(0.6516645051325736), 'ndcg@3': np.float64(0.645887742967098), 'ndcg@4': np.float64(0.6282512413787226), 'ndcg@5': np.float64(0.6194916459568223)})})
+INFO:model.trainer:[训练器] Fold 1: 移除336个低重要性特征, 剩余21个
+INFO:model.trainer:[训练器] Fold 2: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 2/14: 训练 LightGBM, train=100000, val=29959, test=6138, 特征=21
+INFO:model.trainer:[训练器] Fold 2: 模型训练完成, best_iteration=8, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6594610829271771), 'ndcg@2': np.float64(0.6302910098323756), 'ndcg@3': np.float64(0.6100063766749397), 'ndcg@4': np.float64(0.6060689979717391), 'ndcg@5': np.float64(0.6085991783063566)})})
+INFO:model.trainer:[训练器] Fold 3: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 3/14: 训练 LightGBM, train=100000, val=29966, test=6279, 特征=21
+INFO:model.trainer:[训练器] Fold 3: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6039498075296722), 'ndcg@2': np.float64(0.6074269587754529), 'ndcg@3': np.float64(0.608259780889246), 'ndcg@4': np.float64(0.6130177770511958), 'ndcg@5': np.float64(0.6138749612997085)})})
+INFO:model.trainer:[训练器] Fold 4: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 4/14: 训练 LightGBM, train=100000, val=30030, test=6231, 特征=21
+INFO:model.trainer:[训练器] Fold 4: 模型训练完成, best_iteration=72, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.7440888989727559), 'ndcg@2': np.float64(0.7229209600472143), 'ndcg@3': np.float64(0.7052407514703591), 'ndcg@4': np.float64(0.7001829698347338), 'ndcg@5': np.float64(0.6962487372216298)})})
+INFO:model.trainer:[训练器] Fold 5: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 5/14: 训练 LightGBM, train=100000, val=30020, test=6252, 特征=21
+INFO:model.trainer:[训练器] Fold 5: 模型训练完成, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6498994707941261), 'ndcg@2': np.float64(0.6149695009491077), 'ndcg@3': np.float64(0.6055803579472052), 'ndcg@4': np.float64(0.6018573985201805), 'ndcg@5': np.float64(0.5996699206474975)})})
+INFO:model.trainer:[训练器] Fold 6: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 6/14: 训练 LightGBM, train=100000, val=30013, test=6300, 特征=21
+INFO:model.trainer:[训练器] Fold 6: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.600996103504861), 'ndcg@2': np.float64(0.5869646788259935), 'ndcg@3': np.float64(0.5782163429182795), 'ndcg@4': np.float64(0.5672914228498188), 'ndcg@5': np.float64(0.5549172546122216)})})
+INFO:model.trainer:[训练器] Fold 7: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 7/14: 训练 LightGBM, train=100000, val=30013, test=6178, 特征=21
+INFO:model.trainer:[训练器] Fold 7: 模型训练完成, best_iteration=4, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.5283531943271791), 'ndcg@2': np.float64(0.5550584422563025), 'ndcg@3': np.float64(0.5538250853176), 'ndcg@4': np.float64(0.5476050413908486), 'ndcg@5': np.float64(0.5427099140619356)})})
+INFO:model.trainer:[训练器] Fold 8: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 8/14: 训练 LightGBM, train=100000, val=29990, test=6081, 特征=21
+INFO:model.trainer:[训练器] Fold 8: 模型训练完成, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6030755501174243), 'ndcg@2': np.float64(0.5703245377726086), 'ndcg@3': np.float64(0.5708429297664894), 'ndcg@4': np.float64(0.5797382564739335), 'ndcg@5': np.float64(0.5768871216168794)})})
+INFO:model.trainer:[训练器] Fold 9: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 9/14: 训练 LightGBM, train=100000, val=29973, test=6262, 特征=21
+INFO:model.trainer:[训练器] Fold 9: 模型训练完成, best_iteration=16, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.5765049617890847), 'ndcg@2': np.float64(0.5419727824545836), 'ndcg@3': np.float64(0.5181597934478582), 'ndcg@4': np.float64(0.5098463069679692), 'ndcg@5': np.float64(0.5056480038578502)})})
+INFO:model.trainer:[训练器] Fold 10: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 10/14: 训练 LightGBM, train=100000, val=29998, test=6249, 特征=21
+INFO:model.trainer:[训练器] Fold 10: 模型训练完成, best_iteration=50, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.582070779857001), 'ndcg@2': np.float64(0.5694763380809271), 'ndcg@3': np.float64(0.5519373100607106), 'ndcg@4': np.float64(0.5482809038464758), 'ndcg@5': np.float64(0.5542819241316118)})})
+INFO:model.trainer:[训练器] Fold 11: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 11/14: 训练 LightGBM, train=100000, val=29988, test=6269, 特征=21
+INFO:model.trainer:[训练器] Fold 11: 模型训练完成, best_iteration=9, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6715584841430472), 'ndcg@2': np.float64(0.6373571182646097), 'ndcg@3': np.float64(0.6344364665846771), 'ndcg@4': np.float64(0.6298430739353676), 'ndcg@5': np.float64(0.6265245541952167)})})
+INFO:model.trainer:[训练器] Fold 12: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 12/14: 训练 LightGBM, train=100000, val=29982, test=6259, 特征=21
+INFO:model.trainer:[训练器] Fold 12: 模型训练完成, best_iteration=10, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6624469443163319), 'ndcg@2': np.float64(0.6356117596864674), 'ndcg@3': np.float64(0.6115400819661275), 'ndcg@4': np.float64(0.6007907647201961), 'ndcg@5': np.float64(0.5979894575007192)})})
+INFO:model.trainer:[训练器] Fold 13: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 13/14: 训练 LightGBM, train=100000, val=29974, test=6147, 特征=21
+INFO:model.trainer:[训练器] Fold 13: 模型训练完成, best_iteration=43, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.668298858905654), 'ndcg@2': np.float64(0.6534498873806723), 'ndcg@3': np.float64(0.6341576630049163), 'ndcg@4': np.float64(0.634532085095421), 'ndcg@5': np.float64(0.6335613858943506)})})
+INFO:model.trainer:[训练器] Fold 14: 训练数据采样至100000行(最近数据)
+INFO:model.trainer:[训练器] Fold 14/14: 训练 LightGBM, train=100000, val=29944, test=6257, 特征=21
+INFO:model.trainer:[训练器] Fold 14: 模型训练完成, best_iteration=73, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'ndcg@1': np.float64(0.6736376410096805), 'ndcg@2': np.float64(0.655930629497113), 'ndcg@3': np.float64(0.6509118834703962), 'ndcg@4': np.float64(0.640790457001253), 'ndcg@5': np.float64(0.642023933021779)})})
+INFO:model.trainer:[训练器] 训练完成: 14 个模型, 87130 个预测
+INFO:__main__:[5/8] 训练完成: 87130 个预测
+INFO:__main__:[6/8] 回测...
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=5.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=20, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 15 rebalance periods, 87130 predictions, holding_period=20, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, using clipped equal weights
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, using clipped equal weights
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, using clipped equal weights
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, using clipped equal weights
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, using clipped equal weights
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, using clipped equal weights
+INFO:backtest.engine:[BACKTEST] Backtest complete: 15 rebalances, total_return=0.3938, sharpe=1.2851, max_drawdown=-0.0519
+INFO:backtest.metrics:[METRICS] MetricsReport initialized: 14 periods (hp=20), 87130 predictions
+INFO:backtest.metrics:[METRICS] Computing performance metrics...
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:109: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+/home/jinqh/lightGBM_qlib/backtest/metrics.py:109: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  ic = spearmanr(pred[valid], actual[valid])[0]
+INFO:backtest.metrics:[METRICS] Performance metrics computed:
+INFO:backtest.metrics:  annualized_return: 0.3483
+INFO:backtest.metrics:  benchmark_return: 0.18718266487121582
+INFO:backtest.metrics:  excess_return: 0.1611
+INFO:backtest.metrics:  annualized_vol: 1.1468
+INFO:backtest.metrics:  sharpe_ratio: 1.1876
+INFO:backtest.metrics:  calmar_ratio: 6.7131
+INFO:backtest.metrics:  max_drawdown: -0.0519
+INFO:backtest.metrics:  annual_turnover: 6.2052
+INFO:backtest.metrics:  ic_mean: -0.0367
+INFO:backtest.metrics:  ic_std: 0.1948
+INFO:backtest.metrics:  ir: -0.1884
+INFO:backtest.metrics:  hit_rate: 0.3958
+INFO:__main__:
+=== 绩效指标 ===
+INFO:__main__:  annualized_return: 0.3483
+INFO:__main__:  benchmark_return: 0.18718266487121582
+INFO:__main__:  excess_return: 0.1611
+INFO:__main__:  annualized_vol: 1.1468
+INFO:__main__:  sharpe_ratio: 1.1876
+INFO:__main__:  calmar_ratio: 6.7131
+INFO:__main__:  max_drawdown: -0.0519
+INFO:__main__:  annual_turnover: 6.2052
+INFO:__main__:  ic_mean: -0.0367
+INFO:__main__:  ic_std: 0.1948
+INFO:__main__:  ir: -0.1884
+INFO:__main__:  hit_rate: 0.3958
+INFO:__main__:[7/8] 模型可解释性分析...
+INFO:__main__:  SHAP重要性前10特征: ['STD_20_VOL_30', 'ILLIQ_20_VOL_30', 'ROA_MOM_30', 'TURN_ANOM_60_MOM_30', 'BIAS_10_MOM_15', 'RSKEW_20_VOL_30', 'RET_5_MOM_30', 'MINRET_5_VOL_30', 'RET_5_MOM_15', 'RVOL_5_MOM_30']
+WARNING:__main__:  重要性跟踪不可用: Length of values (21) does not match length of index (357)
+INFO:__main__:[8/8] 运行蒙特卡洛模拟...
+INFO:risk.monte_carlo:[MC] MonteCarloSimulator initialized: noise_levels=[0.001, 0.005, 0.01, 0.02, 0.05], n_simulations=200, seed=42
+INFO:risk.monte_carlo:[MC] Starting Monte Carlo simulation: 200 runs x 5 noise levels, factors=(336800, 357)
+WARNING:risk.monte_carlo:[MC] Estimated memory 1.8GB/sim, insufficient for meaningful MC (need ≥20 sims). Skipping.
+INFO:__main__:
+=== Pipeline完成! ===

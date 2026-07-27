@@ -107,17 +107,32 @@ class CVXPYOptimizer:
 
         # 市值中性约束（如果有市值暴露数据）
         if size_exposure is not None and benchmark_size is not None:
-            size_diff = w @ size_exposure - benchmark_size
-            constraints_list.append(cp.abs(size_diff) <= self.constraints_obj.cap_dev)
-            logger.debug(f"[OPTIMIZER] Size neutral constraint: benchmark_size={benchmark_size:.4f}, cap_dev={self.constraints_obj.cap_dev}")
+            # 标准化 size_exposure 使其具有单位标准差
+            size_std = np.std(size_exposure)
+            if size_std > 1e-8:
+                size_exposure_scaled = (size_exposure - benchmark_size) / size_std
+                # 约束：组合加权的标准化市值暴露接近 0（即与基准对齐）
+                size_diff = w @ size_exposure_scaled
+                constraints_list.append(cp.abs(size_diff) <= self.constraints_obj.cap_dev)
+                logger.debug(f"[OPTIMIZER] Size neutral constraint (scaled): benchmark_size={benchmark_size:.4f}, size_std={size_std:.4f}, cap_dev={self.constraints_obj.cap_dev}")
 
         # 求解优化问题
         problem = cp.Problem(objective, constraints_list)
-        problem.solve(solver=cp.ECOS, verbose=False)
+        # 尝试 ECOS，如失败回退到 SCS（更鲁棒但精度略低）
+        try:
+            problem.solve(solver=cp.ECOS, verbose=False, max_iters=200)
+        except Exception:
+            logger.warning(f"[OPTIMIZER] ECOS solver failed, falling back to SCS")
+            problem.solve(solver=cp.SCS, verbose=False, max_iters=5000)
 
-        if w.value is not None:
-            logger.debug(f"[OPTIMIZER] Optimization succeeded: status={problem.status}, optimal value={problem.value:.6f}, sum(w)={w.value.sum():.4f}")
-            return w.value
+        if w.value is not None and problem.status in ("optimal", "optimal_inaccurate"):
+            # 清理数值噪声并裁剪到合规范围
+            w_val = np.maximum(w.value, 0)
+            w_sum = w_val.sum()
+            if w_sum > 1e-6:
+                w_val = w_val / w_sum
+            logger.debug(f"[OPTIMIZER] Optimization succeeded: status={problem.status}, optimal value={problem.value:.6f}, sum(w)={w_val.sum():.4f}")
+            return w_val
         else:
             logger.warning(f"[OPTIMIZER] Optimization failed: status={problem.status}, using clipped equal weights")
             # 等权时需要裁剪到 max_weight 以下

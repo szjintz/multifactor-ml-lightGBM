@@ -23,15 +23,15 @@ factors:
     winsorize: 3sigma                   # 异常值处理方法：3sigma 或 quantile
     standardize: cross_sectional        # 标准化方法：cross_sectional（截面标准化）
     neutralize: [market_cap]            # 中性化变量：市值（行业数据暂不可用）
-    orthogonalize: pca                  # 正交化方法：gram_schmidt, pca, 或 none
+    orthogonalize: none                 # 正交化方法：gram_schmidt, pca, 或 none（保留因子可解释性）
 
 training:
   window_months: 24                     # 训练窗口大小（月数）
   predict_days: 20                      # 预测持有期天数（需与标签 periods 一致）
   rolling_step: monthly                 # 滚动步长：monthly
-  objective: lambdarank                 # 目标函数：lambdarank（LTR排序）
-  early_stopping_rounds: 30             # 早停轮数
-  optuna_trials: 10                     # 内存优化：减少超参搜索次数（从50减少到10）
+  objective: regression                 # 目标函数：lambdarank（LTR排序）
+  early_stopping_rounds: 50             # 早停轮数
+  optuna_trials: 20                     # Optuna 超参搜索次数（适度增加以获得更好结果）
   lgb_params:                           # LightGBM 基础参数
     num_leaves: 31                      # 单棵树最大叶子数
     min_child_samples: 20               # 叶子最小样本数
@@ -43,12 +43,12 @@ training:
     min_gain_to_split: 0.0              # 分裂最小增益阈值
 
 portfolio:
-  top_n: 20                             # 持仓股票数量
-  turnover_limit: 0.10                  # 最大换手率（单边）
-  risk_aversion: 5.0                    # 风险厌恶系数
-  max_weight: 0.08                      # 单股最大权重
-  sector_neutral: true                  # 是否行业中性
-  size_neutral: true                    # 是否市值中性
+  top_n: 30                             # 持仓股票数量
+  turnover_limit: 0.50                  # 最大换手率（单边，20日调仓需要更宽松）
+  risk_aversion: 2.0                    # 风险厌恶系数
+  max_weight: 0.10                      # 单股最大权重
+  sector_neutral: false                 # 是否行业中性（暂不支持行业数据）
+  size_neutral: false                   # 是否市值中性（先关闭以验证基础流程）
 
 monte_carlo:
   noise_levels: [0.001, 0.005, 0.01, 0.02, 0.05]  # 噪声水平列表（相对于因子标准差）

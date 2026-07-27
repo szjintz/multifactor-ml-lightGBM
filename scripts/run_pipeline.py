@@ -61,6 +61,7 @@ except ImportError:
 
 from interpretation.importance_tracker import ImportanceTracker
 from interpretation.attribution import BrinsonAttribution
+from scripts.analyze_results import ResultAnalyzer
 
 
 def run_pipeline(config_path="config/config.yaml"):
@@ -156,8 +157,8 @@ def run_pipeline(config_path="config/config.yaml"):
         labels = labels.reindex(factor_df.index)
         logger.info(f"[4/8] 股票池缩减: {n_instruments} -> {len(top_instruments)} 只, 行数: {len(factor_df)}")
 
-    # IC 预筛选（过滤低预测力因子）
-    selected = ic_prefilter(factor_df, labels, min_ic=0.005, min_icir=0.3)
+    # IC 预筛选（过滤低预测力因子 —— 放宽阈值以保留更多有意义的因子）
+    selected = ic_prefilter(factor_df, labels, min_ic=0.02, min_icir=0.10)
     if len(selected) == 0:
         logger.warning("[4/8] 无特征通过IC筛选，使用全部特征")
         selected = list(factor_df.columns)
@@ -239,16 +240,30 @@ def run_pipeline(config_path="config/config.yaml"):
     else:
         engine = BacktestEngine(config)
         market_cap = data["market_cap"] if "market_cap" in data else None
-        portfolio_returns, benchmark_returns, weights = engine.run(predictions, prices, benchmark_ret, market_cap=market_cap)
+        portfolio_returns, benchmark_returns, weights, ann_periods_per_year = engine.run(predictions, prices, benchmark_ret, market_cap=market_cap)
 
         # 生成绩效报告
         labels_unstacked = labels.unstack() if isinstance(labels, pd.DataFrame) else labels
         report = MetricsReport(portfolio_returns, benchmark_returns, predictions, labels_unstacked, weights,
-                             holding_period=engine.holding_period)
+                             holding_period=engine.holding_period, ann_periods_per_year=ann_periods_per_year)
         metrics = report.generate()
         logger.info("\n=== 绩效指标 ===")
         for k, v in metrics.items():
             logger.info(f"  {k}: {v:.4f}" if isinstance(v, float) else f"  {k}: {v}")
+
+        # 生成可视化报告（净值曲线、回撤曲线、IC时序图）
+        try:
+            analyzer = ResultAnalyzer(output_dir="results")
+            analyzer.generate_report(
+                returns=portfolio_returns,
+                benchmark=benchmark_returns,
+                predictions=predictions,
+                actuals=labels_unstacked,
+                weights=weights,
+                metrics=metrics,
+            )
+        except Exception as e:
+            logger.warning(f"[6/8] 可视化报告生成失败: {e}")
 
     # Step 9: 模型可解释性
     logger.info("[7/8] 模型可解释性分析...")
@@ -267,6 +282,14 @@ def run_pipeline(config_path="config/config.yaml"):
                     shap_analyzer.analyze(first_model, X_sample.iloc[:min(100, len(X_sample))])
                     top_features = shap_analyzer.get_top_features(10)
                     logger.info("  SHAP重要性前10特征: %s", [f[0] for f in top_features])
+                    # 生成 SHAP 可视化图表（全局重要性、蜂群图、瀑布图）
+                    try:
+                        shap_analyzer.plot_global_importance(top_n=20)
+                        shap_analyzer.plot_beeswarm()
+                        shap_analyzer.plot_waterfall(idx=0)
+                        logger.info("  SHAP图表已保存至 results/")
+                    except Exception as e:
+                        logger.warning(f"  SHAP图表绘制失败: {e}")
             except Exception as e:
                 logger.warning(f"  SHAP分析失败: {e}")
         else:

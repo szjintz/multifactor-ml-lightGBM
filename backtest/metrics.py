@@ -21,7 +21,7 @@ from scipy.stats import spearmanr
 logger = logging.getLogger(__name__)
 
 
-def compute_sharpe(returns: pd.Series, rf: float = 0.025, hp: int = 1) -> float:
+def compute_sharpe(returns: pd.Series, rf: float = 0.025, hp: int = 1, ann_periods_per_year: float = None) -> float:
     """
     计算夏普比率
 
@@ -31,17 +31,18 @@ def compute_sharpe(returns: pd.Series, rf: float = 0.025, hp: int = 1) -> float:
     Args:
         returns: 收益率序列（支持任意频率，需配合 hp 做年化）
         rf: 年化无风险利率，默认 2.5%
-        hp: 持有期天数（用于 rf 调整和年化），默认 1
+        hp: 持有期天数（用于 rf 调整），默认 1
+        ann_periods_per_year: 每年实际调仓次数（优先于 252/hp）
 
     Returns:
         夏普比率
     """
-    rf_per_period = rf * hp / 252
+    periods_per_year = ann_periods_per_year if ann_periods_per_year is not None else (252.0 / hp)
+    rf_per_period = rf / periods_per_year
     excess = returns - rf_per_period
-    periods_per_year = 252.0 / hp
     std = excess.std(ddof=1)
     sharpe = np.sqrt(periods_per_year) * excess.mean() / std if std > 0 else 0.0
-    logger.debug(f"[METRICS] Sharpe: {sharpe:.4f} (rf={rf}, hp={hp}, rf_per_period={rf_per_period:.6f}, mean_excess={excess.mean():.6f}, std={std:.6f})")
+    logger.debug(f"[METRICS] Sharpe: {sharpe:.4f} (rf={rf}, hp={hp}, ann_periods={periods_per_year:.2f}, rf_per_period={rf_per_period:.6f}, mean_excess={excess.mean():.6f}, std={std:.6f})")
     return sharpe
 
 
@@ -65,7 +66,7 @@ def compute_max_drawdown(equity: pd.Series) -> float:
     return mdd
 
 
-def compute_calmar(returns: pd.Series, hp: int = 1) -> float:
+def compute_calmar(returns: pd.Series, hp: int = 1, ann_periods_per_year: float = None) -> float:
     """
     计算卡尔玛比率
 
@@ -75,11 +76,12 @@ def compute_calmar(returns: pd.Series, hp: int = 1) -> float:
     Args:
         returns: 收益率序列（支持任意频率）
         hp: 持有期天数，默认 1
+        ann_periods_per_year: 每年实际调仓次数（优先于 252/hp）
 
     Returns:
         卡尔玛比率
     """
-    periods_per_year = 252.0 / hp
+    periods_per_year = ann_periods_per_year if ann_periods_per_year is not None else (252.0 / hp)
     ann_ret = (1 + returns).prod() ** (periods_per_year / len(returns)) - 1
     equity = (1 + returns).cumprod()
     mdd = compute_max_drawdown(equity)
@@ -129,7 +131,8 @@ def compute_ir(ic_series: pd.Series) -> float:
     return ir
 
 
-def compute_turnover(weights_history: pd.DataFrame, hp: int = 1) -> float:
+def compute_turnover(weights_history: pd.DataFrame, hp: int = 1,
+                    returns_index: pd.Index = None) -> float:
     """
     计算年化换手率
 
@@ -138,7 +141,8 @@ def compute_turnover(weights_history: pd.DataFrame, hp: int = 1) -> float:
 
     Args:
         weights_history: 权重历史 DataFrame，每行是一个日期的权重
-        hp: 持有期天数（用于年化），默认 1
+        hp: 持有期天数（备用年化参数），默认 1
+        returns_index: 收益率序列的日期索引，用于计算实际年化因子
 
     Returns:
         年化换手率
@@ -148,9 +152,17 @@ def compute_turnover(weights_history: pd.DataFrame, hp: int = 1) -> float:
         return 0.0
     to = weights_history.diff().abs().sum(axis=1)
     avg_to = to.mean()
-    periods_per_year = 252.0 / hp
-    ann_to = avg_to * periods_per_year
-    logger.debug(f"[METRICS] Turnover: {ann_to:.4f} (annualized, per_period={avg_to:.4f}, periods_per_year={periods_per_year:.1f})")
+    if returns_index is not None and len(returns_index) >= 2 and isinstance(returns_index[0], pd.Timestamp):
+        total_cal_days = (returns_index[-1] - returns_index[0]).days
+        n_periods = len(returns_index)
+        if total_cal_days > 0 and n_periods > 1:
+            ann_factor = 252.0 * n_periods / total_cal_days
+        else:
+            ann_factor = 252.0 / hp
+    else:
+        ann_factor = 252.0 / hp
+    ann_to = avg_to * ann_factor
+    logger.debug(f"[METRICS] Turnover: {ann_to:.4f} (annualized, per_period={avg_to:.4f}, ann_factor={ann_factor:.2f})")
     return ann_to
 
 
@@ -163,7 +175,8 @@ class MetricsReport:
 
     def __init__(self, returns: pd.Series, benchmark: pd.Series,
                  predictions: pd.Series, actuals: pd.Series,
-                 weights: pd.DataFrame, holding_period: int = 1):
+                 weights: pd.DataFrame, holding_period: int = 1,
+                 ann_periods_per_year: float = None):
         """
         初始化指标报告生成器
 
@@ -181,6 +194,7 @@ class MetricsReport:
         self.actuals = actuals
         self.weights = weights
         self.hp = holding_period
+        self.ann_periods_per_year = ann_periods_per_year if ann_periods_per_year is not None else (252.0 / holding_period)
         self.excess = returns - benchmark
         logger.info(f"[METRICS] MetricsReport initialized: {len(returns)} periods (hp={holding_period}), {len(predictions)} predictions")
 
@@ -198,8 +212,7 @@ class MetricsReport:
                                       "max_drawdown", "calmar_ratio", "win_rate",
                                       "profit_loss_ratio", "total_return"]}
         equity = (1 + self.returns).cumprod()
-        ann_factor = 252.0 / self.hp
-        periods_per_year = ann_factor
+        periods_per_year = self.ann_periods_per_year
         ann_ret = (1 + self.returns).prod() ** (periods_per_year / len(self.returns)) - 1
         bench_ann_ret = (1 + self.benchmark).prod() ** (periods_per_year / len(self.benchmark)) - 1 if len(self.benchmark) > 0 else 0.0
 
@@ -217,11 +230,11 @@ class MetricsReport:
             "annualized_return": ann_ret,  # 年化收益率
             "benchmark_return": bench_ann_ret,  # 基准年化收益率
             "excess_return": ann_ret - bench_ann_ret,  # 超额收益率
-            "annualized_vol": self.returns.std(ddof=1) * np.sqrt(ann_factor),  # 年化波动率（样本标准差）
-            "sharpe_ratio": compute_sharpe(self.returns, hp=self.hp),  # 夏普比率
-            "calmar_ratio": compute_calmar(self.returns, hp=self.hp),  # 卡尔玛比率
+            "annualized_vol": self.returns.std(ddof=1) * np.sqrt(periods_per_year),  # 年化波动率（样本标准差）
+            "sharpe_ratio": compute_sharpe(self.returns, hp=self.hp, ann_periods_per_year=periods_per_year),  # 夏普比率
+            "calmar_ratio": compute_calmar(self.returns, hp=self.hp, ann_periods_per_year=periods_per_year),  # 卡尔玛比率
             "max_drawdown": compute_max_drawdown(equity),  # 最大回撤
-            "annual_turnover": compute_turnover(self.weights, hp=self.hp),  # 年化换手率
+            "annual_turnover": compute_turnover(self.weights, hp=self.hp, returns_index=self.returns.index),  # 年化换手率
             "ic_mean": ic_series.mean(),  # IC 均值
             "ic_std": ic_series.std(),  # IC 标准差
             "ir": compute_ir(ic_series),  # 信息比率

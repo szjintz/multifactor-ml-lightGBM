@@ -259,10 +259,21 @@ class FundamentalProvider:
                 records.append(cached.reset_index())
                 to_fetch = active_missing
             else:
-                self.logger.info(f"[DAILY_FUNDAMENTALS] Cache stale: cached={cached_dates.min()} to {cached_dates.max()}, requested={self.start_date} to {self.end_date}, re-fetching")
-                to_fetch = list(self.instruments)
+                self.logger.info(f"[DAILY_FUNDAMENTALS] Cache stale: cached={cached_dates.min()} to {cached_dates.max()}, requested={self.start_date} to {self.end_date}")
+                self.logger.info(f"[DAILY_FUNDAMENTALS] Trying to rebuild from individual caches...")
+                rebuilt, to_fetch = self._rebuild_from_individual_caches("daily")
+                if rebuilt is not None:
+                    self.logger.info(f"[DAILY_FUNDAMENTALS] Rebuilt from individual caches, need to fetch {len(to_fetch)} more instruments")
+                    records.append(rebuilt.reset_index())
+                else:
+                    to_fetch = list(self.instruments)
         else:
-            to_fetch = list(self.instruments)
+            self.logger.info(f"[DAILY_FUNDAMENTALS] Global aggregate cache not found, trying to rebuild from individual caches...")
+            rebuilt, to_fetch = self._rebuild_from_individual_caches("daily")
+            if rebuilt is not None:
+                records.append(rebuilt.reset_index())
+            else:
+                to_fetch = list(self.instruments)
 
         if to_fetch:
             self.logger.info(f"[DAILY_FUNDAMENTALS] Fetching daily data for {len(to_fetch)} instruments (from cache miss)")
@@ -344,10 +355,21 @@ class FundamentalProvider:
                 gm_records.append(cached)
                 gm_to_fetch = active_missing
             else:
-                self.logger.info(f"[GROSS_MARGIN] Cache stale: cached={cached_dates.min()} to {cached_dates.max()}, requested={self.start_date} to {self.end_date}, re-fetching")
-                gm_to_fetch = list(self.instruments)
+                self.logger.info(f"[GROSS_MARGIN] Cache stale: cached={cached_dates.min()} to {cached_dates.max()}, requested={self.start_date} to {self.end_date}")
+                self.logger.info(f"[GROSS_MARGIN] Trying to rebuild from individual caches...")
+                rebuilt, gm_to_fetch = self._rebuild_from_individual_caches("gross_margin")
+                if rebuilt is not None:
+                    self.logger.info(f"[GROSS_MARGIN] Rebuilt from individual caches, need to fetch {len(gm_to_fetch)} more instruments")
+                    gm_records.append(rebuilt)
+                else:
+                    gm_to_fetch = list(self.instruments)
         else:
-            gm_to_fetch = list(self.instruments)
+            self.logger.info(f"[GROSS_MARGIN] Global aggregate cache not found, trying to rebuild from individual caches...")
+            rebuilt, gm_to_fetch = self._rebuild_from_individual_caches("gross_margin")
+            if rebuilt is not None:
+                gm_records.append(rebuilt)
+            else:
+                gm_to_fetch = list(self.instruments)
 
         if gm_to_fetch:
             self.logger.info(f"[GROSS_MARGIN] Fetching gross margin data for {len(gm_to_fetch)} instruments (from cache miss)")
@@ -397,6 +419,38 @@ class FundamentalProvider:
         self._save_inst_cache("_ALL_", "gross_margin", result)
         return result
 
+    def _rebuild_from_individual_caches(self, data_type):
+        """
+        尝试从个体缓存重建全局数据
+
+        当全局聚合缓存缺失但个体缓存存在时，从个体缓存重建。
+
+        Args:
+            data_type: 个体缓存的数据类型前缀（如 "quarterly", "daily", "gross_margin"）
+
+        Returns:
+            (聚合DataFrame或None, 仍未缓存的股票列表)
+        """
+        records = []
+        missing = []
+        for inst in self.instruments:
+            inst_cache = self._load_inst_cache(inst, data_type)
+            if inst_cache is not None and not inst_cache.empty:
+                if isinstance(inst_cache.index, pd.MultiIndex):
+                    inst_cache = inst_cache.reset_index()
+                records.append(inst_cache)
+            else:
+                missing.append(inst)
+        if not records:
+            return None, self.instruments
+        result = pd.concat(records, ignore_index=True)
+        if "日期" in result.columns:
+            result = result.set_index(["instrument", "日期"]).sort_index()
+        elif "date" in result.columns:
+            result = result.set_index(["instrument", "date"]).sort_index()
+        self.logger.info(f"[{data_type.upper()}] Rebuilt from {len(records)} individual caches: {len(result)} rows, {len(result.index.get_level_values(0).unique())} instruments")
+        return result, missing
+
     def get_quarterly_fundamentals(self):
         """
         获取季度财务数据
@@ -438,10 +492,21 @@ class FundamentalProvider:
                 records.append(cached.reset_index())
                 to_fetch = active_missing
             else:
-                self.logger.info(f"[QUARTERLY] Cache stale: cached={cached_dates.min()} to {cached_dates.max()}, requested={self.start_date} to {self.end_date}, re-fetching")
-                to_fetch = list(self.instruments)
+                self.logger.info(f"[QUARTERLY] Cache stale: cached={cached_dates.min()} to {cached_dates.max()}, requested={self.start_date} to {self.end_date}")
+                self.logger.info(f"[QUARTERLY] Trying to rebuild from individual caches...")
+                rebuilt, to_fetch = self._rebuild_from_individual_caches("quarterly")
+                if rebuilt is not None:
+                    self.logger.info(f"[QUARTERLY] Rebuilt from individual caches, need to fetch {len(to_fetch)} more instruments")
+                    records.append(rebuilt.reset_index())
+                else:
+                    to_fetch = list(self.instruments)
         else:
-            to_fetch = list(self.instruments)
+            self.logger.info(f"[QUARTERLY] Global aggregate cache not found, trying to rebuild from individual caches...")
+            rebuilt, to_fetch = self._rebuild_from_individual_caches("quarterly")
+            if rebuilt is not None:
+                records.append(rebuilt.reset_index())
+            else:
+                to_fetch = list(self.instruments)
 
         if to_fetch:
             self.logger.info(f"[QUARTERLY] Fetching quarterly fundamentals for {len(to_fetch)} instruments (from cache miss)")
@@ -514,12 +579,12 @@ class FundamentalProvider:
         Returns:
             合并后的基本面数据 DataFrame，MultiIndex (instrument, datetime)
         """
-        self.logger.info(f"[基本面合并] 开始合并数据: {len(trade_calendar)} 个交易日, {len(self.instruments)} 只股票")
+        self.logger.info(f"[FUNDAMENTAL_MERGE] Merging data: {len(trade_calendar)} trading days, {len(self.instruments)} instruments")
         daily = self.get_daily_fundamentals()
         quarterly = self.get_quarterly_fundamentals()
 
         if daily.empty and quarterly.empty:
-            self.logger.warning("[基本面合并] 无基本面数据可用 (日线和季度数据均为空)")
+            self.logger.warning("[FUNDAMENTAL_MERGE] No fundamental data available (both daily and quarterly empty)")
             return pd.DataFrame()
 
         inst_list = sorted(set(
@@ -527,8 +592,8 @@ class FundamentalProvider:
         ) | set(
             list(quarterly.index.get_level_values(0)) if not quarterly.empty else []
         ))
-        self.logger.info(f"[基本面合并] 数据中的股票数量: {len(inst_list)}")
-        self.logger.info(f"[基本面合并] 日线数据行数: {len(daily)}, 季度数据行数: {len(quarterly)}")
+        self.logger.info(f"[FUNDAMENTAL_MERGE] Instruments in data: {len(inst_list)}")
+        self.logger.info(f"[FUNDAMENTAL_MERGE] Daily rows: {len(daily)}, Quarterly rows: {len(quarterly)}")
 
         # 创建完整的 (instrument, datetime) 索引
         full_idx = []
@@ -548,11 +613,11 @@ class FundamentalProvider:
             # 前向填充：假设流通股数在两次报告之间不变
             combined["outstanding_share"] = combined.groupby(level=0)["outstanding_share"].ffill()
             outstanding_count = combined["outstanding_share"].notna().sum()
-            self.logger.info(f"[基本面合并] 日线数据已合并: {len(daily_idx)} 行 -> {outstanding_count} 个非空流通股数值")
+            self.logger.info(f"[FUNDAMENTAL_MERGE] Daily data merged: {len(daily_idx)} rows -> {outstanding_count} non-NaN outstanding_share values")
 
         # 合并季度数据
         if not quarterly.empty:
-            self.logger.info("[基本面合并] 处理季度财务数据对齐...")
+            self.logger.info("[FUNDAMENTAL_MERGE] Aligning quarterly financial data...")
             q_idx = quarterly.copy()
             q_idx.index.names = ["instrument", "datetime"]
 
@@ -577,7 +642,7 @@ class FundamentalProvider:
                 inst_q["instrument"] = inst
                 inst_q = inst_q.reset_index().set_index(["instrument", "datetime"])
                 shifted_quarters.append(inst_q)
-                self.logger.debug(f"[基本面合并] {inst} 的季度日期偏移: {len(shifted_dates)} 个报告日期已偏移")
+                self.logger.debug(f"[FUNDAMENTAL_MERGE] {inst} quarterly dates shifted: {len(shifted_dates)} report dates")
 
             if shifted_quarters:
                 q_shifted = pd.concat(shifted_quarters).sort_index()

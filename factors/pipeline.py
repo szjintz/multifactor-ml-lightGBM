@@ -43,7 +43,7 @@ class FactorPreprocessingPipeline:
                 }
         """
         self.config = config
-        logger.info(f"[因子预处理] 初始化预处理管线，配置：{config}")
+        logger.info(f"[PREPROCESS] Initializing preprocessing pipeline, config: {config}")
 
     def process(self, factor_df: pd.DataFrame, market_data: pd.DataFrame = None) -> pd.DataFrame:
         """
@@ -62,40 +62,40 @@ class FactorPreprocessingPipeline:
         Returns:
             预处理后的因子 DataFrame
         """
-        logger.info(f"[PREPROCESS] 开始预处理：{len(factor_df.columns)}个因子，{len(factor_df)}行")
+        logger.info(f"[PREPROCESS] Starting preprocessing: {len(factor_df.columns)} factors, {len(factor_df)} rows")
         result = factor_df.copy()
 
         # 步骤 1：Winsorize 缩尾处理
         winsorize_cfg = self.config.get("winsorize", "3sigma")
-        logger.info(f"[PREPROCESS] 步骤1/4：缩尾处理，方法={winsorize_cfg}")
+        logger.info(f"[PREPROCESS] Step 1/4: Winsorizing, method={winsorize_cfg}")
         for col in result.columns:
             result[col] = winsorize(result[col], winsorize_cfg)
-        logger.info(f"[PREPROCESS] 缩尾处理完成")
+        logger.info(f"[PREPROCESS] Winsorization complete")
 
         # 步骤 2：截面标准化
-        logger.info(f"[PREPROCESS] 步骤2/4：截面标准化")
+        logger.info(f"[PREPROCESS] Step 2/4: Cross-sectional standardization")
         result = cross_sectional_standardize(result)
         # 截面分组（按日期分组填充）
         result = result.groupby(level=0).transform(lambda x: x.fillna(x.median()))
-        logger.info(f"[PREPROCESS] 标准化完成：形状={result.shape}")
+        logger.info(f"[PREPROCESS] Standardization complete: shape={result.shape}")
         # 标准化完成后立刻打印因子状态
         total_num = result.size
         nan_num = np.isnan(result.values).sum()
         inf_num = np.isinf(result.values).sum()
         zero_num = np.sum(result.values == 0)
-        logger.info(f"【DEBUG】标准化后因子总数据量:{total_num}, NaN数量:{nan_num}, Inf数量:{inf_num}, 全零数量:{zero_num}")
-        logger.info(f"【DEBUG】因子非空有效数据数量：{total_num - nan_num - inf_num}")
+        logger.info(f"[DEBUG] After standardization: total={total_num}, NaN={nan_num}, Inf={inf_num}, all-zero={zero_num}")
+        logger.info(f"[DEBUG] Valid non-null data count: {total_num - nan_num - inf_num}")
 
 
         # 步骤 3：中性化（可选）
         if self.config.get("neutralize") and market_data is not None:
             exog_cols = self.config["neutralize"]
-            logger.info(f"[PREPROCESS] 步骤3/4：中性化，外生变量={exog_cols}")
+            logger.info(f"[PREPROCESS] Step 3/4: Neutralizing, exogenous variables={exog_cols}")
             exog_data = pd.DataFrame(index=market_data.index)
             found = []
             missing = []
             # 日志：显示 market_data 中有哪些列可用（用于调试）
-            logger.info(f"[PREPROCESS] market_data可用列：{list(market_data.columns)}")
+            logger.info(f"[PREPROCESS] market_data available columns: {list(market_data.columns)}")
             # 构建不区分大小写的列名映射
             col_map = {c.lower(): c for c in market_data.columns}
             for col_name in exog_cols:
@@ -120,9 +120,9 @@ class FactorPreprocessingPipeline:
                 else:
                     missing.append(col_name)
             if missing:
-                logger.warning(f"[PREPROCESS] 中性化列未找到：{missing}")
+                logger.warning(f"[PREPROCESS] Neutralization columns not found: {missing}")
             if len(found) == 0:
-                logger.warning(f"[PREPROCESS] 无中性化数据可用，跳过")
+                logger.warning(f"[PREPROCESS] No neutralization data available, skipping")
             else:
                 logger.info(f"[PREPROCESS] Neutralization data prepared: {found}")
                 # Log how many market_cap values are valid before neutralizing

@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
+import shap
 
 
 class SHAPAnalyzer:
@@ -45,7 +46,6 @@ class SHAPAnalyzer:
         Returns:
             self（支持链式调用）
         """
-        import shap
         explainer = shap.TreeExplainer(model)
         self.shap_values = explainer.shap_values(X.values)
         self.feature_names = list(X.columns)
