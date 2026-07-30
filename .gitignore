@@ -9,5 +9,4 @@ build/
 .env
 docs/
 .zread/
-logs/
 results/

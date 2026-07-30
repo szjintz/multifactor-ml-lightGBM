@@ -16,7 +16,7 @@
 import logging
 import numpy as np
 import pandas as pd
-from sklearn.covariance import LedoitWolf
+
 from portfolio.optimizer import CVXPYOptimizer
 
 logger = logging.getLogger(__name__)
@@ -46,8 +46,7 @@ class BacktestEngine:
         self.market_impact = backtest_cfg.get("market_impact", 0.001)  # 市场冲击
         self.holding_period = training_cfg.get("predict_days", 1)  # 持有期（与标签周期一致）
         self.optimizer = CVXPYOptimizer(config.get("portfolio", {}))
-        self.lookback = 60 * self.holding_period  # 协方差矩阵估计的回望期
-        self.daily_returns_cache = {}  # 缓存每日收益用于协方差估计
+        self.lookback = 120  # 协方差矩阵估计的回望期（6个月，约120个交易日）
         self.LIMIT_THRESHOLD = 0.099  # 涨跌停阈值（9.9%，留0.1%安全边际）
         logger.info(f"[BACKTEST] BacktestEngine initialized: slippage={self.slippage}, market_impact={self.market_impact}, top_n={config.get('portfolio', {}).get('top_n', 50)}, holding_period={self.holding_period}, limit_threshold={self.LIMIT_THRESHOLD}")
 
@@ -88,37 +87,41 @@ class BacktestEngine:
             return set()
 
     def _get_covariance(self, prices: pd.DataFrame, date, stock_names):
-        """
-        计算协方差矩阵
-
-        使用 Ledoit-Wolf 压缩估计方法，比样本协方差更稳定。
-
-        Args:
-            prices: 价格 DataFrame
-            date: 当前日期
-            stock_names: 股票名称列表（必须与预测收益对齐）
-
-        Returns:
-            协方差矩阵，形状 (len(stock_names), len(stock_names))
-        """
         n_stocks = len(stock_names)
-        if date not in self.daily_returns_cache:
-            daily_ret = prices.ffill().pct_change(fill_method=None).iloc[-self.lookback:]
-            self.daily_returns_cache[date] = daily_ret
+        hist = prices.ffill().pct_change(fill_method=None).loc[:date]
+        if len(hist) < self.lookback + 1:
+            daily_ret = hist.iloc[1:]
         else:
-            daily_ret = self.daily_returns_cache[date]
+            daily_ret = hist.iloc[-self.lookback:]
+        if len(daily_ret) < 2:
+            logger.debug(f"[BACKTEST] Insufficient history for covariance, using identity matrix")
+            return np.eye(n_stocks) * 0.01
 
         common = daily_ret.columns.intersection(pd.Index(stock_names))
         if len(common) < 2:
             logger.debug(f"[BACKTEST] Insufficient common stocks for covariance, using identity matrix")
             return np.eye(n_stocks) * 0.01
 
-        # Ledoit-Wolf 压缩估计，更稳健
-        lw = LedoitWolf().fit(daily_ret[common].fillna(0))
-        cov = pd.DataFrame(lw.covariance_, index=common, columns=common)
-        # 对齐到传入的 stock_names
+        n = len(daily_ret)
+        half_life = 60
+        lam = np.exp(-np.log(2) / half_life)
+        w = np.array([lam ** (n - 1 - i) for i in range(n)])
+        w = w / w.sum()
+
+        rets = daily_ret[common].fillna(0).values
+        mean_ret = (rets.T @ w)
+        centered = rets - mean_ret
+        weighted_cov = (centered * w[:, None]).T @ centered
+
+        n_features = len(common)
+        sample_cov = weighted_cov
+        prior = np.trace(sample_cov) / n_features * np.eye(n_features)
+        shrinkage = max(0, min(1, (n_features + 1) / (n + 1)))
+        shrunk_cov = shrinkage * prior + (1 - shrinkage) * sample_cov
+
+        cov = pd.DataFrame(shrunk_cov, index=common, columns=common)
         result = cov.reindex(index=stock_names, columns=stock_names).fillna(0).values
-        logger.debug(f"[BACKTEST] Covariance computed for {len(common)}/{n_stocks} stocks")
+        logger.debug(f"[BACKTEST] Covariance (EWMA, hl={half_life}d) computed for {len(common)}/{n_stocks} stocks, lookback={len(daily_ret)}d")
         return result
 
     def run(self, predictions: pd.Series, prices: pd.DataFrame,
@@ -190,8 +193,9 @@ class BacktestEngine:
             top_stocks = date_preds_filtered.nlargest(min(n, len(date_preds_filtered)))
             stock_names = top_stocks.index.get_level_values(-1)
 
-            # 确定权重
-            if use_optimizer and len(stock_names) >= 5:
+            # 确定权重：支持三种方法
+            weight_method = self.config.get("portfolio", {}).get("weight_method", "mean_variance")
+            if use_optimizer and len(stock_names) >= 5 and weight_method == "mean_variance":
                 logger.debug(f"[BACKTEST] Date {date}: Using CVXPY optimizer for {len(stock_names)} stocks")
                 pred_arr = date_preds.loc[top_stocks.index].values
                 cov = self._get_covariance(prices, date, stock_names)
@@ -229,6 +233,11 @@ class BacktestEngine:
                 else:
                     w = pd.Series(1.0 / len(stock_names), index=stock_names)
                     logger.debug(f"[BACKTEST] Date {date}: Optimizer failed, using equal weights")
+            elif use_optimizer and len(stock_names) >= 5 and weight_method == "rank":
+                pred_arr = date_preds.loc[top_stocks.index].values
+                w_arr = self.optimizer.rank_weights(pred_arr)
+                w = pd.Series(w_arr, index=stock_names)
+                logger.debug(f"[BACKTEST] Date {date}: Using rank-weighted portfolio for {len(stock_names)} stocks")
             else:
                 w = pd.Series(1.0 / len(stock_names), index=stock_names)
                 logger.debug(f"[BACKTEST] Date {date}: Using equal weights for {len(stock_names)} stocks")
@@ -258,11 +267,13 @@ class BacktestEngine:
             next_idx = dates.index(date) + hp
             if next_idx < len(dates):
                 next_date = dates[next_idx]
-                ret = prices.loc[next_date] / prices.loc[date] - 1
-                ret_aligned = ret.reindex(stock_names).fillna(0).values
-                portfolio_ret = float(w.values @ ret_aligned) - cost
-                portfolio_returns.append(portfolio_ret)
-                logger.debug(f"[BACKTEST] Date {date} -> {next_date}: portfolio_return={portfolio_ret:.6f}")
+            else:
+                next_date = dates[-1]
+            ret = prices.loc[next_date] / prices.loc[date] - 1
+            ret_aligned = ret.reindex(stock_names).fillna(0).values
+            portfolio_ret = float(w.values @ ret_aligned) - cost
+            portfolio_returns.append(portfolio_ret)
+            logger.debug(f"[BACKTEST] Date {date} -> {next_date}: portfolio_return={portfolio_ret:.6f}")
 
         # 构建收益序列
         returns_idx = rebalance_dates[:len(portfolio_returns)]
@@ -280,13 +291,20 @@ class BacktestEngine:
             ann_periods_per_year = 252.0 / hp  # 后备：使用 hp 估算
 
         # 处理基准收益（按持有期复合，对齐到回测日期）
+        # 组合持有期收益 = P[next_date] / P[date] - 1 = ∏(1 + r_{date+1..next_date}) - 1
+        # 因此基准要剥离 r_date（即从 date 前一交易日到 date 的收益），从 date 后一天起算
         if benchmark_returns is not None:
             bench_list = []
             for i, date in enumerate(returns_idx):
                 start_idx = dates.index(date)
                 end_idx = min(start_idx + hp, len(dates) - 1)
                 end_date = dates[end_idx]
-                period_ret = (1 + benchmark_returns.loc[date:end_date]).prod() - 1
+                # 从 date 的下一个交易日开始（date+1 ~ end_date）复合收益
+                if start_idx + 1 <= end_idx:
+                    bench_slice = benchmark_returns.loc[pd.Timestamp(dates[start_idx + 1]):pd.Timestamp(end_date)]
+                    period_ret = float((1 + bench_slice).prod() - 1)
+                else:
+                    period_ret = 0.0
                 bench_list.append(period_ret)
             bench = pd.Series(bench_list, index=returns_idx)
         else:
