@@ -120,16 +120,19 @@ class CVXPYOptimizer:
         # 求解优化问题
         problem = cp.Problem(objective, constraints_list)
         # SCS 对大问题更鲁棒，优先使用；ECOS 作为后备
+        status = None
         try:
             problem.solve(solver=cp.SCS, verbose=False, max_iters=5000)
+            status = problem.status
         except Exception:
             logger.warning(f"[OPTIMIZER] SCS solver failed, falling back to ECOS")
             try:
                 problem.solve(solver=cp.ECOS, verbose=False, max_iters=200)
+                status = problem.status
             except Exception:
-                problem.status = "failure"
+                status = "failure"
 
-        if w.value is not None and problem.status in ("optimal", "optimal_inaccurate"):
+        if w.value is not None and status in ("optimal", "optimal_inaccurate"):
             # 清理数值噪声并裁剪到合规范围
             w_val = np.maximum(w.value, 0)
             w_sum = w_val.sum()

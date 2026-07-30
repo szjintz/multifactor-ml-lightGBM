@@ -4,15 +4,15 @@ Return period: 2024-05-09 00:00:00 ~ 2025-07-03 00:00:00
 Benchmark period: 2024-05-09 00:00:00 ~ 2025-07-03 00:00:00
 Prediction period: 2024-05-09 00:00:00 ~ 2025-07-22 00:00:00
 
-annualized_return: 0.1942
+annualized_return: 0.2399
 benchmark_return: 0.1032
-excess_return: 0.0910
-annualized_vol: 0.2257
-sharpe_ratio: 0.7764
-calmar_ratio: 1.9879
-max_drawdown: -0.0977
-annual_turnover: 3.4778
-ic_mean: 0.0105
-ic_std: 0.2320
-ir: 0.0451
-hit_rate: 0.5238
+excess_return: 0.1368
+annualized_vol: 0.2175
+sharpe_ratio: 0.9748
+calmar_ratio: 5.1691
+max_drawdown: -0.0464
+annual_turnover: 2.9803
+ic_mean: -0.0126
+ic_std: 0.2281
+ir: -0.0553
+hit_rate: 0.4940
