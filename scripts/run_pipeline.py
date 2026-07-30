@@ -166,11 +166,12 @@ def run_pipeline(config_path="config/config.yaml"):
     labels = labels.reindex(factor_df.index)
 
     # 内存优化：在 IC 预筛选前将股票池减少到约 800 只，减少数据量约 30%
-    n_instruments = len(factor_df.index.get_level_values(1).unique())
+    inst_level = 0
+    n_instruments = len(factor_df.index.get_level_values(inst_level).unique())
     if n_instruments > 800:
-        non_nan_per_instrument = factor_df.notna().sum(axis=1).groupby(level=1).sum()
+        non_nan_per_instrument = factor_df.notna().sum(axis=1).groupby(level=inst_level).sum()
         top_instruments = non_nan_per_instrument.nlargest(800).index
-        keep_mask = factor_df.index.get_level_values(1).isin(top_instruments)
+        keep_mask = factor_df.index.get_level_values(inst_level).isin(top_instruments)
         factor_df = factor_df.loc[keep_mask]
         labels = labels.reindex(factor_df.index)
         logger.info(f"[4/8] 股票池缩减: {n_instruments} -> {len(top_instruments)} 只, 行数: {len(factor_df)}")
@@ -298,59 +299,63 @@ def run_pipeline(config_path="config/config.yaml"):
         except Exception as e:
             logger.warning(f"[6/8] 可视化报告生成失败: {e}")
 
-    # Step 9: 模型可解释性
-    logger.info("[7/8] 模型可解释性分析...")
-    if trainer.models:
-        date_level = 0 if factor_df.index.nlevels >= 2 and np.issubdtype(
-            factor_df.index.get_level_values(0).dtype, np.datetime64
-        ) else 1
-        # SHAP 分析
-        if _has_shap:
+    # Step 9: 模型可解释性（可选）
+    if config.get("run", {}).get("interpretability", True):
+        logger.info("[7/8] 模型可解释性分析...")
+        if trainer.models:
+            date_level = 0 if factor_df.index.nlevels >= 2 and np.issubdtype(
+                factor_df.index.get_level_values(0).dtype, np.datetime64
+            ) else 1
+            if _has_shap:
+                try:
+                    shap_analyzer = SHAPAnalyzer()
+                    first_model = trainer.models[0]
+                    first_date = trainer.dates[0]
+                    X_sample = factor_df.loc[factor_df.index.get_level_values(date_level) == first_date]
+                    if len(X_sample) > 0:
+                        shap_analyzer.analyze(first_model, X_sample.iloc[:min(100, len(X_sample))])
+                        top_features = shap_analyzer.get_top_features(10)
+                        logger.info("  SHAP重要性前10特征: %s", [f[0] for f in top_features])
+                        try:
+                            shap_analyzer.plot_global_importance(top_n=20)
+                            shap_analyzer.plot_beeswarm()
+                            shap_analyzer.plot_waterfall(idx=0)
+                            logger.info("  SHAP图表已保存至 results/")
+                        except Exception as e:
+                            logger.warning(f"  SHAP图表绘制失败: {e}")
+                except Exception as e:
+                    logger.warning(f"  SHAP分析失败: {e}")
+            else:
+                logger.info("  SHAP不可用，跳过SHAP分析")
+
             try:
-                shap_analyzer = SHAPAnalyzer()
-                first_model = trainer.models[0]
-                first_date = trainer.dates[0]
-                X_sample = factor_df.loc[factor_df.index.get_level_values(date_level) == first_date]
-                if len(X_sample) > 0:
-                    shap_analyzer.analyze(first_model, X_sample.iloc[:min(100, len(X_sample))])
-                    top_features = shap_analyzer.get_top_features(10)
-                    logger.info("  SHAP重要性前10特征: %s", [f[0] for f in top_features])
-                    # 生成 SHAP 可视化图表（全局重要性、蜂群图、瀑布图）
-                    try:
-                        shap_analyzer.plot_global_importance(top_n=20)
-                        shap_analyzer.plot_beeswarm()
-                        shap_analyzer.plot_waterfall(idx=0)
-                        logger.info("  SHAP图表已保存至 results/")
-                    except Exception as e:
-                        logger.warning(f"  SHAP图表绘制失败: {e}")
+                imp_tracker = ImportanceTracker()
+                for model, date in zip(trainer.models, trainer.dates):
+                    imp_tracker.record(model, date, list(factor_df.columns))
+                imp_tracker.plot_heatmap(15)
+                decaying = imp_tracker.get_decaying_features()
+                if decaying:
+                    logger.info(f"  关注衰减特征: {decaying}")
             except Exception as e:
-                logger.warning(f"  SHAP分析失败: {e}")
-        else:
-            logger.info("  SHAP不可用，跳过SHAP分析")
-
-        # 重要性跟踪
-        try:
-            imp_tracker = ImportanceTracker()
-            for model, date in zip(trainer.models, trainer.dates):
-                imp_tracker.record(model, date, list(factor_df.columns))
-            imp_tracker.plot_heatmap(15)
-            decaying = imp_tracker.get_decaying_features()
-            if decaying:
-                logger.info(f"  关注衰减特征: {decaying}")
-        except Exception as e:
-            logger.warning(f"  重要性跟踪不可用: {e}")
-
-    # Step 10: 蒙特卡洛稳健性检验
-    if not trainer.models:
-        logger.info("[8/8] 无可用模型，跳过蒙特卡洛模拟")
-        mc_results = {}
+                logger.warning(f"  重要性跟踪不可用: {e}")
     else:
-        logger.info("[8/8] 运行蒙特卡洛模拟...")
-        mc = MonteCarloSimulator(config)
-        mc_results = mc.run(factor_df, prices, benchmark_ret,
-                             models=trainer.models, dates=trainer.dates)
-        if mc_results:
-            logger.info(mc.report(mc_results))
+        logger.info("[7/8] 模型可解释性分析已跳过 (config.run.interpretability=false)")
+
+    # Step 10: 蒙特卡洛稳健性检验（可选）
+    if config.get("run", {}).get("monte_carlo", True):
+        if not trainer.models:
+            logger.info("[8/8] 无可用模型，跳过蒙特卡洛模拟")
+            mc_results = {}
+        else:
+            logger.info("[8/8] 运行蒙特卡洛模拟...")
+            mc = MonteCarloSimulator(config)
+            mc_results = mc.run(factor_df, prices, benchmark_ret,
+                                 models=trainer.models, dates=trainer.dates)
+            if mc_results:
+                logger.info(mc.report(mc_results))
+    else:
+        logger.info("[8/8] 蒙特卡洛模拟已跳过 (config.run.monte_carlo=false)")
+        mc_results = {}
 
     logger.info("\n=== Pipeline完成! ===")
     return metrics, mc_results, trainer

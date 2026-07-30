@@ -13,7 +13,7 @@
 
 data:
   market: csi300                        # 股票池：csi300（沪深300）/ csi500（中证500）/ csi800（中证800）
-  start_date: 2022-01-01                # 数据开始日期
+  start_date: 2022-01-01                # 数据开始日期: 运行时间过长,内存占用大,所以把开始日期从2018-01-01改到2022-01-01
   end_date: 2026-06-30                  # 数据结束日期
 
 factors:
@@ -27,16 +27,16 @@ factors:
 
 training:
   window_months: 24                     # 训练窗口大小（月数）- 更多数据提升模型稳定性
-  predict_days: 20                      # 预测持有期天数
+  predict_days: 20                      # 预测持有期天数（20日，非重叠采样消除标签自相关）
   rolling_step: monthly                 # 滚动步长：monthly
   objective: regression                 # 目标函数：regression（截面 Z-score 标签）
-  early_stopping_rounds: 50             # 早停轮数（patience=50）
+  early_stopping_rounds: 30             # 早停轮数（patience=30，避免后期 fold 过拟合噪声）
   num_boost_round: 1000                 # 固定迭代次数上限（增加以允许更复杂的树）
   optuna_trials: 20                     # Optuna 超参搜索次数（仅在第一个 fold 执行）
   lgb_params:                           # LightGBM 基础参数（始终覆盖 Optuna 调优结果）
     num_leaves: 31                      # 单棵树最大叶子数
     min_child_samples: 20               # 叶子最小样本数
-    learning_rate: 0.02                 # 学习率
+    learning_rate: 0.05                 # 学习率（Optuna 会覆盖，0.05 作为后备避免欠拟合）
     reg_alpha: 0.1                      # L1 正则化
     reg_lambda: 0.1                     # L2 正则化
     bagging_fraction: 0.8               # 行采样比例
@@ -45,13 +45,13 @@ training:
 
 portfolio:
   weight_method: mean_variance          # 均值-方差优化（引入协方差风险控制，压制波动）
-  top_n: 60                             # 持仓增至60只，增强分散化降低波动
-  turnover_limit: 0.30                  # 收紧换手率，降低交易成本
-  risk_aversion: 2.0                    # 适中风险厌恶（降低以释放alpha，同时 ridge 保证稳定性）
-  max_weight: 0.05                      # 单股权重减半，强制分散
+  top_n: 30                             # 集中持仓，放大 alpha（分散过度会稀释信号）
+  turnover_limit: 0.80                  # 放宽换手率上限，避免 infeasible 回退到等权
+  risk_aversion: 0.5                    # 降低风险厌恶，让预期收益主导优化（原 2.0 过度压制 alpha）
+  max_weight: 0.10                      # 允许高确信度股票超配（原 0.05 强制分散稀释 alpha）
   cov_ridge: 0.01                       # 协方差 ridge 正则化强度（保证正定，ECOS 可解）
-  sector_neutral: false                 # 是否行业中性（暂不支持行业数据）
-  size_neutral: false                   # 是否市值中性（先关闭以验证基础流程）
+  sector_neutral: true                  # 是否行业中性
+  size_neutral: true                    # 是否市值中性（先关闭以验证基础流程）
 
 monte_carlo:
   noise_levels: [0.001, 0.005, 0.01, 0.02, 0.05]  # 噪声水平列表（相对于因子标准差）
@@ -60,7 +60,11 @@ monte_carlo:
 
 fundamental:
   cache_dir: /home/jinqh/lightGBM_qlib/data/qlib_fundamental_cache  # 基本面数据缓存目录
-  use_akshare: true                       # 使用 Akshare 获取基本面数据（已有完整缓存，后续运行快）
+  use_akshare: true                     # 使用 Akshare 获取基本面数据（已有完整缓存，后续运行快）
+
+run:
+  interpretability: true                # 是否执行模型可解释性分析（SHAP、重要性跟踪）
+  monte_carlo: true                     # 是否执行蒙特卡洛稳健性检验
 
 backtest:
   benchmark: csi300                     # 基准指数

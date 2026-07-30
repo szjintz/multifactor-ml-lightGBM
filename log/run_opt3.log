@@ -1,0 +1,432 @@
+INFO:__main__:============================================================
+INFO:__main__:[主流程] Pipeline开始...
+INFO:__main__:============================================================
+INFO:__main__:[主流程] 配置已加载: 市场=csi300, 开始=2022-01-01, 结束=2026-06-30
+[22910:MainThread](2026-07-30 20:31:33,862) INFO - qlib.Initialization - [config.py:452] - default_conf: client.
+[22910:MainThread](2026-07-30 20:31:34,862) INFO - qlib.Initialization - [__init__.py:75] - qlib successfully initialized based on client settings.
+[22910:MainThread](2026-07-30 20:31:34,863) INFO - qlib.Initialization - [__init__.py:77] - data_path={'__DEFAULT_FREQ': PosixPath('/home/jinqh/.qlib/qlib_data/cn_data')}
+INFO:__main__:[主流程] Qlib初始化完成
+INFO:__main__:[1/8] 从Qlib+Akshare加载数据...
+INFO:data.qlib_provider:[QLIB] Starting data augmentation pipeline...
+INFO:data.qlib_provider:[QLIB] Getting daily data: 9 fields, range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Daily data: 325309 rows, 9 cols, date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB] Getting trade calendar, range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Trade calendar: 1085 trading days, range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB] Fetching fundamental data...
+INFO:data.qlib_provider:[QLIB] Getting all instruments, market=csi300, date range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Retrieved 2 instruments from Qlib
+INFO:data.qlib_provider:[QLIB] Initializing fundamental provider with 421 instruments
+INFO:data.qlib_provider:[QLIB] Getting all instruments, market=csi300, date range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Retrieved 2 instruments from Qlib
+INFO:data.qlib_provider:[QLIB] Fundamental provider initialized: 421 instruments, cache_dir=None
+2026-07-30 20:31:42,821 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Merging data: 1085 trading days, 421 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Merging data: 1085 trading days, 421 instruments
+2026-07-30 20:31:43,050 - data.fundamental_provider - WARNING - [DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+WARNING:data.fundamental_provider:[DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+2026-07-30 20:31:43,050 - data.fundamental_provider - INFO - [DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+INFO:data.fundamental_provider:[DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+2026-07-30 20:31:43,061 - data.fundamental_provider - INFO - [QUARTERLY] Cache hit: 16199 rows, 2016-03-31 00:00:00 to 2026-06-30 00:00:00
+INFO:data.fundamental_provider:[QUARTERLY] Cache hit: 16199 rows, 2016-03-31 00:00:00 to 2026-06-30 00:00:00
+2026-07-30 20:31:43,202 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Instruments in data: 564
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Instruments in data: 564
+2026-07-30 20:31:43,202 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Daily rows: 713204, Quarterly rows: 16199
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Daily rows: 713204, Quarterly rows: 16199
+2026-07-30 20:31:46,098 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Daily data merged: 713204 rows -> 590551 non-NaN outstanding_share values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Daily data merged: 713204 rows -> 590551 non-NaN outstanding_share values
+2026-07-30 20:31:46,098 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Aligning quarterly financial data...
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Aligning quarterly financial data...
+2026-07-30 20:31:52,329 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Shifted quarterly data: 10050 rows, 564 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Shifted quarterly data: 10050 rows, 564 instruments
+2026-07-30 20:31:52,434 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 611226/611940 (99.9%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 611226/611940 (99.9%) non-NaN values
+2026-07-30 20:31:52,531 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 611883/611940 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 611883/611940 (100.0%) non-NaN values
+2026-07-30 20:31:52,631 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 608685/611940 (99.5%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 608685/611940 (99.5%) non-NaN values
+2026-07-30 20:31:52,749 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROA' merged: 611940/611940 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROA' merged: 611940/611940 (100.0%) non-NaN values
+2026-07-30 20:31:52,860 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 611883/611940 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 611883/611940 (100.0%) non-NaN values
+2026-07-30 20:31:52,972 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 529238/611940 (86.5%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 529238/611940 (86.5%) non-NaN values
+2026-07-30 20:31:53,076 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 611940/611940 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 611940/611940 (100.0%) non-NaN values
+2026-07-30 20:31:53,255 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Final combined data: 611940 rows, 564 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Final combined data: 611940 rows, 564 instruments
+INFO:data.qlib_provider:[QLIB] Fundamental data merged: 611940 rows
+INFO:data.qlib_provider:[QLIB] After merge: 325309 rows, 18 cols
+INFO:data.qlib_provider:[QLIB] Computing market cap: outstanding_share * close
+INFO:data.qlib_provider:[QLIB] Market cap computed: 323415/325309 non-NaN (99.4%)
+INFO:data.qlib_provider:[QLIB] Augmented data ready: 325309 rows, 19 cols, date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB] Getting trade calendar, range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Trade calendar: 1085 trading days, range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:__main__:[1/8] 数据加载完成: 325309 行, 19 列
+INFO:__main__:[1/8] 行业分类已加载: 5491 只基准股票, 覆盖 0/325309 行
+INFO:__main__:[2/8] 计算因子...
+INFO:factors.base:[PIPELINE] Registered factor: RET_5 (total: 1)
+INFO:factors.base:[PIPELINE] Registered factor: RET_10 (total: 2)
+INFO:factors.base:[PIPELINE] Registered factor: RET_20 (total: 3)
+INFO:factors.base:[PIPELINE] Registered factor: RET_60 (total: 4)
+INFO:factors.base:[PIPELINE] Registered factor: WMA_5 (total: 5)
+INFO:factors.base:[PIPELINE] Registered factor: WMA_10 (total: 6)
+INFO:factors.base:[PIPELINE] Registered factor: WMA_20 (total: 7)
+INFO:factors.base:[PIPELINE] Registered factor: RS_14 (total: 8)
+INFO:factors.base:[PIPELINE] Registered factor: RS_28 (total: 9)
+INFO:factors.base:[PIPELINE] Registered factor: BIAS_5 (total: 10)
+INFO:factors.base:[PIPELINE] Registered factor: BIAS_10 (total: 11)
+INFO:factors.base:[PIPELINE] Registered factor: MACD (total: 12)
+INFO:factors.base:[PIPELINE] Registered factor: REV_1 (total: 13)
+INFO:factors.base:[PIPELINE] Registered factor: REV_2 (total: 14)
+INFO:factors.base:[PIPELINE] Registered factor: REV_5 (total: 15)
+INFO:factors.base:[PIPELINE] Registered factor: MAXRET_5 (total: 16)
+INFO:factors.base:[PIPELINE] Registered factor: MINRET_5 (total: 17)
+INFO:factors.base:[PIPELINE] Registered factor: MAXRET_10 (total: 18)
+INFO:factors.base:[PIPELINE] Registered factor: MINRET_10 (total: 19)
+INFO:factors.base:[PIPELINE] Registered factor: STD_5 (total: 20)
+INFO:factors.base:[PIPELINE] Registered factor: STD_10 (total: 21)
+INFO:factors.base:[PIPELINE] Registered factor: STD_20 (total: 22)
+INFO:factors.base:[PIPELINE] Registered factor: STD_60 (total: 23)
+INFO:factors.base:[PIPELINE] Registered factor: ATR_5 (total: 24)
+INFO:factors.base:[PIPELINE] Registered factor: ATR_14 (total: 25)
+INFO:factors.base:[PIPELINE] Registered factor: BETA_60 (total: 26)
+INFO:factors.base:[PIPELINE] Registered factor: RVOL_5 (total: 27)
+INFO:factors.base:[PIPELINE] Registered factor: RVOL_20 (total: 28)
+INFO:factors.base:[PIPELINE] Registered factor: VOLR_5 (total: 29)
+INFO:factors.base:[PIPELINE] Registered factor: TURN_5 (total: 30)
+INFO:factors.base:[PIPELINE] Registered factor: VOLR_20 (total: 31)
+INFO:factors.base:[PIPELINE] Registered factor: TURN_20 (total: 32)
+INFO:factors.base:[PIPELINE] Registered factor: VWAP_DEV (total: 33)
+INFO:factors.base:[PIPELINE] Registered factor: PVC_20 (total: 34)
+INFO:factors.alpha_volume:[FACTOR] Registered 34 volume/price factors: ['RET_5', 'RET_10', 'RET_20', 'RET_60', 'WMA_5', 'WMA_10', 'WMA_20', 'RS_14', 'RS_28', 'BIAS_5', 'BIAS_10', 'MACD', 'REV_1', 'REV_2', 'REV_5', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10', 'STD_5', 'STD_10', 'STD_20', 'STD_60', 'ATR_5', 'ATR_14', 'BETA_60', 'RVOL_5', 'RVOL_20', 'VOLR_5', 'TURN_5', 'VOLR_20', 'TURN_20', 'VWAP_DEV', 'PVC_20']
+INFO:factors.base:[PIPELINE] Registered factor: EP (total: 35)
+INFO:factors.base:[PIPELINE] Registered factor: BP (total: 36)
+INFO:factors.base:[PIPELINE] Registered factor: ROE_TTM (total: 37)
+INFO:factors.base:[PIPELINE] Registered factor: ROA (total: 38)
+INFO:factors.base:[PIPELINE] Registered factor: GROSS_MARGIN (total: 39)
+INFO:factors.base:[PIPELINE] Registered factor: DEBT_RATIO (total: 40)
+INFO:factors.base:[PIPELINE] Registered factor: REV_GROW_QoQ (total: 41)
+INFO:factors.base:[PIPELINE] Registered factor: REV_GROW_YoY (total: 42)
+INFO:factors.fundamental:[FACTOR] Registered 8 fundamental factors: ['EP', 'BP', 'ROE_TTM', 'ROA', 'GROSS_MARGIN', 'DEBT_RATIO', 'REV_GROW_QoQ', 'REV_GROW_YoY']
+INFO:factors.base:[PIPELINE] Registered factor: TURN_ANOM_20 (total: 43)
+INFO:factors.base:[PIPELINE] Registered factor: TURN_ANOM_60 (total: 44)
+INFO:factors.base:[PIPELINE] Registered factor: IVOL_60 (total: 45)
+INFO:factors.base:[PIPELINE] Registered factor: ILLIQ_20 (total: 46)
+INFO:factors.base:[PIPELINE] Registered factor: ILLIQ_60 (total: 47)
+INFO:factors.base:[PIPELINE] Registered factor: RSKEW_20 (total: 48)
+INFO:factors.base:[PIPELINE] Registered factor: RKURT_20 (total: 49)
+INFO:factors.base:[PIPELINE] Registered factor: RSKEW_60 (total: 50)
+INFO:factors.base:[PIPELINE] Registered factor: RKURT_60 (total: 51)
+INFO:factors.alternative:[FACTOR] Registered 9 alternative factors: ['TURN_ANOM_20', 'TURN_ANOM_60', 'IVOL_60', 'ILLIQ_20', 'ILLIQ_60', 'RSKEW_20', 'RKURT_20', 'RSKEW_60', 'RKURT_60']
+INFO:factors.base:[PIPELINE] Computing all 51 factors, data shape=(325309, 20)
+INFO:factors.base:[PIPELINE] Factor RET_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RET_10: 325309 rows, 1.2% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RET_20: 325309 rows, 2.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RET_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor WMA_5: 388889 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor WMA_10: 386864 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor WMA_20: 382814 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RS_14: 325309 rows, 1.8% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor RS_28: 325309 rows, 3.5% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor BIAS_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor BIAS_10: 325309 rows, 1.3% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor MACD: 325309 rows, 0.0% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor REV_1: 325309 rows, 0.1% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor REV_2: 325309 rows, 0.3% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor REV_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor MAXRET_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor MINRET_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor MAXRET_10: 325309 rows, 1.2% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor MINRET_10: 325309 rows, 1.2% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor STD_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor STD_10: 325309 rows, 1.2% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor STD_20: 325309 rows, 2.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor STD_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor ATR_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor ATR_14: 325309 rows, 1.9% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor BETA_60: 367019 rows, 0.0% NaN, 0.5s
+INFO:factors.base:[PIPELINE] Factor RVOL_5: 389294 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RVOL_20: 383219 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor VOLR_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor TURN_5: 325309 rows, 0.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor VOLR_20: 325309 rows, 2.7% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor TURN_20: 325309 rows, 2.4% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor VWAP_DEV: 325309 rows, 0.1% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor PVC_20: 319375 rows, 0.0% NaN, 0.6s
+INFO:factors.base:[PIPELINE] Factor EP: 325309 rows, 0.1% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor BP: 325309 rows, 0.1% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor ROE_TTM: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor ROA: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor GROSS_MARGIN: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor DEBT_RATIO: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor REV_GROW_QoQ: 325309 rows, 15.6% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor REV_GROW_YoY: 325309 rows, 15.6% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor TURN_ANOM_20: 325309 rows, 0.0% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor TURN_ANOM_60: 325309 rows, 0.0% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor IVOL_60: 431525 rows, 0.0% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor ILLIQ_20: 325309 rows, 2.5% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor ILLIQ_60: 325309 rows, 7.5% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor RSKEW_20: 325309 rows, 2.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RKURT_20: 325309 rows, 2.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RSKEW_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RKURT_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] All factors computed: 51 factors, 449525 rows, shape=(449525, 51), total 7.3s
+INFO:__main__:[2/8] 因子计算完成: 生成 51 个因子
+INFO:__main__:[3/8] 因子预处理...
+INFO:__main__:[3/8] 市值向前填充 (inst_level=1): 空值 1894 -> 0
+INFO:factors.pipeline:[PREPROCESS] Initializing preprocessing pipeline, config: {'winsorize': '3sigma', 'standardize': 'cross_sectional', 'neutralize': ['market_cap', 'industry'], 'orthogonalize': 'none'}
+INFO:factors.pipeline:[PREPROCESS] Starting preprocessing: 51 factors, 449525 rows
+INFO:factors.pipeline:[PREPROCESS] Step 1/4: Winsorizing, method=3sigma
+INFO:factors.pipeline:[PREPROCESS] Winsorization complete
+INFO:factors.pipeline:[PREPROCESS] Step 2/4: Cross-sectional standardization
+/home/jinqh/.local/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+/home/jinqh/.local/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+INFO:factors.pipeline:[PREPROCESS] Standardization complete: shape=(449525, 51)
+INFO:factors.pipeline:[DEBUG] After standardization: total=22925775, NaN=748220, Inf=0, all-zero=0
+INFO:factors.pipeline:[DEBUG] Valid non-null data count: 22177555
+INFO:factors.pipeline:[PREPROCESS] Step 3/4: Neutralizing, exogenous variables=['market_cap', 'industry']
+INFO:factors.pipeline:[PREPROCESS] market_data available columns: ['open', 'high', 'low', 'close', 'volume', 'amount', 'vwap', 'change', 'factor', 'turnover', 'outstanding_share', 'earnings_per_share', 'book_value_per_share', 'ROE_TTM', 'ROA', 'debt_ratio', 'revenue_growth_yoy', 'gross_margin', 'market_cap', 'industry']
+INFO:factors.pipeline:[PREPROCESS] Neutralization data prepared: ['market_cap', 'industry (one-hot)']
+INFO:factors.pipeline:[PREPROCESS] market_cap non-NaN: 325309/325309
+INFO:factors.pipeline:[PREPROCESS] Neutralization complete
+INFO:factors.pipeline:[PREPROCESS] Step 4/4: Skipped (no orthogonalize config)
+INFO:factors.pipeline:[PREPROCESS] Preprocessing complete: 51 factors, 449525 rows, 3.26% NaN
+INFO:__main__:[3/8] 预处理完成: 剩余 51 个因子
+INFO:__main__:[4/8] 特征选择+构建衍生特征...
+INFO:features.label:[LABEL] Computing labels: close shape=(1085, 421), periods=20, skip=1, denoise=None, relative=False
+INFO:features.label:[LABEL] Computing forward returns: close shape=(1085, 421), periods=20, skip=1
+INFO:features.label:[LABEL] Forward returns computed: shape=(1085, 421), 69.3% non-NaN
+INFO:features.label:[LABEL] Labels computed: shape=(1085, 421), date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:features.selector:[SELECTOR] 开始IC预筛选: 51个因子, min_ic=0.02, min_icir=0.1, p_threshold=0.05
+INFO:features.selector:[SELECTOR] Using level 1 for dates: 1085 unique dates
+INFO:features.selector:[SELECTOR] Filtering over 1085 periods
+WARNING:features.selector:[SELECTOR] RET_5: mean_ic=0.003859, icir=0.0198, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] RET_10: mean_ic=-0.006507, icir=-0.0335, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] RET_20: mean_ic=-0.022402, icir=-0.1155, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] RET_60: mean_ic=-0.017349, icir=-0.0843, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] WMA_5: mean_ic=0.003599, icir=0.0187, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] WMA_10: mean_ic=-0.004393, icir=-0.0228, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] WMA_20: mean_ic=-0.017925, icir=-0.0930, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] RS_14: mean_ic=-0.006600, icir=-0.0359, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] RS_28: mean_ic=-0.030223, icir=-0.1621, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] BIAS_5: mean_ic=0.006478, icir=0.0334, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] BIAS_10: mean_ic=0.002370, icir=0.0122, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] MACD: mean_ic=0.010378, icir=0.0618, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] REV_1: mean_ic=-0.006486, icir=-0.0338, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] REV_2: mean_ic=-0.007699, icir=-0.0402, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] REV_5: mean_ic=-0.003859, icir=-0.0198, valid_dates=1064/1084, total_nan=20
+WARNING:features.selector:[SELECTOR] MAXRET_5: mean_ic=0.031461, icir=0.1776, valid_dates=1064/1084, total_nan=20
+INFO:features.selector:[SELECTOR] IC prefilter complete: 27/51 factors selected, 24 rejected
+INFO:features.selector:[SELECTOR] Selected factors: ['RET_20', 'RS_28', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10', 'STD_5', 'STD_10', 'STD_20', 'STD_60']...
+INFO:__main__:[4/8] 特征选择完成: 选出 27 个特征
+INFO:__main__:[4/8] 因子拥挤监控: 因子收益计算失败，跳过
+INFO:features.transformer:[TRANSFORMER] Building momentum features: 27 factors, windows=[7, 15, 30]
+INFO:features.transformer:[TRANSFORMER] Momentum features created: 189 total columns
+INFO:features.transformer:[TRANSFORMER] Building cross-sectional rank features: 189 factors
+INFO:features.transformer:[TRANSFORMER] Cross-sectional rank features created: 378 total columns
+INFO:features.transformer:[TRANSFORMER] Building reversal features: 378 factors, windows=[3, 5, 10]
+INFO:features.transformer:[TRANSFORMER] Reversal features created: 392 total columns
+INFO:features.transformer:[TRANSFORMER] build_ic_time_series skipped (not a proper training feature, use for analysis only)
+INFO:__main__:[4/8] 特征工程完成: 共 392 个特征
+INFO:__main__:[5/8] 训练模型 (Walk-Forward)...
+INFO:__main__:[5/8] 训练数据: 449104 行, 392 个特征, 1084 个交易日, 范围=2022-01-05 00:00:00 到 2026-06-30 00:00:00
+INFO:model.optimizer:[OPTUNA] OptunaTuner initialized: 20 trials
+INFO:model.trainer:[TRAINER] WalkForwardTrainer initialized: window_months=24, tuner=True
+INFO:model.trainer:[TRAINER] Training started: 392 features, 449104 rows, 1084 dates, market_cap=Yes
+INFO:model.trainer:[TRAINER] After label NaN removal: 316234 rows, 1064 dates
+INFO:model.trainer:[TRAINER] Generated 26 train/test windows, window_size=504, step_size=21
+INFO:model.trainer:[TRAINER] Fold 1: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 1: Running Optuna hyperparameter tuning (20 trials)...
+INFO:model.optimizer:[OPTUNA] Starting hyperparameter tuning: 20 trials, train=6242, val=1720
+INFO:model.optimizer:[OPTUNA] Tuning complete: best_value=0.1362, best_params={'num_leaves': 60, 'min_child_samples': 24, 'learning_rate': 0.03720340260485353, 'reg_alpha': 0.0010440092008578217, 'reg_lambda': 0.03882629129936538, 'bagging_fraction': 0.761692747399854, 'feature_fraction': 0.5462839311139152, 'min_gain_to_split': 0.2083244714124845}
+INFO:model.trainer:[TRAINER] Fold 1: Best params: {'num_leaves': 60, 'min_child_samples': 24, 'learning_rate': 0.03720340260485353, 'reg_alpha': 0.0010440092008578217, 'reg_lambda': 0.03882629129936538, 'bagging_fraction': 0.761692747399854, 'feature_fraction': 0.5462839311139152, 'min_gain_to_split': 0.2083244714124845}, overrides: {'reg_alpha': 0.1, 'reg_lambda': 0.1}
+INFO:model.trainer:[TRAINER] Fold 1/26: Training LightGBM, train=6242, val=1720, test=6295, features=392
+INFO:model.trainer:[TRAINER] Fold 1: Model trained, best_iteration=17, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0029722685417628)})})
+INFO:model.trainer:[TRAINER] Fold 1: Removed 58 low-importance features (<0.1%), 334 remaining
+INFO:model.trainer:[TRAINER] Fold 2: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 2/26: Training LightGBM, train=6243, val=1726, test=6295, features=334
+INFO:model.trainer:[TRAINER] Fold 2: Model trained, best_iteration=11, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.998438276154139)})})
+INFO:model.trainer:[TRAINER] Fold 2: Removed 50 low-importance features (<0.1%), 284 remaining
+INFO:model.trainer:[TRAINER] Fold 3: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 3/26: Training LightGBM, train=6244, val=1731, test=6300, features=284
+INFO:model.trainer:[TRAINER] Fold 3: Model trained, best_iteration=28, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9879329714405666)})})
+INFO:model.trainer:[TRAINER] Fold 3: Removed 42 low-importance features (<0.1%), 242 remaining
+INFO:model.trainer:[TRAINER] Fold 4: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 4/26: Training LightGBM, train=6230, val=1678, test=6192, features=242
+INFO:model.trainer:[TRAINER] Fold 4: Model trained, best_iteration=12, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0151497737531625)})})
+INFO:model.trainer:[TRAINER] Fold 4: Removed 36 low-importance features (<0.1%), 206 remaining
+INFO:model.trainer:[TRAINER] Fold 5: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 5/26: Training LightGBM, train=6230, val=1558, test=6174, features=206
+INFO:model.trainer:[TRAINER] Fold 5: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0089618974868675)})})
+INFO:model.trainer:[TRAINER] Fold 6: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 6/26: Training LightGBM, train=6230, val=1715, test=6270, features=206
+INFO:model.trainer:[TRAINER] Fold 6: Model trained, best_iteration=68, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9876289085348272)})})
+INFO:model.trainer:[TRAINER] Fold 6: Removed 9 low-importance features (<0.1%), 197 remaining
+INFO:model.trainer:[TRAINER] Fold 7: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 7/26: Training LightGBM, train=6258, val=1782, test=6228, features=197
+INFO:model.trainer:[TRAINER] Fold 7: Model trained, best_iteration=26, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.975477393439364)})})
+INFO:model.trainer:[TRAINER] Fold 7: Removed 29 low-importance features (<0.1%), 168 remaining
+INFO:model.trainer:[TRAINER] Fold 8: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 8/26: Training LightGBM, train=6259, val=1535, test=6264, features=168
+INFO:model.trainer:[TRAINER] Fold 8: Model trained, best_iteration=9, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9934875453381724)})})
+INFO:model.trainer:[TRAINER] Fold 8: Removed 25 low-importance features (<0.1%), 143 remaining
+INFO:model.trainer:[TRAINER] Fold 9: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 9/26: Training LightGBM, train=6260, val=1565, test=6300, features=143
+INFO:model.trainer:[TRAINER] Fold 9: Model trained, best_iteration=7, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0310587612929285)})})
+INFO:model.trainer:[TRAINER] Fold 10: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 10/26: Training LightGBM, train=6247, val=1709, test=6127, features=143
+INFO:model.trainer:[TRAINER] Fold 10: Model trained, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0066134914445033)})})
+INFO:model.trainer:[TRAINER] Fold 11: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 11/26: Training LightGBM, train=6247, val=1765, test=6126, features=143
+INFO:model.trainer:[TRAINER] Fold 11: Model trained, best_iteration=6, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9944033633003412)})})
+INFO:model.trainer:[TRAINER] Fold 12: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 12/26: Training LightGBM, train=6244, val=1597, test=6258, features=143
+INFO:model.trainer:[TRAINER] Fold 12: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0048569154564018)})})
+INFO:model.trainer:[TRAINER] Fold 13: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 13/26: Training LightGBM, train=6254, val=1583, test=6250, features=143
+INFO:model.trainer:[TRAINER] Fold 13: Model trained, best_iteration=10, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.01216169241285)})})
+INFO:model.trainer:[TRAINER] Fold 13: Removed 21 low-importance features (<0.1%), 122 remaining
+INFO:model.trainer:[TRAINER] Fold 14: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 14/26: Training LightGBM, train=6253, val=1600, test=6273, features=122
+INFO:model.trainer:[TRAINER] Fold 14: Model trained, best_iteration=19, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9904736736540872)})})
+INFO:model.trainer:[TRAINER] Fold 14: Removed 9 low-importance features (<0.1%), 113 remaining
+INFO:model.trainer:[TRAINER] Fold 15: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 15/26: Training LightGBM, train=6254, val=1621, test=6255, features=113
+INFO:model.trainer:[TRAINER] Fold 15: Model trained, best_iteration=9, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0391091260625278)})})
+INFO:model.trainer:[TRAINER] Fold 16: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 16/26: Training LightGBM, train=6239, val=1712, test=6132, features=113
+INFO:model.trainer:[TRAINER] Fold 16: Model trained, best_iteration=17, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9962805623484795)})})
+INFO:model.trainer:[TRAINER] Fold 16: Removed 4 low-importance features (<0.1%), 109 remaining
+INFO:model.trainer:[TRAINER] Fold 17: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 17/26: Training LightGBM, train=6240, val=1743, test=6278, features=109
+INFO:model.trainer:[TRAINER] Fold 17: Model trained, best_iteration=3, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0026026395724088)})})
+INFO:model.trainer:[TRAINER] Fold 18: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 18/26: Training LightGBM, train=6244, val=1756, test=6259, features=109
+INFO:model.trainer:[TRAINER] Fold 18: Model trained, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.006135726792203)})})
+INFO:model.trainer:[TRAINER] Fold 19: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 19/26: Training LightGBM, train=6252, val=1741, test=6273, features=109
+INFO:model.trainer:[TRAINER] Fold 19: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.009273100247911)})})
+INFO:model.trainer:[TRAINER] Fold 20: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 20/26: Training LightGBM, train=6238, val=1731, test=6267, features=109
+INFO:model.trainer:[TRAINER] Fold 20: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0076668364359813)})})
+INFO:model.trainer:[TRAINER] Fold 21: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 21/26: Training LightGBM, train=6236, val=1699, test=6231, features=109
+INFO:model.trainer:[TRAINER] Fold 21: Model trained, best_iteration=3, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0160255188151037)})})
+INFO:model.trainer:[TRAINER] Fold 22: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 22/26: Training LightGBM, train=6244, val=1618, test=6024, features=109
+INFO:model.trainer:[TRAINER] Fold 22: Model trained, best_iteration=6, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9839975867159523)})})
+INFO:model.trainer:[TRAINER] Fold 23: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 23/26: Training LightGBM, train=6229, val=1501, test=6276, features=109
+INFO:model.trainer:[TRAINER] Fold 23: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.018894647606901)})})
+INFO:model.trainer:[TRAINER] Fold 24: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 24/26: Training LightGBM, train=6258, val=1530, test=6282, features=109
+INFO:model.trainer:[TRAINER] Fold 24: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.063187541941825)})})
+INFO:model.trainer:[TRAINER] Fold 25: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 25/26: Training LightGBM, train=6240, val=1529, test=6290, features=109
+INFO:model.trainer:[TRAINER] Fold 25: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(1.0024290834790888)})})
+INFO:model.trainer:[TRAINER] Fold 26: Non-overlapping sampling (period=20d), train_dates=21, val_dates=6)
+INFO:model.trainer:[TRAINER] Fold 26/26: Training LightGBM, train=6237, val=1490, test=6290, features=109
+INFO:model.trainer:[TRAINER] Fold 26: Model trained, best_iteration=4, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9910664335289537)})})
+INFO:model.trainer:[TRAINER] Training complete: 26 models, 162209 predictions
+INFO:__main__:[5/8] 训练完成: 162209 个预测
+INFO:__main__:[6/8] 回测...
+INFO:__main__:[6/8] CSI300 基准已加载: 1085 个交易日, 总收益率=7.7103%
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=0.5, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=30, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 28 rebalance periods, 162209 predictions, holding_period=20, use_optimizer=True
+INFO:backtest.engine:[BACKTEST] Backtest complete: 28 rebalances, total_return=0.8805, ann_periods_per_year=12.60, sharpe=1.0490, max_drawdown=-0.1774
+INFO:backtest.metrics:[METRICS] MetricsReport initialized: 28 periods (hp=20), 162209 predictions
+INFO:backtest.metrics:[METRICS] Computing performance metrics...
+INFO:backtest.metrics:[METRICS] Performance metrics computed:
+INFO:backtest.metrics:  annualized_return: 0.3287
+INFO:backtest.metrics:  benchmark_return: 0.2141
+INFO:backtest.metrics:  excess_return: 0.1146
+INFO:backtest.metrics:  annualized_vol: 0.3138
+INFO:backtest.metrics:  sharpe_ratio: 0.9693
+INFO:backtest.metrics:  calmar_ratio: 1.8525
+INFO:backtest.metrics:  max_drawdown: -0.1774
+INFO:backtest.metrics:  annual_turnover: 1.4057
+INFO:backtest.metrics:  ic_mean: 0.0461
+INFO:backtest.metrics:  ic_std: 0.1539
+INFO:backtest.metrics:  ir: 0.2997
+INFO:backtest.metrics:  hit_rate: 0.6466
+INFO:__main__:
+=== 绩效指标 ===
+INFO:__main__:  annualized_return: 0.3287
+INFO:__main__:  benchmark_return: 0.2141
+INFO:__main__:  excess_return: 0.1146
+INFO:__main__:  annualized_vol: 0.3138
+INFO:__main__:  sharpe_ratio: 0.9693
+INFO:__main__:  calmar_ratio: 1.8525
+INFO:__main__:  max_drawdown: -0.1774
+INFO:__main__:  annual_turnover: 1.4057
+INFO:__main__:  ic_mean: 0.0461
+INFO:__main__:  ic_std: 0.1539
+INFO:__main__:  ir: 0.2997
+INFO:__main__:  hit_rate: 0.6466
+INFO:__main__:[7/8] 模型可解释性分析已跳过 (config.run.interpretability=false)
+INFO:__main__:[8/8] 蒙特卡洛模拟已跳过 (config.run.monte_carlo=false)
+INFO:__main__:
+=== Pipeline完成! ===
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[14]	valid_0's l2: 1.00067
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[58]	valid_0's l2: 0.995858
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[33]	valid_0's l2: 0.999253
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[36]	valid_0's l2: 1.00211
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[7]	valid_0's l2: 0.998605
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[43]	valid_0's l2: 1.00324
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[9]	valid_0's l2: 1.00286
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[39]	valid_0's l2: 1.00249
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[32]	valid_0's l2: 1.0032
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[14]	valid_0's l2: 0.996984
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[21]	valid_0's l2: 0.999453
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[8]	valid_0's l2: 1.00298
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[67]	valid_0's l2: 0.995101
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[24]	valid_0's l2: 0.996893
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[27]	valid_0's l2: 0.99697
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[19]	valid_0's l2: 1.00093
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[40]	valid_0's l2: 1.00104
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[21]	valid_0's l2: 0.99963
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[16]	valid_0's l2: 0.997833
+Training until validation scores don't improve for 50 rounds
+Early stopping, best iteration is:
+[16]	valid_0's l2: 1.00542
+Reports saved to results/

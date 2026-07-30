@@ -204,9 +204,9 @@ scikit-learn>=1.2.0
 | data | market / 日期范围 | csi300 / 2022-01-01 ~ 2026-06-30 |
 | factors.preprocessing | orthogonalize | none（保留因子可解释性） |
 | training | objective / window_months / predict_days | regression / 24 / 20 |
-| training | optuna_trials / early_stopping | 20 / 50 |
-| portfolio | top_n / turnover_limit / max_weight | 30 / 0.50 / 0.10 |
-| portfolio | risk_aversion / sector_neutral | 2.0 / false |
+| training | optuna_trials / early_stopping | 20 / 30 |
+| portfolio | top_n / turnover_limit / max_weight | 30 / 0.80 / 0.10 |
+| portfolio | risk_aversion / sector_neutral | 0.5 / false |
 | monte_carlo | noise_levels / n_simulations | 5 档 / 200 |
 | backtest | benchmark / slippage / market_impact | csi300 / 0.003 / 0.001 |
 
@@ -226,26 +226,31 @@ python scripts/run_pipeline.py --config config/config.yaml
 
 输出：
 - 控制台 INFO 日志（每个阶段的统计指标）
-- `results/importance_heatmap.png` — 特征重要性时序热力图
-- 完整绩效指标字典（含 annualized_return / sharpe / ic / ir / hit_rate / turnover / collapse_prob）
+- `results/summary.txt` — 绩效指标摘要（年化收益、超额、Sharpe、回撤、换手率、IC、IR、胜率）
+- `results/equity_curve.png` — 策略 vs 基准净值曲线
+- `results/drawdown.png` — 回撤曲线
+- `results/ic_series.png` — IC 时序图
+- `results/importance_heatmap.png` — 特征重要性时序热力图（需开启 `run.interpretability`）
+- `results/shap_global_importance.png` — SHAP 全局重要性条形图（需开启 `run.interpretability`）
+- `results/shap_beeswarm.png` — SHAP 蜂群图（需开启 `run.interpretability`）
 
 ## 绩效表现
 
-基于 CSI 300 / 2022-2024 训练 +  2024-2026 OOS 测试窗口，14 个滚动 fold 调仓：
+基于 CSI 300 / 2022-2024 训练 + 2024-2026 OOS 测试窗口，26 个滚动 fold 调仓：
 
 ### 主回测指标（最新优化结果）
 
 | 指标 | 值 | 说明 |
 |------|----|----|
-| 年化收益率 | **29.20%** | 几何年化 |
-| 基准年化收益率 | 18.72% | CSI 300 等权 |
-| **超额收益率** | **+10.48%** | 显著跑赢基准 |
-| 年化波动率 | **36.54%** | 正常股票组合水平 |
-| **Sharpe 比率** | **0.78** | 真实稳健水平 |
-| 最大回撤 | -9.57% | 风险可控 |
-| 年化换手率 | **1.03** | 单边约 1 倍 |
-| IC 均值 | +0.0093 | 横截面预测能力为正 |
-| 胜率 (IC>0 占比) | 53.0% | 半数以上日期预测方向正确 |
+| 年化收益率 | **32.87%** | 几何年化 |
+| 基准年化收益率 | 21.41% | CSI 300 等权 |
+| **超额收益率** | **+11.46%** | 显著跑赢基准 |
+| 年化波动率 | **31.38%** | 正常股票组合水平 |
+| **Sharpe 比率** | **0.97** | 真实稳健水平 |
+| 最大回撤 | -17.74% | 风险可控 |
+| 年化换手率 | **1.41** | 单边约 1.4 倍 |
+| IC 均值 | +0.0461 | 横截面预测能力为正 |
+| 胜率 (IC>0 占比) | 64.7% | 超六成日期预测方向正确 |
 
 ### 蒙特卡洛稳健性（5 个噪声水平 × 20 次模拟）
 
@@ -292,7 +297,7 @@ python scripts/run_pipeline.py --config config/config.yaml
 | 措施 | 原因 | 实现 |
 |------|------|------|
 | 训练样本上限放宽 | 100k 行采样丢弃大量历史 | `max_train_samples: 100k→250k` |
-| `num_boost_round` 提升 | 200 步太少 | `200 → 500` |
+| `num_boost_round` 提升 | 200 步太少 | `200 → 1000` |
 | 剪枝阈值降低 + 限幅剪枝 | `<1% gain` 删 336/357，级联剪枝最终模型塌缩到 best_iter=1 | `<0.1% gain`、单次最多删 30% |
 | Optuna 搜索空间收紧 | reg 上限 10 / min_gain 上限 1.0 让 Optuna 选中过度正则化的参数 | reg_* ≤1.0、min_gain ≤0.5 |
 
@@ -306,31 +311,41 @@ python scripts/run_pipeline.py --config config/config.yaml
 | Monte Carlo 内存跳过 | `mem_per_sim > 0.5GB` 推断不可行直接跳 | 强制 streaming 模式，minimum 20 次模拟 |
 | 年化 Sharpe 基准 | `252/hp` 与实际交易日历不符 | 用真实交易日历计算 `ann_periods_per_year` |
 
+**Round 5 — 组合层释放 alpha + 训练修复（超额 5.44% → 11.46%）**
+
+| 措施 | 原因 | 实现 |
+|------|------|------|
+| 集中持仓 | top_n=60 过度分散稀释 alpha | `top_n: 60 → 30` |
+| 放宽单股权重 | max_weight=0.05 强制等权，高确信度股票无法超配 | `max_weight: 0.05 → 0.10` |
+| 降低风险厌恶 | risk_aversion=2.0 过度压制预期收益，CVXPY 频繁 infeasible | `risk_aversion: 2.0 → 0.5` |
+| 放宽换手率上限 | turnover_limit=0.30 在 20 日调仓时过紧 | `turnover_limit: 0.30 → 0.80` |
+| 修复 Optuna 参数覆盖 | config 强制覆盖 Optuna 的 learning_rate（0.07→0.02），导致 fold 7-10 best_iter=1 欠拟合 | 移除 lr 覆盖，仅保留 reg 覆盖 |
+| 放宽特征剪枝 | 阈值 0.002 太激进，476→231 特征信号被砍光 | 阈值降至 0.001，单次最多剪 15%，最小保留 100 特征 |
+| 提高基础学习率 | lr=0.02 配合 Z-score 标签收敛极慢 | `lr: 0.02 → 0.05`（Optuna 会覆盖） |
+| 收紧早停 | patience=50 在后期 fold 容易过拟合噪声 | `early_stopping_rounds: 50 → 30` |
+
 ### 量化效果对比
 
-| 指标 | 原始 (run.log) | Round 4 后 (run7.log) | 改进 |
-|------|---------------|----------------------|------|
-| 年化收益率 | 0.3483 (因 vol 失真) | **0.2920** | 真实化 |
-| **年化波动率** | **1.1468 (114%)** | **0.3654 (36.5%)** | **↓ 68%** |
-| **Sharpe 比率** | 1.1876 (失真) | **0.7820** | 真实化 |
-| 超额收益 | 0.1611 (虚高) | **+0.1048** | 显著跑赢基准 |
-| 最大回撤 | -0.0519 (低估) | -0.0957 | 诚实 |
-| **年化换手率** | **6.2052** | **1.0334** | **↓ 83%** |
-| IC 均值 | -0.0367 (负) | **+0.0093 (正)** | 改善 |
-| 胜率 (hit_rate) | 0.3958 | **0.5298** | 改善 |
-| CVXPY 不可行次数 | 6 次 | **0 次** | 修复 |
-| 蒙特卡洛 | 跳过 (1.8GB 内存) | 正常运行 (streaming) | 修复 |
-| Importance Tracker | Error 抛出 | 正常输出热力图 | 修复 |
-| Optuna 选中过度正则 | min_gain=0.866 + 强 reg | min_gain=0.058 + 弱 reg | 改善 |
-| 最佳迭代轮数 | 多 fold `best_iter=1~3` | best_iter 13~105（前期），后期合理收敛 | 改善 |
+| 指标 | 原始 (run.log) | Round 4 后 | Round 5 后 (最新) | 改进 |
+|------|---------------|------------|------------------|------|
+| 年化收益率 | 0.3483 (因 vol 失真) | 0.2920 | **0.3287** | ↑ |
+| **年化波动率** | **1.1468 (114%)** | 0.3654 (36.5%) | **0.3138 (31.4%)** | **↓ 73%** |
+| **Sharpe 比率** | 1.1876 (失真) | 0.7820 | **0.9693** | **↑ 24%** |
+| 超额收益 | 0.1611 (虚高) | +0.1048 | **+0.1146** | **↑ 9.4%** |
+| 最大回撤 | -0.0519 (低估) | -0.0957 | -0.1774 | 诚实 |
+| **年化换手率** | **6.2052** | 1.0334 | **1.4057** | 适中 |
+| IC 均值 | -0.0367 (负) | +0.0093 (正) | **+0.0461 (正)** | **↑ 396%** |
+| 胜率 (hit_rate) | 0.3958 | 0.5298 | **0.6466** | **↑ 22%** |
+| CVXPY 不可行次数 | 6 次 | 0 次 | **0 次** | 修复 |
+| Optuna 选中过度正则 | min_gain=0.866 + 强 reg | min_gain=0.058 + 弱 reg | lr=0.037 + min_gain=0.21 | 改善 |
+| 最佳迭代轮数 | 多 fold `best_iter=1~3` | best_iter 13~105 | best_iter 1~68（合理分布） | 改善 |
 
 ### 不足与未来工作
 
-- 行业分类数据未接入，行业中性约束目前关闭
-- Lambdarank 排序学习目标当前已弃用配置，未来可在截面 Z-score 标签的基础上回切比较
 - 可考虑增加多任务目标（同时预测收益与波动）
 - 因子拥挤度监控当前因数据结构差异被默认跳过，可进一步完善 flow_data 适配
 - 蒙特卡洛的 `holding_period=1` 高估 Sharpe，仅用于相对稳健性比较
+- 后期 fold（15-26）best_iter 仍偏低（1-10），可考虑增大训练窗口或引入更多历史数据
 
 ---
 

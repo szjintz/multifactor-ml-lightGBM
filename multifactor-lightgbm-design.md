@@ -328,17 +328,18 @@ training:
   window_months: 24
   predict_days: 20
   rolling_step: monthly
-  objective: lambdarank
+  objective: regression
   early_stopping_rounds: 30
-  optuna_trials: 50
+  num_boost_round: 1000
+  optuna_trials: 20
 
 portfolio:
-  top_n: 50
-  turnover_limit: 0.30
-  risk_aversion: 1.0
-  max_weight: 0.05
-  sector_neutral: true
-  size_neutral: true
+  top_n: 30
+  turnover_limit: 0.80
+  risk_aversion: 0.5
+  max_weight: 0.10
+  sector_neutral: false
+  size_neutral: false
 
 monte_carlo:
   noise_levels: [0.001, 0.005, 0.01, 0.02, 0.05]

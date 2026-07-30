@@ -88,22 +88,42 @@ class BacktestEngine:
             return set()
 
     def _get_covariance(self, prices: pd.DataFrame, date, stock_names):
+        """
+        估计目标日期 date 时，指定股票池 stock_names 的协方差矩阵。
+
+        采用 EWMA（指数加权移动平均）估计日收益率协方差，再结合
+        shrinkage（收缩估计）和 Ridge 正则化，确保矩阵对称正定，
+        使后续凸优化求解器（如 ECOS/OSQP）能够稳定求解。
+
+        Returns:
+            ndarray, shape (n_stocks, n_stocks), 按 stock_names 顺序排列
+        """
         n_stocks = len(stock_names)
+
+        # ── 1. 获取历史日收益率序列 ──
+        # 前向填充价格缺失值 → 计算日收益率 → 截取到目标日期
         hist = prices.ffill().pct_change(fill_method=None).loc[:date]
         if len(hist) < self.lookback + 1:
+            # 历史不足 lookback 天时，用全部可用数据
             daily_ret = hist.iloc[1:]
         else:
+            # 只保留最近 lookback 个交易日
             daily_ret = hist.iloc[-self.lookback:]
+
+        # ── 2. 最小数据量保护 ──
+        # 至少需要 2 个交易日才能有意义地估计协方差
         if len(daily_ret) < 2:
             logger.debug(f"[BACKTEST] Insufficient history for covariance, using identity matrix")
             return np.eye(n_stocks) * 0.01
 
+        # ── 3. 求交：只保留 stock_names 中在 price 表里存在的股票 ──
         common = daily_ret.columns.intersection(pd.Index(stock_names))
         if len(common) < 2:
             logger.debug(f"[BACKTEST] Insufficient common stocks for covariance, using identity matrix")
             return np.eye(n_stocks) * 0.01
 
-        # 过滤 NaN > 30% 的股票，避免 fillna(0) 扭曲估计
+        # ── 4. 剔除缺失率 > 30% 的股票 ──
+        # 缺失过多的股票如果用 fillna(0) 填充会严重扭曲协方差估计
         nan_ratio = daily_ret[common].isna().mean(axis=0)
         valid = nan_ratio[nan_ratio <= 0.30].index
         if len(valid) < 2:
@@ -112,29 +132,40 @@ class BacktestEngine:
         if len(valid) < len(common):
             logger.debug(f"[BACKTEST] Excluded {len(common)-len(valid)} stocks with >30% NaN returns")
 
+        # ── 5. EWMA 权重计算 ──
+        # 使用半衰期 half_life = 60 天的指数衰减权重
+        # 越近的交易日权重越大，更及时地反映当前波动特征
         n = len(daily_ret)
         half_life = 60
-        lam = np.exp(-np.log(2) / half_life)
-        w = np.array([lam ** (n - 1 - i) for i in range(n)])
-        w = w / w.sum()
+        lam = np.exp(-np.log(2) / half_life)       # 衰减因子 ≈ 0.9885
+        w = np.array([lam ** (n - 1 - i) for i in range(n)])  # 最近一天权重最高
+        w = w / w.sum()                              # 归一化
 
-        rets = daily_ret[valid].fillna(0).values
-        mean_ret = (rets.T @ w)
-        centered = rets - mean_ret
-        weighted_cov = (centered * w[:, None]).T @ centered
+        # ── 6. 计算加权协方差矩阵 ──
+        rets = daily_ret[valid].fillna(0).values      # 缺失值用 0 填充（经上一步过滤后已很少）
+        mean_ret = (rets.T @ w)                       # EWMA 加权均值（向量）
+        centered = rets - mean_ret                     # 去均值
+        weighted_cov = (centered * w[:, None]).T @ centered  # 加权协方差
 
+        # ── 7. Shrinkage（收缩估计） ──
+        # 将样本协方差向单位矩阵（乘以平均方差）收缩，降低极端采样误差
         n_features = len(valid)
         sample_cov = weighted_cov
-        prior = np.trace(sample_cov) / n_features * np.eye(n_features)
+        prior = np.trace(sample_cov) / n_features * np.eye(n_features)  # 先验：对角均匀矩阵
+        # 收缩强度：特征数越多/样本越少 → 收缩越多（防止过拟合）
         shrinkage = max(0, min(1, (n_features + 1) / (n + 1)))
         shrunk_cov = shrinkage * prior + (1 - shrinkage) * sample_cov
 
-        # Ridge 正则化：保证严格正定，ECOS 可稳定求解
+        # ── 8. Ridge 正则化 ──
+        # 在对角线加上一个正数，保证矩阵严格正定，ECOS 等求解器才能稳定求解
         ridge = self.cov_ridge * np.trace(shrunk_cov) / n_features * np.eye(n_features)
         shrunk_cov += ridge
 
+        # ── 9. 映射回原始股票顺序（stock_names） ──
+        # 不在 valid 中的股票协方差置为 0（即不参与优化器中的风险估计）
         cov = pd.DataFrame(shrunk_cov, index=valid, columns=valid)
         result = cov.reindex(index=stock_names, columns=stock_names).fillna(0).values
+
         logger.debug(f"[BACKTEST] Covariance (EWMA, hl={half_life}d, ridge={self.cov_ridge}) computed for {len(valid)}/{n_stocks} stocks, lookback={len(daily_ret)}d")
         return result
 

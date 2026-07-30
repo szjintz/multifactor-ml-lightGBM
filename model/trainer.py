@@ -201,6 +201,24 @@ class WalkForwardTrainer:
                 except Exception as e:
                     logger.debug(f"[TRAINER] Fold {fold_idx+1}: Market-cap stratification failed: {e}")
 
+            # 非重叠采样：消除标签重叠（相邻日期标签共享 predict_days-1 天收益）
+            label_period = cfg.get("predict_days", 5)
+            if label_period > 1:
+                train_fit_dates = sorted(X_train_fit.index.get_level_values(1).unique())
+                train_fit_dates_sampled = train_fit_dates[::label_period]
+                if len(train_fit_dates_sampled) >= 5:
+                    train_fit_mask = X_train_fit.index.get_level_values(1).isin(train_fit_dates_sampled)
+                    X_train_fit = X_train_fit.loc[train_fit_mask]
+                    y_train_fit = y_train_fit.loc[train_fit_mask]
+                    val_dates = sorted(X_val.index.get_level_values(1).unique())
+                    val_dates_sampled = val_dates[::label_period]
+                    if len(val_dates_sampled) >= 3:
+                        val_mask = X_val.index.get_level_values(1).isin(val_dates_sampled)
+                        X_val = X_val.loc[val_mask]
+                        y_val = y_val.loc[val_mask]
+                    logger.info(f"[TRAINER] Fold {fold_idx+1}: Non-overlapping sampling (period={label_period}d), "
+                               f"train_dates={len(train_fit_dates_sampled)}, val_dates={len(val_dates_sampled)})")
+
             # 内存优化：仅当数据量极大时采样（保留最近的样本以保证时序一致性）
             max_train_samples = 250000
             if len(X_train_fit) > max_train_samples:
@@ -234,15 +252,15 @@ class WalkForwardTrainer:
                 # 调用 OptunaTuner 进行超参数搜索
                 tuned = self.tuner.tune(X_sample, y_sample, X_val.values, y_val.values)
                 lgb_params = {**lgb_params, **tuned}  # 将调优后的参数合并到基础参数
-                # 以下参数始终使用配置值覆盖 Optuna 结果（Optuna 在短训练下倾向保守参数，
-                # 但主训练使用更多轮次，需要允许树分裂）
-                override_params = ["min_gain_to_split", "learning_rate", "reg_alpha", "reg_lambda"]
+                # 仅覆盖正则化参数（防止 Optuna 在小样本上找到过拟合参数）
+                # learning_rate 保留 Optuna 调优结果（0.02 太慢导致 fold 7-10 欠拟合）
+                override_params = ["reg_alpha", "reg_lambda"]
                 for p in override_params:
                     config_val = cfg.get("lgb_params", {}).get(p)
                     if config_val is not None:
                         lgb_params[p] = config_val
                 applied = {p: lgb_params[p] for p in override_params if cfg.get("lgb_params", {}).get(p) is not None}
-                logger.info(f"[TRAINER] Fold {fold_idx+1}: Best params: {tuned}, overrides applied: {applied}")
+                logger.info(f"[TRAINER] Fold {fold_idx+1}: Best params: {tuned}, overrides: {applied}")
 
             is_ranking = cfg.get("objective", "regression") == "lambdarank"
             params = {
@@ -301,17 +319,17 @@ class WalkForwardTrainer:
             import gc
             gc.collect()
 
-            # 找出低重要性特征
-            low_imp = list(feature_imp[feature_imp < 0.002].index)
+            # 找出低重要性特征（降低阈值避免过度剪枝）
+            low_imp = list(feature_imp[feature_imp < 0.001].index)
 
-            min_keep = 80
+            min_keep = 100
             if low_imp and len(active_features) - len(low_imp) >= min_keep:
-                max_remove = max(1, int(0.10 * len(active_features)))
+                max_remove = max(1, int(0.15 * len(active_features)))
                 removed_count = min(len(low_imp), max_remove)
                 low_imp_to_remove = list(feature_imp.nsmallest(removed_count).index)
                 removed = len(low_imp_to_remove)
                 active_features = [f for f in active_features if f not in low_imp_to_remove]
-                logger.info(f"[TRAINER] Fold {fold_idx+1}: Removed {removed} low-importance features (<0.2%), {len(active_features)} remaining")
+                logger.info(f"[TRAINER] Fold {fold_idx+1}: Removed {removed} low-importance features (<0.1%), {len(active_features)} remaining")
 
         # 合并所有预测结果
         if all_predictions:
