@@ -119,12 +119,15 @@ class CVXPYOptimizer:
 
         # 求解优化问题
         problem = cp.Problem(objective, constraints_list)
-        # 尝试 ECOS，如失败回退到 SCS（更鲁棒但精度略低）
+        # SCS 对大问题更鲁棒，优先使用；ECOS 作为后备
         try:
-            problem.solve(solver=cp.ECOS, verbose=False, max_iters=200)
-        except Exception:
-            logger.warning(f"[OPTIMIZER] ECOS solver failed, falling back to SCS")
             problem.solve(solver=cp.SCS, verbose=False, max_iters=5000)
+        except Exception:
+            logger.warning(f"[OPTIMIZER] SCS solver failed, falling back to ECOS")
+            try:
+                problem.solve(solver=cp.ECOS, verbose=False, max_iters=200)
+            except Exception:
+                problem.status = "failure"
 
         if w.value is not None and problem.status in ("optimal", "optimal_inaccurate"):
             # 清理数值噪声并裁剪到合规范围
