@@ -47,6 +47,7 @@ class BacktestEngine:
         self.holding_period = training_cfg.get("predict_days", 1)  # 持有期（与标签周期一致）
         self.optimizer = CVXPYOptimizer(config.get("portfolio", {}))
         self.lookback = 120  # 协方差矩阵估计的回望期（6个月，约120个交易日）
+        self.cov_ridge = config.get("portfolio", {}).get("cov_ridge", 0.01)  # 协方差 ridge 正则化强度
         self.LIMIT_THRESHOLD = 0.099  # 涨跌停阈值（9.9%，留0.1%安全边际）
         logger.info(f"[BACKTEST] BacktestEngine initialized: slippage={self.slippage}, market_impact={self.market_impact}, top_n={config.get('portfolio', {}).get('top_n', 50)}, holding_period={self.holding_period}, limit_threshold={self.LIMIT_THRESHOLD}")
 
@@ -102,26 +103,39 @@ class BacktestEngine:
             logger.debug(f"[BACKTEST] Insufficient common stocks for covariance, using identity matrix")
             return np.eye(n_stocks) * 0.01
 
+        # 过滤 NaN > 30% 的股票，避免 fillna(0) 扭曲估计
+        nan_ratio = daily_ret[common].isna().mean(axis=0)
+        valid = nan_ratio[nan_ratio <= 0.30].index
+        if len(valid) < 2:
+            logger.debug(f"[BACKTEST] Too few stocks with sufficient data, using identity matrix")
+            return np.eye(n_stocks) * 0.01
+        if len(valid) < len(common):
+            logger.debug(f"[BACKTEST] Excluded {len(common)-len(valid)} stocks with >30% NaN returns")
+
         n = len(daily_ret)
         half_life = 60
         lam = np.exp(-np.log(2) / half_life)
         w = np.array([lam ** (n - 1 - i) for i in range(n)])
         w = w / w.sum()
 
-        rets = daily_ret[common].fillna(0).values
+        rets = daily_ret[valid].fillna(0).values
         mean_ret = (rets.T @ w)
         centered = rets - mean_ret
         weighted_cov = (centered * w[:, None]).T @ centered
 
-        n_features = len(common)
+        n_features = len(valid)
         sample_cov = weighted_cov
         prior = np.trace(sample_cov) / n_features * np.eye(n_features)
         shrinkage = max(0, min(1, (n_features + 1) / (n + 1)))
         shrunk_cov = shrinkage * prior + (1 - shrinkage) * sample_cov
 
-        cov = pd.DataFrame(shrunk_cov, index=common, columns=common)
+        # Ridge 正则化：保证严格正定，ECOS 可稳定求解
+        ridge = self.cov_ridge * np.trace(shrunk_cov) / n_features * np.eye(n_features)
+        shrunk_cov += ridge
+
+        cov = pd.DataFrame(shrunk_cov, index=valid, columns=valid)
         result = cov.reindex(index=stock_names, columns=stock_names).fillna(0).values
-        logger.debug(f"[BACKTEST] Covariance (EWMA, hl={half_life}d) computed for {len(common)}/{n_stocks} stocks, lookback={len(daily_ret)}d")
+        logger.debug(f"[BACKTEST] Covariance (EWMA, hl={half_life}d, ridge={self.cov_ridge}) computed for {len(valid)}/{n_stocks} stocks, lookback={len(daily_ret)}d")
         return result
 
     def run(self, predictions: pd.Series, prices: pd.DataFrame,

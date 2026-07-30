@@ -47,8 +47,9 @@ portfolio:
   weight_method: mean_variance          # 均值-方差优化（引入协方差风险控制，压制波动）
   top_n: 60                             # 持仓增至60只，增强分散化降低波动
   turnover_limit: 0.30                  # 收紧换手率，降低交易成本
-  risk_aversion: 3.0                    # 强风险厌恶（主动压制组合波动率）
+  risk_aversion: 2.0                    # 适中风险厌恶（降低以释放alpha，同时 ridge 保证稳定性）
   max_weight: 0.05                      # 单股权重减半，强制分散
+  cov_ridge: 0.01                       # 协方差 ridge 正则化强度（保证正定，ECOS 可解）
   sector_neutral: false                 # 是否行业中性（暂不支持行业数据）
   size_neutral: false                   # 是否市值中性（先关闭以验证基础流程）
 
