@@ -1,0 +1,1817 @@
+INFO:__main__:============================================================
+INFO:__main__:[主流程] Pipeline开始...
+INFO:__main__:============================================================
+INFO:__main__:[主流程] 配置已加载: 市场=csi300, 开始=2022-01-01, 结束=2026-06-30
+[70325:MainThread](2026-07-30 14:39:33,241) INFO - qlib.Initialization - [config.py:452] - default_conf: client.
+[70325:MainThread](2026-07-30 14:39:34,241) INFO - qlib.Initialization - [__init__.py:75] - qlib successfully initialized based on client settings.
+[70325:MainThread](2026-07-30 14:39:34,242) INFO - qlib.Initialization - [__init__.py:77] - data_path={'__DEFAULT_FREQ': PosixPath('/home/jinqh/.qlib/qlib_data/cn_data')}
+INFO:__main__:[主流程] Qlib初始化完成
+INFO:__main__:[1/8] 从Qlib+Akshare加载数据...
+INFO:data.qlib_provider:[QLIB] Starting data augmentation pipeline...
+INFO:data.qlib_provider:[QLIB] Getting daily data: 9 fields, range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Daily data: 325309 rows, 9 cols, date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB] Getting trade calendar, range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Trade calendar: 1085 trading days, range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB] Fetching fundamental data...
+INFO:data.qlib_provider:[QLIB] Getting all instruments, market=csi300, date range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Retrieved 2 instruments from Qlib
+INFO:data.qlib_provider:[QLIB] Initializing fundamental provider with 421 instruments
+INFO:data.qlib_provider:[QLIB] Getting all instruments, market=csi300, date range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Retrieved 2 instruments from Qlib
+INFO:data.qlib_provider:[QLIB] Fundamental provider initialized: 421 instruments, cache_dir=None
+2026-07-30 14:39:39,521 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Merging data: 1085 trading days, 421 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Merging data: 1085 trading days, 421 instruments
+2026-07-30 14:39:39,624 - data.fundamental_provider - WARNING - [DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+WARNING:data.fundamental_provider:[DAILY_FUNDAMENTALS] Skipping 2 previously failed instruments: ['SH600837', 'SH601989']
+2026-07-30 14:39:39,624 - data.fundamental_provider - INFO - [DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+INFO:data.fundamental_provider:[DAILY_FUNDAMENTALS] All missing instruments previously failed, returning cached data
+2026-07-30 14:39:39,631 - data.fundamental_provider - INFO - [QUARTERLY] Cache hit: 10444 rows, 2020-03-31 00:00:00 to 2026-06-30 00:00:00
+INFO:data.fundamental_provider:[QUARTERLY] Cache hit: 10444 rows, 2020-03-31 00:00:00 to 2026-06-30 00:00:00
+2026-07-30 14:39:39,713 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Instruments in data: 421
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Instruments in data: 421
+2026-07-30 14:39:39,714 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Daily rows: 449075, Quarterly rows: 10444
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Daily rows: 449075, Quarterly rows: 10444
+2026-07-30 14:39:41,800 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Daily data merged: 449075 rows -> 449501 non-NaN outstanding_share values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Daily data merged: 449075 rows -> 449501 non-NaN outstanding_share values
+2026-07-30 14:39:41,800 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Aligning quarterly financial data...
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Aligning quarterly financial data...
+2026-07-30 14:39:45,845 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Shifted quarterly data: 7560 rows, 421 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Shifted quarterly data: 7560 rows, 421 instruments
+2026-07-30 14:39:45,922 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 456071/456785 (99.8%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'earnings_per_share' merged: 456071/456785 (99.8%) non-NaN values
+2026-07-30 14:39:45,994 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 456728/456785 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'book_value_per_share' merged: 456728/456785 (100.0%) non-NaN values
+2026-07-30 14:39:46,073 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 456785/456785 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROE_TTM' merged: 456785/456785 (100.0%) non-NaN values
+2026-07-30 14:39:46,157 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'ROA' merged: 456785/456785 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'ROA' merged: 456785/456785 (100.0%) non-NaN values
+2026-07-30 14:39:46,236 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 456728/456785 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'debt_ratio' merged: 456728/456785 (100.0%) non-NaN values
+2026-07-30 14:39:46,321 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 395783/456785 (86.6%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'revenue_growth_yoy' merged: 395783/456785 (86.6%) non-NaN values
+2026-07-30 14:39:46,414 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 456785/456785 (100.0%) non-NaN values
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Column 'gross_margin' merged: 456785/456785 (100.0%) non-NaN values
+2026-07-30 14:39:46,550 - data.fundamental_provider - INFO - [FUNDAMENTAL_MERGE] Final combined data: 456785 rows, 421 instruments
+INFO:data.fundamental_provider:[FUNDAMENTAL_MERGE] Final combined data: 456785 rows, 421 instruments
+INFO:data.qlib_provider:[QLIB] Fundamental data merged: 456785 rows
+INFO:data.qlib_provider:[QLIB] After merge: 325309 rows, 18 cols
+INFO:data.qlib_provider:[QLIB] Computing market cap: outstanding_share * close
+INFO:data.qlib_provider:[QLIB] Market cap computed: 323415/325309 non-NaN (99.4%)
+INFO:data.qlib_provider:[QLIB] Augmented data ready: 325309 rows, 19 cols, date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:data.qlib_provider:[QLIB] Getting trade calendar, range: 2022-01-01 to 2026-06-30
+INFO:data.qlib_provider:[QLIB] Trade calendar: 1085 trading days, range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:__main__:[1/8] 数据加载完成: 325309 行, 19 列
+INFO:__main__:[1/8] 行业分类已加载: 5491 只基准股票, 覆盖 0/325309 行
+INFO:__main__:[2/8] 计算因子...
+INFO:factors.base:[PIPELINE] Registered factor: RET_5 (total: 1)
+INFO:factors.base:[PIPELINE] Registered factor: RET_10 (total: 2)
+INFO:factors.base:[PIPELINE] Registered factor: RET_20 (total: 3)
+INFO:factors.base:[PIPELINE] Registered factor: RET_60 (total: 4)
+INFO:factors.base:[PIPELINE] Registered factor: WMA_5 (total: 5)
+INFO:factors.base:[PIPELINE] Registered factor: WMA_10 (total: 6)
+INFO:factors.base:[PIPELINE] Registered factor: WMA_20 (total: 7)
+INFO:factors.base:[PIPELINE] Registered factor: RS_14 (total: 8)
+INFO:factors.base:[PIPELINE] Registered factor: RS_28 (total: 9)
+INFO:factors.base:[PIPELINE] Registered factor: BIAS_5 (total: 10)
+INFO:factors.base:[PIPELINE] Registered factor: BIAS_10 (total: 11)
+INFO:factors.base:[PIPELINE] Registered factor: MACD (total: 12)
+INFO:factors.base:[PIPELINE] Registered factor: REV_1 (total: 13)
+INFO:factors.base:[PIPELINE] Registered factor: REV_2 (total: 14)
+INFO:factors.base:[PIPELINE] Registered factor: REV_5 (total: 15)
+INFO:factors.base:[PIPELINE] Registered factor: MAXRET_5 (total: 16)
+INFO:factors.base:[PIPELINE] Registered factor: MINRET_5 (total: 17)
+INFO:factors.base:[PIPELINE] Registered factor: MAXRET_10 (total: 18)
+INFO:factors.base:[PIPELINE] Registered factor: MINRET_10 (total: 19)
+INFO:factors.base:[PIPELINE] Registered factor: STD_5 (total: 20)
+INFO:factors.base:[PIPELINE] Registered factor: STD_10 (total: 21)
+INFO:factors.base:[PIPELINE] Registered factor: STD_20 (total: 22)
+INFO:factors.base:[PIPELINE] Registered factor: STD_60 (total: 23)
+INFO:factors.base:[PIPELINE] Registered factor: ATR_5 (total: 24)
+INFO:factors.base:[PIPELINE] Registered factor: ATR_14 (total: 25)
+INFO:factors.base:[PIPELINE] Registered factor: BETA_60 (total: 26)
+INFO:factors.base:[PIPELINE] Registered factor: RVOL_5 (total: 27)
+INFO:factors.base:[PIPELINE] Registered factor: RVOL_20 (total: 28)
+INFO:factors.base:[PIPELINE] Registered factor: VOLR_5 (total: 29)
+INFO:factors.base:[PIPELINE] Registered factor: TURN_5 (total: 30)
+INFO:factors.base:[PIPELINE] Registered factor: VOLR_20 (total: 31)
+INFO:factors.base:[PIPELINE] Registered factor: TURN_20 (total: 32)
+INFO:factors.base:[PIPELINE] Registered factor: VWAP_DEV (total: 33)
+INFO:factors.base:[PIPELINE] Registered factor: PVC_20 (total: 34)
+INFO:factors.alpha_volume:[FACTOR] Registered 34 volume/price factors: ['RET_5', 'RET_10', 'RET_20', 'RET_60', 'WMA_5', 'WMA_10', 'WMA_20', 'RS_14', 'RS_28', 'BIAS_5', 'BIAS_10', 'MACD', 'REV_1', 'REV_2', 'REV_5', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10', 'STD_5', 'STD_10', 'STD_20', 'STD_60', 'ATR_5', 'ATR_14', 'BETA_60', 'RVOL_5', 'RVOL_20', 'VOLR_5', 'TURN_5', 'VOLR_20', 'TURN_20', 'VWAP_DEV', 'PVC_20']
+INFO:factors.base:[PIPELINE] Registered factor: EP (total: 35)
+INFO:factors.base:[PIPELINE] Registered factor: BP (total: 36)
+INFO:factors.base:[PIPELINE] Registered factor: ROE_TTM (total: 37)
+INFO:factors.base:[PIPELINE] Registered factor: ROA (total: 38)
+INFO:factors.base:[PIPELINE] Registered factor: GROSS_MARGIN (total: 39)
+INFO:factors.base:[PIPELINE] Registered factor: DEBT_RATIO (total: 40)
+INFO:factors.base:[PIPELINE] Registered factor: REV_GROW_QoQ (total: 41)
+INFO:factors.base:[PIPELINE] Registered factor: REV_GROW_YoY (total: 42)
+INFO:factors.fundamental:[FACTOR] Registered 8 fundamental factors: ['EP', 'BP', 'ROE_TTM', 'ROA', 'GROSS_MARGIN', 'DEBT_RATIO', 'REV_GROW_QoQ', 'REV_GROW_YoY']
+INFO:factors.base:[PIPELINE] Registered factor: TURN_ANOM_20 (total: 43)
+INFO:factors.base:[PIPELINE] Registered factor: TURN_ANOM_60 (total: 44)
+INFO:factors.base:[PIPELINE] Registered factor: IVOL_60 (total: 45)
+INFO:factors.base:[PIPELINE] Registered factor: ILLIQ_20 (total: 46)
+INFO:factors.base:[PIPELINE] Registered factor: ILLIQ_60 (total: 47)
+INFO:factors.base:[PIPELINE] Registered factor: RSKEW_20 (total: 48)
+INFO:factors.base:[PIPELINE] Registered factor: RKURT_20 (total: 49)
+INFO:factors.base:[PIPELINE] Registered factor: RSKEW_60 (total: 50)
+INFO:factors.base:[PIPELINE] Registered factor: RKURT_60 (total: 51)
+INFO:factors.alternative:[FACTOR] Registered 9 alternative factors: ['TURN_ANOM_20', 'TURN_ANOM_60', 'IVOL_60', 'ILLIQ_20', 'ILLIQ_60', 'RSKEW_20', 'RKURT_20', 'RSKEW_60', 'RKURT_60']
+INFO:factors.base:[PIPELINE] Computing all 51 factors, data shape=(325309, 20)
+INFO:factors.base:[PIPELINE] Factor RET_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RET_10: 325309 rows, 1.2% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RET_20: 325309 rows, 2.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RET_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor WMA_5: 388889 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor WMA_10: 386864 rows, 0.0% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor WMA_20: 382814 rows, 0.0% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor RS_14: 325309 rows, 1.8% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor RS_28: 325309 rows, 3.5% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor BIAS_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor BIAS_10: 325309 rows, 1.3% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor MACD: 325309 rows, 0.0% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor REV_1: 325309 rows, 0.1% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor REV_2: 325309 rows, 0.3% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor REV_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor MAXRET_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor MINRET_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor MAXRET_10: 325309 rows, 1.2% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor MINRET_10: 325309 rows, 1.2% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor STD_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor STD_10: 325309 rows, 1.2% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor STD_20: 325309 rows, 2.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor STD_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor ATR_5: 325309 rows, 0.6% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor ATR_14: 325309 rows, 1.9% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor BETA_60: 367019 rows, 0.0% NaN, 0.4s
+INFO:factors.base:[PIPELINE] Factor RVOL_5: 389294 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RVOL_20: 383219 rows, 0.0% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor VOLR_5: 325309 rows, 0.6% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor TURN_5: 325309 rows, 0.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor VOLR_20: 325309 rows, 2.7% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor TURN_20: 325309 rows, 2.4% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor VWAP_DEV: 325309 rows, 0.1% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor PVC_20: 319375 rows, 0.0% NaN, 0.5s
+INFO:factors.base:[PIPELINE] Factor EP: 325309 rows, 0.1% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor BP: 325309 rows, 0.1% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor ROE_TTM: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor ROA: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor GROSS_MARGIN: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor DEBT_RATIO: 325309 rows, 0.0% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor REV_GROW_QoQ: 325309 rows, 15.6% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor REV_GROW_YoY: 325309 rows, 15.6% NaN, 0.0s
+INFO:factors.base:[PIPELINE] Factor TURN_ANOM_20: 325309 rows, 0.0% NaN, 0.4s
+INFO:factors.base:[PIPELINE] Factor TURN_ANOM_60: 325309 rows, 0.0% NaN, 0.3s
+INFO:factors.base:[PIPELINE] Factor IVOL_60: 431525 rows, 0.0% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor ILLIQ_20: 325309 rows, 2.5% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor ILLIQ_60: 325309 rows, 7.5% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor RSKEW_20: 325309 rows, 2.5% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor RKURT_20: 325309 rows, 2.5% NaN, 0.2s
+INFO:factors.base:[PIPELINE] Factor RSKEW_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] Factor RKURT_60: 325309 rows, 7.5% NaN, 0.1s
+INFO:factors.base:[PIPELINE] All factors computed: 51 factors, 449525 rows, shape=(449525, 51), total 7.7s
+INFO:__main__:[2/8] 因子计算完成: 生成 51 个因子
+INFO:__main__:[3/8] 因子预处理...
+INFO:__main__:[3/8] 市值向前填充 (inst_level=1): 空值 1894 -> 0
+INFO:factors.pipeline:[PREPROCESS] Initializing preprocessing pipeline, config: {'winsorize': '3sigma', 'standardize': 'cross_sectional', 'neutralize': ['market_cap', 'industry'], 'orthogonalize': 'none'}
+INFO:factors.pipeline:[PREPROCESS] Starting preprocessing: 51 factors, 449525 rows
+INFO:factors.pipeline:[PREPROCESS] Step 1/4: Winsorizing, method=3sigma
+INFO:factors.pipeline:[PREPROCESS] Winsorization complete
+INFO:factors.pipeline:[PREPROCESS] Step 2/4: Cross-sectional standardization
+/home/jinqh/.local/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+/home/jinqh/.local/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1213: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+INFO:factors.pipeline:[PREPROCESS] Standardization complete: shape=(449525, 51)
+INFO:factors.pipeline:[DEBUG] After standardization: total=22925775, NaN=748220, Inf=0, all-zero=0
+INFO:factors.pipeline:[DEBUG] Valid non-null data count: 22177555
+INFO:factors.pipeline:[PREPROCESS] Step 3/4: Neutralizing, exogenous variables=['market_cap', 'industry']
+INFO:factors.pipeline:[PREPROCESS] market_data available columns: ['open', 'high', 'low', 'close', 'volume', 'amount', 'vwap', 'change', 'factor', 'turnover', 'outstanding_share', 'earnings_per_share', 'book_value_per_share', 'ROE_TTM', 'ROA', 'debt_ratio', 'revenue_growth_yoy', 'gross_margin', 'market_cap', 'industry']
+INFO:factors.pipeline:[PREPROCESS] Neutralization data prepared: ['market_cap', 'industry (one-hot)']
+INFO:factors.pipeline:[PREPROCESS] market_cap non-NaN: 325309/325309
+INFO:factors.pipeline:[PREPROCESS] Neutralization complete
+INFO:factors.pipeline:[PREPROCESS] Step 4/4: Skipped (no orthogonalize config)
+INFO:factors.pipeline:[PREPROCESS] Preprocessing complete: 51 factors, 449525 rows, 3.26% NaN
+INFO:__main__:[3/8] 预处理完成: 剩余 51 个因子
+INFO:__main__:[4/8] 特征选择+构建衍生特征...
+INFO:features.label:[LABEL] Computing labels: close shape=(1085, 421), periods=20, skip=1, denoise=None, relative=False
+INFO:features.label:[LABEL] Computing forward returns: close shape=(1085, 421), periods=20, skip=1
+INFO:features.label:[LABEL] Forward returns computed: shape=(1085, 421), 69.3% non-NaN
+INFO:features.label:[LABEL] Labels computed: shape=(1085, 421), date range: 2022-01-04 00:00:00 to 2026-06-30 00:00:00
+INFO:__main__:[4/8] 股票池缩减: 1084 -> 800 只, 行数: 336800
+INFO:features.selector:[SELECTOR] 开始IC预筛选: 51个因子, min_ic=0.02, min_icir=0.1, p_threshold=0.05
+INFO:features.selector:[SELECTOR] Using level 1 for dates: 1085 unique dates
+INFO:features.selector:[SELECTOR] Filtering over 1085 periods
+WARNING:features.selector:[SELECTOR] RET_5: mean_ic=-0.006181, icir=-0.0311, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_10: mean_ic=-0.025927, icir=-0.1315, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_20: mean_ic=-0.045812, icir=-0.2303, valid_dates=800/800, total_nan=0
+WARNING:features.selector:[SELECTOR] RET_60: mean_ic=-0.043605, icir=-0.2060, valid_dates=800/800, total_nan=0
+INFO:features.selector:[SELECTOR] IC prefilter complete: 31/51 factors selected, 20 rejected
+INFO:features.selector:[SELECTOR] Selected factors: ['RET_10', 'RET_20', 'RET_60', 'WMA_20', 'RS_14', 'RS_28', 'MAXRET_5', 'MINRET_5', 'MAXRET_10', 'MINRET_10']...
+INFO:__main__:[4/8] 特征选择完成: 选出 31 个特征
+INFO:__main__:[4/8] 因子拥挤监控: 因子收益计算失败，跳过
+INFO:features.transformer:[TRANSFORMER] Building momentum features: 31 factors, windows=[7, 15, 30]
+INFO:features.transformer:[TRANSFORMER] Momentum features created: 217 total columns
+INFO:features.transformer:[TRANSFORMER] Building cross-sectional rank features: 217 factors
+INFO:features.transformer:[TRANSFORMER] Cross-sectional rank features created: 434 total columns
+INFO:features.transformer:[TRANSFORMER] Building reversal features: 434 factors, windows=[3, 5, 10]
+INFO:features.transformer:[TRANSFORMER] Reversal features created: 476 total columns
+INFO:features.transformer:[TRANSFORMER] build_ic_time_series skipped (not a proper training feature, use for analysis only)
+INFO:__main__:[4/8] 特征工程完成: 共 476 个特征
+INFO:__main__:[5/8] 训练模型 (Walk-Forward)...
+INFO:__main__:[5/8] 训练数据: 336800 行, 476 个特征, 800 个交易日, 范围=2022-04-08 00:00:00 到 2025-07-24 00:00:00
+INFO:model.optimizer:[OPTUNA] OptunaTuner initialized: 20 trials
+INFO:model.trainer:[TRAINER] WalkForwardTrainer initialized: window_months=24, tuner=True
+INFO:model.trainer:[TRAINER] Training started: 476 features, 336800 rows, 800 dates, market_cap=Yes
+INFO:model.trainer:[TRAINER] After label NaN removal: 237588 rows, 800 dates
+INFO:model.trainer:[TRAINER] Generated 14 train/test windows, window_size=504, step_size=21
+INFO:model.trainer:[TRAINER] Fold 1: Running Optuna hyperparameter tuning (20 trials)...
+INFO:model.optimizer:[OPTUNA] Starting hyperparameter tuning: 20 trials, train=30000, val=29972
+INFO:model.optimizer:[OPTUNA] Tuning complete: best_value=0.1666, best_params={'num_leaves': 15, 'min_child_samples': 43, 'learning_rate': 0.06238814550366145, 'reg_alpha': 0.028708753481954688, 'reg_lambda': 0.034877126245459314, 'bagging_fraction': 0.6296178606936361, 'feature_fraction': 0.6792328642721364, 'min_gain_to_split': 0.03476071785753891}
+INFO:model.trainer:[TRAINER] Fold 1: Best params: {'num_leaves': 15, 'min_child_samples': 43, 'learning_rate': 0.06238814550366145, 'reg_alpha': 0.028708753481954688, 'reg_lambda': 0.034877126245459314, 'bagging_fraction': 0.6296178606936361, 'feature_fraction': 0.6792328642721364, 'min_gain_to_split': 0.03476071785753891}, overrides applied: {'min_gain_to_split': 0.001, 'learning_rate': 0.02, 'reg_alpha': 0.1, 'reg_lambda': 0.1}
+INFO:model.trainer:[TRAINER] Fold 1/14: Training LightGBM, train=119888, val=29972, test=6228, features=476
+INFO:model.trainer:[TRAINER] Fold 1: Model trained, best_iteration=218, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9731948375987984)})})
+INFO:model.trainer:[TRAINER] Fold 1: Removed 47 low-importance features (<0.2%), 429 remaining
+INFO:model.trainer:[TRAINER] Fold 2/14: Training LightGBM, train=119838, val=29959, test=6138, features=429
+INFO:model.trainer:[TRAINER] Fold 2: Model trained, best_iteration=201, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9761709917292386)})})
+INFO:model.trainer:[TRAINER] Fold 2: Removed 42 low-importance features (<0.2%), 387 remaining
+INFO:model.trainer:[TRAINER] Fold 3/14: Training LightGBM, train=119866, val=29966, test=6279, features=387
+INFO:model.trainer:[TRAINER] Fold 3: Model trained, best_iteration=277, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9766988221957764)})})
+INFO:model.trainer:[TRAINER] Fold 3: Removed 38 low-importance features (<0.2%), 349 remaining
+INFO:model.trainer:[TRAINER] Fold 4/14: Training LightGBM, train=120123, val=30030, test=6231, features=349
+INFO:model.trainer:[TRAINER] Fold 4: Model trained, best_iteration=278, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9426316554080933)})})
+INFO:model.trainer:[TRAINER] Fold 4: Removed 34 low-importance features (<0.2%), 315 remaining
+INFO:model.trainer:[TRAINER] Fold 5/14: Training LightGBM, train=120084, val=30020, test=6252, features=315
+INFO:model.trainer:[TRAINER] Fold 5: Model trained, best_iteration=58, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9823189189904706)})})
+INFO:model.trainer:[TRAINER] Fold 5: Removed 31 low-importance features (<0.2%), 284 remaining
+INFO:model.trainer:[TRAINER] Fold 6/14: Training LightGBM, train=120053, val=30013, test=6300, features=284
+INFO:model.trainer:[TRAINER] Fold 6: Model trained, best_iteration=23, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9960191304796302)})})
+INFO:model.trainer:[TRAINER] Fold 6: Removed 28 low-importance features (<0.2%), 256 remaining
+INFO:model.trainer:[TRAINER] Fold 7/14: Training LightGBM, train=120054, val=30013, test=6178, features=256
+INFO:model.trainer:[TRAINER] Fold 7: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9970715350468092)})})
+INFO:model.trainer:[TRAINER] Fold 8/14: Training LightGBM, train=119962, val=29990, test=6081, features=256
+INFO:model.trainer:[TRAINER] Fold 8: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9970592046031742)})})
+INFO:model.trainer:[TRAINER] Fold 9/14: Training LightGBM, train=119892, val=29973, test=6262, features=256
+INFO:model.trainer:[TRAINER] Fold 9: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9969074359798483)})})
+INFO:model.trainer:[TRAINER] Fold 10/14: Training LightGBM, train=119996, val=29998, test=6249, features=256
+INFO:model.trainer:[TRAINER] Fold 10: Model trained, best_iteration=1, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9982103773498014)})})
+INFO:model.trainer:[TRAINER] Fold 11/14: Training LightGBM, train=119955, val=29988, test=6269, features=256
+INFO:model.trainer:[TRAINER] Fold 11: Model trained, best_iteration=2, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9960716443059359)})})
+INFO:model.trainer:[TRAINER] Fold 12/14: Training LightGBM, train=119930, val=29982, test=6259, features=256
+INFO:model.trainer:[TRAINER] Fold 12: Model trained, best_iteration=27, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9937261842360687)})})
+INFO:model.trainer:[TRAINER] Fold 12: Removed 25 low-importance features (<0.2%), 231 remaining
+INFO:model.trainer:[TRAINER] Fold 13/14: Training LightGBM, train=119897, val=29974, test=6147, features=231
+INFO:model.trainer:[TRAINER] Fold 13: Model trained, best_iteration=5, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.995166134468018)})})
+INFO:model.trainer:[TRAINER] Fold 13: Removed 23 low-importance features (<0.2%), 208 remaining
+INFO:model.trainer:[TRAINER] Fold 14/14: Training LightGBM, train=119777, val=29944, test=6257, features=208
+INFO:model.trainer:[TRAINER] Fold 14: Model trained, best_iteration=14, best_score=defaultdict(<class 'collections.OrderedDict'>, {'valid_0': OrderedDict({'l2': np.float64(0.9963088948348171)})})
+INFO:model.trainer:[TRAINER] Fold 14: Removed 20 low-importance features (<0.2%), 188 remaining
+INFO:model.trainer:[TRAINER] Training complete: 14 models, 87130 predictions
+INFO:__main__:[5/8] 训练完成: 87130 个预测
+INFO:__main__:[6/8] 回测...
+INFO:__main__:[6/8] CSI300 基准已加载: 1085 个交易日, 总收益率=7.7103%
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 15 rebalance periods, 87130 predictions, holding_period=20, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 15 rebalances, total_return=0.2353, ann_periods_per_year=12.60, sharpe=0.8872, max_drawdown=-0.0977
+INFO:backtest.metrics:[METRICS] MetricsReport initialized: 15 periods (hp=20), 87130 predictions
+INFO:backtest.metrics:[METRICS] Computing performance metrics...
+INFO:backtest.metrics:[METRICS] Performance metrics computed:
+INFO:backtest.metrics:  annualized_return: 0.1942
+INFO:backtest.metrics:  benchmark_return: 0.1032
+INFO:backtest.metrics:  excess_return: 0.0910
+INFO:backtest.metrics:  annualized_vol: 0.2257
+INFO:backtest.metrics:  sharpe_ratio: 0.7764
+INFO:backtest.metrics:  calmar_ratio: 1.9879
+INFO:backtest.metrics:  max_drawdown: -0.0977
+INFO:backtest.metrics:  annual_turnover: 3.4778
+INFO:backtest.metrics:  ic_mean: 0.0105
+INFO:backtest.metrics:  ic_std: 0.2320
+INFO:backtest.metrics:  ir: 0.0451
+INFO:backtest.metrics:  hit_rate: 0.5238
+INFO:__main__:
+=== 绩效指标 ===
+INFO:__main__:  annualized_return: 0.1942
+INFO:__main__:  benchmark_return: 0.1032
+INFO:__main__:  excess_return: 0.0910
+INFO:__main__:  annualized_vol: 0.2257
+INFO:__main__:  sharpe_ratio: 0.7764
+INFO:__main__:  calmar_ratio: 1.9879
+INFO:__main__:  max_drawdown: -0.0977
+INFO:__main__:  annual_turnover: 3.4778
+INFO:__main__:  ic_mean: 0.0105
+INFO:__main__:  ic_std: 0.2320
+INFO:__main__:  ir: 0.0451
+INFO:__main__:  hit_rate: 0.5238
+INFO:__main__:[7/8] 模型可解释性分析...
+INFO:__main__:  SHAP重要性前10特征: ['STD_60_MOM_30_RANK', 'ATR_5_VOL_30', 'TURN_ANOM_60_VOL_15', 'ATR_14_VOL_30', 'STD_60_MOM_30', 'DEBT_RATIO_RANK', 'PVC_20_MOM_15', 'BETA_60_VOL_30_RANK', 'TURN_5_VOL_7', 'RS_28']
+WARNING:__main__:  SHAP图表绘制失败: float() argument must be a string or a real number, not 'NoneType'
+INFO:__main__:[8/8] 运行蒙特卡洛模拟...
+INFO:risk.monte_carlo:[MC] MonteCarloSimulator initialized: noise_levels=[0.001, 0.005, 0.01, 0.02, 0.05], n_simulations=200, seed=42
+INFO:risk.monte_carlo:[MC] Starting Monte Carlo simulation: 200 runs x 5 noise levels, factors=(336800, 476)
+WARNING:risk.monte_carlo:[MC] Estimated memory 2.4GB/sim, reducing simulations 200 -> 20
+INFO:risk.monte_carlo:[MC] Running 20 simulations with noise_level=0.001, streaming=True
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0036, ann_periods_per_year=252.00, sharpe=-0.2330, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0044, ann_periods_per_year=252.00, sharpe=-0.2969, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0028, ann_periods_per_year=252.00, sharpe=-0.1574, max_drawdown=-0.0289
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0134, ann_periods_per_year=252.00, sharpe=-1.0454, max_drawdown=-0.0292
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0036, ann_periods_per_year=252.00, sharpe=-0.2330, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0044, ann_periods_per_year=252.00, sharpe=-0.2969, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0030, ann_periods_per_year=252.00, sharpe=-0.1718, max_drawdown=-0.0290
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0117, ann_periods_per_year=252.00, sharpe=-0.9063, max_drawdown=-0.0292
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0028, ann_periods_per_year=252.00, sharpe=-0.1546, max_drawdown=-0.0291
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0050, ann_periods_per_year=252.00, sharpe=-0.3530, max_drawdown=-0.0292
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0017, ann_periods_per_year=252.00, sharpe=-0.0594, max_drawdown=-0.0289
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0110, ann_periods_per_year=252.00, sharpe=-0.8513, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0109, ann_periods_per_year=252.00, sharpe=-0.8456, max_drawdown=-0.0288
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0045, ann_periods_per_year=252.00, sharpe=-0.2994, max_drawdown=-0.0295
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0135, ann_periods_per_year=252.00, sharpe=-1.0385, max_drawdown=-0.0295
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0115, ann_periods_per_year=252.00, sharpe=1.1423, max_drawdown=-0.0211
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0050, ann_periods_per_year=252.00, sharpe=-0.3552, max_drawdown=-0.0292
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0044, ann_periods_per_year=252.00, sharpe=-0.2969, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0096, ann_periods_per_year=252.00, sharpe=-0.7143, max_drawdown=-0.0295
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0052, ann_periods_per_year=252.00, sharpe=-0.3742, max_drawdown=-0.0292
+INFO:risk.monte_carlo:[MC] Noise 0.1% -> Sharpe50=-0.4213, Sharpe90=-0.2672, DD50=-2.9%, collapse=0.0%
+INFO:risk.monte_carlo:[MC] Running 20 simulations with noise_level=0.005, streaming=True
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0018, ann_periods_per_year=252.00, sharpe=-0.0618, max_drawdown=-0.0294
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0070, ann_periods_per_year=252.00, sharpe=-0.5244, max_drawdown=-0.0301
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0043, ann_periods_per_year=252.00, sharpe=-0.2832, max_drawdown=-0.0293
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0651, ann_periods_per_year=252.00, sharpe=3.0055, max_drawdown=-0.0356
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0181, ann_periods_per_year=252.00, sharpe=-2.4198, max_drawdown=-0.0243
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0064, ann_periods_per_year=252.00, sharpe=-0.5222, max_drawdown=-0.0272
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0127, ann_periods_per_year=252.00, sharpe=-1.0504, max_drawdown=-0.0272
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0044, ann_periods_per_year=252.00, sharpe=0.4817, max_drawdown=-0.0319
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0105, ann_periods_per_year=252.00, sharpe=-0.7755, max_drawdown=-0.0275
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0122, ann_periods_per_year=252.00, sharpe=-0.9192, max_drawdown=-0.0287
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0110, ann_periods_per_year=252.00, sharpe=-0.8190, max_drawdown=-0.0292
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0064, ann_periods_per_year=252.00, sharpe=-0.4654, max_drawdown=-0.0282
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0166, ann_periods_per_year=252.00, sharpe=-1.3067, max_drawdown=-0.0300
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0069, ann_periods_per_year=252.00, sharpe=-0.5160, max_drawdown=-0.0302
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0037, ann_periods_per_year=252.00, sharpe=0.4165, max_drawdown=-0.0214
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0039, ann_periods_per_year=252.00, sharpe=-0.2710, max_drawdown=-0.0273
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0054, ann_periods_per_year=252.00, sharpe=-0.3759, max_drawdown=-0.0302
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0069, ann_periods_per_year=252.00, sharpe=-0.5116, max_drawdown=-0.0244
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0202, ann_periods_per_year=252.00, sharpe=1.4559, max_drawdown=-0.0297
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0632, ann_periods_per_year=252.00, sharpe=2.9074, max_drawdown=-0.0296
+INFO:risk.monte_carlo:[MC] Noise 0.5% -> Sharpe50=-0.6100, Sharpe90=1.5115, DD50=-2.9%, collapse=0.0%
+INFO:risk.monte_carlo:[MC] Running 20 simulations with noise_level=0.01, streaming=True
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0086, ann_periods_per_year=252.00, sharpe=0.8452, max_drawdown=-0.0315
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0372, ann_periods_per_year=252.00, sharpe=-1.9588, max_drawdown=-0.0671
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0145, ann_periods_per_year=252.00, sharpe=-2.3357, max_drawdown=-0.0222
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0594, ann_periods_per_year=252.00, sharpe=3.4960, max_drawdown=-0.0332
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0640, ann_periods_per_year=252.00, sharpe=-5.1295, max_drawdown=-0.0636
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0565, ann_periods_per_year=252.00, sharpe=3.0803, max_drawdown=-0.0233
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0265, ann_periods_per_year=252.00, sharpe=-1.6436, max_drawdown=-0.0494
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0141, ann_periods_per_year=252.00, sharpe=0.8117, max_drawdown=-0.0685
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0065, ann_periods_per_year=252.00, sharpe=-0.4653, max_drawdown=-0.0258
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0054, ann_periods_per_year=252.00, sharpe=-0.3817, max_drawdown=-0.0271
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0066, ann_periods_per_year=252.00, sharpe=-0.4804, max_drawdown=-0.0317
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0094, ann_periods_per_year=252.00, sharpe=-0.6175, max_drawdown=-0.0407
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0127, ann_periods_per_year=252.00, sharpe=-0.9300, max_drawdown=-0.0314
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0050, ann_periods_per_year=252.00, sharpe=-0.3468, max_drawdown=-0.0290
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0259, ann_periods_per_year=252.00, sharpe=-2.1756, max_drawdown=-0.0281
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0097, ann_periods_per_year=252.00, sharpe=-0.6853, max_drawdown=-0.0390
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0628, ann_periods_per_year=252.00, sharpe=3.5918, max_drawdown=-0.0128
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0106, ann_periods_per_year=252.00, sharpe=1.6191, max_drawdown=-0.0134
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0418, ann_periods_per_year=252.00, sharpe=2.2888, max_drawdown=-0.0406
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0108, ann_periods_per_year=252.00, sharpe=-0.8072, max_drawdown=-0.0274
+INFO:risk.monte_carlo:[MC] Noise 1.0% -> Sharpe50=-0.5936, Sharpe90=3.0473, DD50=-3.1%, collapse=0.0%
+INFO:risk.monte_carlo:[MC] Running 20 simulations with noise_level=0.02, streaming=True
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0475, ann_periods_per_year=252.00, sharpe=5.1258, max_drawdown=-0.0060
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0073, ann_periods_per_year=252.00, sharpe=-0.3036, max_drawdown=-0.0547
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0483, ann_periods_per_year=252.00, sharpe=-5.0585, max_drawdown=-0.0463
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0201, ann_periods_per_year=252.00, sharpe=-1.1474, max_drawdown=-0.0612
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0142, ann_periods_per_year=252.00, sharpe=1.1621, max_drawdown=-0.0277
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0193, ann_periods_per_year=252.00, sharpe=0.9413, max_drawdown=-0.0762
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0950, ann_periods_per_year=252.00, sharpe=3.8020, max_drawdown=-0.0404
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0029, ann_periods_per_year=252.00, sharpe=0.0115, max_drawdown=-0.0595
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0343, ann_periods_per_year=252.00, sharpe=-3.7549, max_drawdown=-0.0353
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=-0.0532, ann_periods_per_year=252.00, sharpe=-6.5383, max_drawdown=-0.0488
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0579, ann_periods_per_year=252.00, sharpe=2.3557, max_drawdown=-0.0518
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0182, ann_periods_per_year=252.00, sharpe=1.0951, max_drawdown=-0.0495
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0092, ann_periods_per_year=252.00, sharpe=0.7005, max_drawdown=-0.0353
+INFO:portfolio.optimizer:[OPTIMIZER] CVXPYOptimizer initialized: risk_aversion=3.0, transaction_cost=0.003
+INFO:backtest.engine:[BACKTEST] BacktestEngine initialized: slippage=0.003, market_impact=0.001, top_n=60, holding_period=20, limit_threshold=0.099
+INFO:backtest.engine:[BACKTEST] Starting backtest: 14 rebalance periods, 5894 predictions, holding_period=1, use_optimizer=True
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] Optimization failed: status=infeasible, falling back to rank weights
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+WARNING:portfolio.optimizer:[OPTIMIZER] ECOS solver failed, falling back to SCS
+INFO:backtest.engine:[BACKTEST] Backtest complete: 14 rebalances, total_return=0.0107, ann_periods_per_year=252.00, sharpe=1.1047, max_drawdown=-0.0199
