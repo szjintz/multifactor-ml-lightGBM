@@ -83,6 +83,15 @@ class ResultAnalyzer:
         plt.savefig(self.output_dir / "drawdown.png", dpi=150)
         plt.close()
 
+    @staticmethod
+    def _ensure_date_first(idx):
+        if isinstance(idx, pd.MultiIndex) and idx.nlevels == 2:
+            if idx.names[0] in ("instrument", "Instrument", "code", "asset"):
+                return idx.swaplevel().sort_values()
+            if idx.names[0] is None and not np.issubdtype(idx.get_level_values(0).dtype, np.datetime64):
+                return idx.swaplevel().sort_values()
+        return idx
+
     def plot_ic_series(self, predictions: pd.Series, actuals: pd.Series):
         """
         绘制 IC 时序图
@@ -94,11 +103,16 @@ class ResultAnalyzer:
             actuals: 实际收益序列
         """
         from backtest.metrics import compute_ic
+        predictions = predictions.copy()
+        predictions.index = self._ensure_date_first(predictions.index)
+        if isinstance(actuals, pd.Series) and isinstance(actuals.index, pd.MultiIndex):
+            actuals = actuals.copy()
+            actuals.index = self._ensure_date_first(actuals.index)
         ic_values = []
         dates = []
         for date in predictions.index.get_level_values(0).unique():
             pred_date = predictions.loc[predictions.index.get_level_values(0) == date]
-            actual_date = actuals.loc[actuals.index.get_level_values(0) == date]
+            actual_date = actuals.loc[actuals.index.get_level_values(0) == date] if isinstance(actuals, pd.Series) else actuals.loc[date]
             if len(pred_date) > 10 and len(actual_date) > 10:
                 ic_values.append(compute_ic(pred_date, actual_date))
                 dates.append(date)
@@ -135,6 +149,12 @@ class ResultAnalyzer:
         # 生成摘要文件
         with open(self.output_dir / "summary.txt", "w") as f:
             f.write("=== Strategy Performance Summary ===\n\n")
+            f.write(f"Return period: {returns.index.min()} ~ {returns.index.max()}\n")
+            if benchmark is not None:
+                f.write(f"Benchmark period: {benchmark.index.min()} ~ {benchmark.index.max()}\n")
+            pred_idx = self._ensure_date_first(predictions.index)
+            pred_dates = pred_idx.get_level_values(0).unique()
+            f.write(f"Prediction period: {pred_dates.min()} ~ {pred_dates.max()}\n\n")
             for k, v in metrics.items():
                 f.write(f"{k}: {v:.4f}\n" if isinstance(v, float) else f"{k}: {v}\n")
 

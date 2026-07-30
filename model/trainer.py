@@ -125,7 +125,9 @@ class WalkForwardTrainer:
         # 剔除标签为 NaN 的行（最后 ~20 个日期无前向收益数据，或全NaN截面）
         valid_mask = labels.notna().values
         features = features.loc[valid_mask]
-        labels = labels.loc[valid_mask].astype(int)
+        labels = labels.loc[valid_mask]
+        if is_ranking:
+            labels = labels.astype(int)
         if market_cap is not None:
             market_cap = market_cap.reindex(features.index)
 
@@ -219,7 +221,8 @@ class WalkForwardTrainer:
             # 获取基础 LightGBM 参数
             lgb_params = cfg.get("lgb_params", {})
 
-            # 仅在第一个 fold 进行超参数调优（节省时间）
+            # 仅在第一个 fold 进行超参数调优（保留最佳参数复用到后续 fold）
+            # 后续 fold 复用第一个 fold 调优结果，节省训练时间并保证 fold 间参数一致性
             if self.tuner is not None and len(self.models) == 0:
                 logger.info(f"[TRAINER] Fold {fold_idx+1}: Running Optuna hyperparameter tuning ({self.tuner.n_trials} trials)...")
 
@@ -230,8 +233,16 @@ class WalkForwardTrainer:
 
                 # 调用 OptunaTuner 进行超参数搜索
                 tuned = self.tuner.tune(X_sample, y_sample, X_val.values, y_val.values)
-                lgb_params.update(tuned)  # 将调优后的参数合并到基础参数
-                logger.info(f"[TRAINER] Fold {fold_idx+1}: Best params: {tuned}")
+                lgb_params = {**lgb_params, **tuned}  # 将调优后的参数合并到基础参数
+                # 以下参数始终使用配置值覆盖 Optuna 结果（Optuna 在短训练下倾向保守参数，
+                # 但主训练使用更多轮次，需要允许树分裂）
+                override_params = ["min_gain_to_split", "learning_rate", "reg_alpha", "reg_lambda"]
+                for p in override_params:
+                    config_val = cfg.get("lgb_params", {}).get(p)
+                    if config_val is not None:
+                        lgb_params[p] = config_val
+                applied = {p: lgb_params[p] for p in override_params if cfg.get("lgb_params", {}).get(p) is not None}
+                logger.info(f"[TRAINER] Fold {fold_idx+1}: Best params: {tuned}, overrides applied: {applied}")
 
             is_ranking = cfg.get("objective", "regression") == "lambdarank"
             params = {
@@ -252,16 +263,19 @@ class WalkForwardTrainer:
             # 记录训练信息
             logger.info(f"[TRAINER] Fold {fold_idx+1}/{len(splits)}: Training LightGBM, train={len(X_train_fit)}, val={len(X_val)}, test={len(X_test)}, features={len(active_features)}")
 
-            # 训练 LightGBM 模型
+            # 训练 LightGBM 模型 - 使用大 num_boost_round + 早停（patience=50）
+            # 早停对噪声大的截面 Z-score 标签至关重要：避免过拟合并保留泛化能力。
+            num_rounds = cfg.get("num_boost_round", 500)
+            early_stopping = cfg.get("early_stopping_rounds", 50)
             model = lgb.train(
                 params,
                 dtrain,
-                num_boost_round=500,  # 适当增加最大迭代次数
-                valid_sets=[dval],  # 验证集用于早停
-                callbacks=[lgb.early_stopping(
-                    cfg.get("early_stopping_rounds", 50),  # 早停轮数
-                    first_metric_only=True  # 只使用第一个指标判断早停
-                )],
+                num_boost_round=num_rounds,
+                valid_sets=[dval],
+                callbacks=[
+                    lgb.early_stopping(early_stopping, first_metric_only=True, verbose=False),
+                    lgb.log_evaluation(0),
+                ],
             )
 
             # 在测试集上进行预测
@@ -287,18 +301,17 @@ class WalkForwardTrainer:
             import gc
             gc.collect()
 
-            # 找出低重要性特征（重要性 < 0.1%）
-            low_imp = list(feature_imp[feature_imp < 0.001].index)
+            # 找出低重要性特征
+            low_imp = list(feature_imp[feature_imp < 0.002].index)
 
-            # 仅在保留特征数充足时筛选；同时限制一次最多移除 30% 防止级联过度剪枝
-            min_keep = 30
+            min_keep = 80
             if low_imp and len(active_features) - len(low_imp) >= min_keep:
-                max_remove = max(1, int(0.3 * len(active_features)))
+                max_remove = max(1, int(0.10 * len(active_features)))
                 removed_count = min(len(low_imp), max_remove)
                 low_imp_to_remove = list(feature_imp.nsmallest(removed_count).index)
                 removed = len(low_imp_to_remove)
                 active_features = [f for f in active_features if f not in low_imp_to_remove]
-                logger.info(f"[TRAINER] Fold {fold_idx+1}: Removed {removed} low-importance features (<0.1%), {len(active_features)} remaining")
+                logger.info(f"[TRAINER] Fold {fold_idx+1}: Removed {removed} low-importance features (<0.2%), {len(active_features)} remaining")
 
         # 合并所有预测结果
         if all_predictions:

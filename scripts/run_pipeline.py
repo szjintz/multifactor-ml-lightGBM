@@ -34,9 +34,10 @@ from factors.fundamental import register_all_fundamental_factors
 from factors.alternative import register_all_alternative_factors
 from factors.pipeline import FactorPreprocessingPipeline
 from features.selector import ic_prefilter
-from features.transformer import build_momentum_features, build_ic_time_series
+from features.transformer import build_momentum_features, build_ic_time_series, build_cross_sectional_rank_features, build_reversal_features
 from features.label import compute_labels
 from model.trainer import WalkForwardTrainer
+import akshare as ak
 from model.optimizer import OptunaTuner
 from backtest.engine import BacktestEngine
 from backtest.metrics import MetricsReport
@@ -111,6 +112,22 @@ def run_pipeline(config_path="config/config.yaml"):
     trade_dates = provider.get_trade_dates()
     logger.info(f"[1/8] 数据加载完成: {len(data)} 行, {len(data.columns)} 列")
 
+    # 加载行业分类并加入 data
+    industry_path = Path(config["fundamental"]["cache_dir"]) / "industry.csv"
+    if industry_path.exists():
+        ind_df = pd.read_csv(industry_path)
+        code_to_industry = ind_df.set_index("证券代码")["所属申万一级行业名称(2021)"].to_dict()
+        idx = data.index
+        if idx.nlevels == 2:
+            inst_level = 0 if idx.names[0] in ("instrument", "Instrument", "code", "asset") else 1
+            data["industry"] = idx.get_level_values(inst_level).map(code_to_industry)
+            covered = data["industry"].notna().sum()
+            logger.info(f"[1/8] 行业分类已加载: {len(code_to_industry)} 只基准股票, 覆盖 {covered}/{len(data)} 行")
+        else:
+            logger.warning("[1/8] 无法识别数据索引结构, 跳过行业分类")
+    else:
+        logger.warning(f"[1/8] 行业分类文件不存在: {industry_path}")
+
     # Step 4: 计算因子
     logger.info("[2/8] 计算因子...")
     pipeline = FactorPipeline()
@@ -141,7 +158,8 @@ def run_pipeline(config_path="config/config.yaml"):
     # Step 6: 特征选择 + 标签计算
     logger.info("[4/8] 特征选择+构建衍生特征...")
     close_wide = data["close"].unstack(level=0)
-    labels_wide = compute_labels(close_wide, periods=20, skip=1)  # T+1到T+20累计收益率作为标签
+    label_periods = config["training"].get("predict_days", 20)
+    labels_wide = compute_labels(close_wide, periods=label_periods, skip=1)  # T+1到T+label_periods累计收益率作为标签
     labels = labels_wide.stack().swaplevel().sort_index()
     factor_df = factor_df.dropna(how="all")
     factor_df = factor_df.sort_index()
@@ -210,6 +228,8 @@ def run_pipeline(config_path="config/config.yaml"):
 
     # 构建衍生特征
     factor_df = build_momentum_features(factor_df)
+    factor_df = build_cross_sectional_rank_features(factor_df)
+    factor_df = build_reversal_features(factor_df)
     factor_df = build_ic_time_series(factor_df, labels)
     logger.info(f"[4/8] 特征工程完成: 共 {len(factor_df.columns)} 个特征")
 
@@ -230,7 +250,20 @@ def run_pipeline(config_path="config/config.yaml"):
     # Step 8: 回测
     logger.info("[6/8] 回测...")
     prices = data["close"].unstack(level=0)  # (date, instrument) DataFrame
-    benchmark_ret = prices.ffill().pct_change(fill_method=None).mean(axis=1).dropna()  # 市场等权收益
+
+    # 从 akshare 获取真实的沪深300指数基准收益
+    try:
+        bench_df = ak.stock_zh_index_daily(symbol="sh000300")
+        bench_df["date"] = pd.to_datetime(bench_df["date"])
+        bench_csi300 = bench_df.set_index("date").sort_index()["close"].pct_change().dropna()
+        # 对齐到策略交易日历
+        bench_csi300 = bench_csi300.reindex(prices.index).fillna(0.0)
+        logger.info(f"[6/8] CSI300 基准已加载: {len(bench_csi300)} 个交易日, "
+                    f"总收益率={bench_csi300.sum():.4%}")
+    except Exception as e:
+        logger.warning(f"[6/8] 无法从 akshare 获取 CSI300 指数: {e}，使用等权替代")
+        bench_csi300 = prices.ffill().pct_change(fill_method=None).mean(axis=1).dropna()
+    benchmark_ret = bench_csi300
 
     if len(predictions) == 0:
         logger.warning("[6/8] 无预测结果，跳过回测")

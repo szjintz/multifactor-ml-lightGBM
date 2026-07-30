@@ -101,3 +101,62 @@ def build_ic_time_series(factor_df: pd.DataFrame, returns: pd.DataFrame,
     """
     logger.info(f"[TRANSFORMER] build_ic_time_series skipped (not a proper training feature, use for analysis only)")
     return factor_df
+
+
+def build_cross_sectional_rank_features(factor_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    构建截面排名特征
+
+    对每个日期截面内的因子值进行排名并标准化到 [0, 1]。
+    截面排名比原始值更有预测力，因为它消除了截面尺度差异。
+
+    生成的特征以 _RANK 后缀命名，替代原始特征的部分信息。
+
+    Args:
+        factor_df: 因子 DataFrame，MultiIndex
+
+    Returns:
+        增加了截面排名特征的 DataFrame
+    """
+    logger.info(f"[TRANSFORMER] Building cross-sectional rank features: {len(factor_df.columns)} factors")
+    idx = factor_df.index
+    date_level = 1 if idx.nlevels == 2 and (
+        idx.names[0] in ("instrument", "Instrument", "code", "asset") or
+        (idx.names[0] is None and not np.issubdtype(idx.get_level_values(0).dtype, np.datetime64))
+    ) else 0
+
+    ranked_cols = {}
+    for col in factor_df.columns:
+        ranked = factor_df.groupby(level=date_level)[col].rank(pct=True)
+        ranked_cols[f"{col}_RANK"] = ranked
+
+    result = pd.concat([factor_df, pd.DataFrame(ranked_cols, index=factor_df.index)], axis=1)
+    logger.info(f"[TRANSFORMER] Cross-sectional rank features created: {len(result.columns)} total columns")
+    return result
+
+
+def build_reversal_features(factor_df: pd.DataFrame, windows=[3, 5, 10]) -> pd.DataFrame:
+    """
+    构建短期反转特征
+
+    基于动量因子的排名，构建反转信号：
+    - 取 N 日收益排名的低分位（即将反弹的股票）
+    - 加入更短窗口的反转信号
+
+    Args:
+        factor_df: 因子 DataFrame
+        windows: 反转窗口列表
+
+    Returns:
+        增加了反转特征的 DataFrame
+    """
+    logger.info(f"[TRANSFORMER] Building reversal features: {len(factor_df.columns)} factors, windows={windows}")
+    rev_cols = {}
+    # 通过对原始动量因子取负，构建反转信号
+    momentum_cols = [col for col in factor_df.columns if col.startswith("RET_")]
+    for col in momentum_cols:
+        rev_cols[f"{col}_REV"] = -factor_df[col]
+
+    result = pd.concat([factor_df, pd.DataFrame(rev_cols, index=factor_df.index)], axis=1)
+    logger.info(f"[TRANSFORMER] Reversal features created: {len(result.columns)} total columns")
+    return result

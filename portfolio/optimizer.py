@@ -17,6 +17,7 @@
 import logging
 import cvxpy as cp
 import numpy as np
+import pandas as pd
 
 from .constraints import PortfolioConstraints
 
@@ -134,9 +135,34 @@ class CVXPYOptimizer:
             logger.debug(f"[OPTIMIZER] Optimization succeeded: status={problem.status}, optimal value={problem.value:.6f}, sum(w)={w_val.sum():.4f}")
             return w_val
         else:
-            logger.warning(f"[OPTIMIZER] Optimization failed: status={problem.status}, using clipped equal weights")
-            # 等权时需要裁剪到 max_weight 以下
-            equal_w = np.ones(n) / n
-            equal_w = np.clip(equal_w, 0, self.constraints_obj.max_weight)
-            equal_w = equal_w / equal_w.sum()  # 重新归一化
-            return equal_w
+            logger.warning(f"[OPTIMIZER] Optimization failed: status={problem.status}, falling back to rank weights")
+            try:
+                return self.rank_weights(predicted_returns)
+            except Exception:
+                logger.warning(f"[OPTIMIZER] Rank weights also failed, using equal weights")
+                equal_w = np.ones(n) / n
+                equal_w = np.clip(equal_w, 0, self.constraints_obj.max_weight)
+                equal_w = equal_w / equal_w.sum()
+                return equal_w
+
+    @staticmethod
+    def rank_weights(predicted_returns: np.ndarray) -> np.ndarray:
+        """
+        基于预测排序的线性加权（仅使用排序信息，忽略预测幅度）
+
+        对弱信号（IC~0.01）更鲁棒：排名比预测值更稳定、可迁移。
+        权重 = rank / sum(rank)，最高预测获得最大权重（线性衰减）。
+
+        Args:
+            predicted_returns: 预测收益向量（n,）
+
+        Returns:
+            归一化权重向量（n,），总和为1
+        """
+        n = len(predicted_returns)
+        if n == 0:
+            return np.array([])
+        ranks = pd.Series(predicted_returns).rank(method="min").values
+        weights = ranks / ranks.sum()
+        # 线性加权后通常已有max_weight约束
+        return weights

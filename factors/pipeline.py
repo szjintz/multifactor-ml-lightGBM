@@ -110,6 +110,14 @@ class FactorPreprocessingPipeline:
                         found.append("market_cap")
                     else:
                         missing.append("market_cap")
+                elif col_name == "industry":
+                    if "industry" in market_data.columns:
+                        dummies = pd.get_dummies(market_data["industry"], prefix="ind", drop_first=True)
+                        for dcol in dummies.columns:
+                            exog_data[dcol] = dummies[dcol]
+                        found.append("industry (one-hot)")
+                    else:
+                        missing.append("industry")
                 elif col_name in market_data.columns:
                     exog_data[col_name] = market_data[col_name]
                     found.append(col_name)

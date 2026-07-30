@@ -58,16 +58,18 @@ class OptunaTuner:
             IC 值（保留符号，Optuna 最大化）
         """
         # 定义超参数搜索空间
+        # 正则化上限设为 0.1 —— 过强的 reg 会让 best_iter=1、模型学到几乎常数，
+        # 信号被压制变成「不再学习」。0.1 已足够防止过拟合，且保留 fold-1 训练空间。
         params = {
             "objective": "regression",  # 回归目标更适合 IC 优化
-            "num_leaves": trial.suggest_int("num_leaves", 15, 127),
-            "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
-            "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.1, log=True),
-            "reg_alpha": trial.suggest_float("reg_alpha", 1e-3, 1.0, log=True),
-            "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 1.0, log=True),
-            "bagging_fraction": trial.suggest_float("bagging_fraction", 0.5, 1.0),
+            "num_leaves": trial.suggest_int("num_leaves", 15, 63),
+            "min_child_samples": trial.suggest_int("min_child_samples", 10, 50),
+            "learning_rate": trial.suggest_float("learning_rate", 0.02, 0.1, log=True),
+            "reg_alpha": trial.suggest_float("reg_alpha", 1e-3, 0.1, log=True),
+            "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 0.1, log=True),
+            "bagging_fraction": trial.suggest_float("bagging_fraction", 0.6, 1.0),
             "feature_fraction": trial.suggest_float("feature_fraction", 0.5, 1.0),
-            "min_gain_to_split": trial.suggest_float("min_gain_to_split", 0.0, 0.5),
+            "min_gain_to_split": trial.suggest_float("min_gain_to_split", 0.0, 0.3),
             "verbosity": -1,
         }
 

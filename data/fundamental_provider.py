@@ -7,7 +7,7 @@
 
 数据缓存：
 - 所有数据会缓存到本地文件系统，避免重复请求
-- 缓存路径默认 /tmp/qlib_fundamental_cache
+- 缓存路径默认 qlib_fundamental_cache
 - 支持增量更新，只获取缺失的数据
 
 关键设计：
@@ -70,7 +70,7 @@ class FundamentalProvider:
             end_date = end_date.isoformat()
         self.start_date = start_date
         self.end_date = end_date
-        self.cache_dir = Path(cache_dir or "/tmp/qlib_fundamental_cache")
+        self.cache_dir = Path(cache_dir or Path(__file__).parent / "qlib_fundamental_cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.max_workers = max_workers
         # 财务数据往前多取两年，确保季度数据完整
@@ -406,7 +406,7 @@ class FundamentalProvider:
                     self._save_inst_cache(inst, "gross_margin", gm_long)
                     if not gm_long.empty:
                         gm_records.append(gm_long)
-                        self.logger.info(f"[GROSS_MARGIN] Successfully fetched gross margin for {inst}: {len(gm_long)} periods, range: {gm_long.index.get_level_values(1).min()} to {gm_long.index.get_level_values(1).max()}, avg={gm_long['gross_margin'].mean():.2f}%")
+                    #   self.logger.info(f"[GROSS_MARGIN] Successfully fetched gross margin for {inst}: {len(gm_long)} periods, range: {gm_long.index.get_level_values(1).min()} to {gm_long.index.get_level_values(1).max()}, avg={gm_long['gross_margin'].mean():.2f}%")
 
         if not gm_records:
             result = pd.DataFrame()

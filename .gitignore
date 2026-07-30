@@ -9,4 +9,4 @@ build/
 .env
 docs/
 .zread/
-results/
+data/qlib_fundamental_cache/

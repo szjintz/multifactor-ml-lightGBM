@@ -22,31 +22,33 @@ factors:
   preprocessing:
     winsorize: 3sigma                   # 异常值处理方法：3sigma 或 quantile
     standardize: cross_sectional        # 标准化方法：cross_sectional（截面标准化）
-    neutralize: [market_cap]            # 中性化变量：市值（行业数据暂不可用）
+    neutralize: [market_cap, industry]  # 中性化变量：市值 + 申万一级行业
     orthogonalize: none                 # 正交化方法：gram_schmidt, pca, 或 none（保留因子可解释性）
 
 training:
-  window_months: 24                     # 训练窗口大小（月数）
-  predict_days: 20                      # 预测持有期天数（需与标签 periods 一致）
+  window_months: 24                     # 训练窗口大小（月数）- 更多数据提升模型稳定性
+  predict_days: 20                      # 预测持有期天数
   rolling_step: monthly                 # 滚动步长：monthly
-  objective: regression                 # 目标函数：lambdarank（LTR排序）
-  early_stopping_rounds: 50             # 早停轮数
-  optuna_trials: 20                     # Optuna 超参搜索次数（适度增加以获得更好结果）
-  lgb_params:                           # LightGBM 基础参数
+  objective: regression                 # 目标函数：regression（截面 Z-score 标签）
+  early_stopping_rounds: 50             # 早停轮数（patience=50）
+  num_boost_round: 1000                 # 固定迭代次数上限（增加以允许更复杂的树）
+  optuna_trials: 20                     # Optuna 超参搜索次数（仅在第一个 fold 执行）
+  lgb_params:                           # LightGBM 基础参数（始终覆盖 Optuna 调优结果）
     num_leaves: 31                      # 单棵树最大叶子数
     min_child_samples: 20               # 叶子最小样本数
-    learning_rate: 0.05                 # 学习率
+    learning_rate: 0.02                 # 学习率
     reg_alpha: 0.1                      # L1 正则化
     reg_lambda: 0.1                     # L2 正则化
     bagging_fraction: 0.8               # 行采样比例
     feature_fraction: 0.8               # 列采样比例
-    min_gain_to_split: 0.0              # 分裂最小增益阈值
+    min_gain_to_split: 0.001            # 分裂最小增益阈值（允许树分裂但限制噪声分裂）
 
 portfolio:
-  top_n: 30                             # 持仓股票数量
-  turnover_limit: 0.50                  # 最大换手率（单边，20日调仓需要更宽松）
-  risk_aversion: 2.0                    # 风险厌恶系数
-  max_weight: 0.10                      # 单股最大权重
+  weight_method: rank                   # 组合构建方法：mean_variance（CVXPY均值-方差）/ rank（排序线性加权）
+  top_n: 40                             # 持仓股票数量（更多分散度降低波动）
+  turnover_limit: 0.50                  # 最大换手率（单边）
+  risk_aversion: 1.5                    # 风险厌恶系数（rank模式下仅用于参考，降低以加大alpha权重）
+  max_weight: 0.10                      # 单股最大权重（rank模式自动约束）
   sector_neutral: false                 # 是否行业中性（暂不支持行业数据）
   size_neutral: false                   # 是否市值中性（先关闭以验证基础流程）
 
@@ -56,8 +58,8 @@ monte_carlo:
   seed: 42                              # 随机种子
 
 fundamental:
-  cache_dir: /tmp/qlib_fundamental_cache  # 基本面数据缓存目录
-  use_akshare: true                     # 是否使用 Akshare 获取基本面数据
+  cache_dir: /home/jinqh/lightGBM_qlib/data/qlib_fundamental_cache  # 基本面数据缓存目录
+  use_akshare: true                       # 使用 Akshare 获取基本面数据（已有完整缓存，后续运行快）
 
 backtest:
   benchmark: csi300                     # 基准指数
