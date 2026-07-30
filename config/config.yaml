@@ -44,11 +44,11 @@ training:
     min_gain_to_split: 0.001            # 分裂最小增益阈值（允许树分裂但限制噪声分裂）
 
 portfolio:
-  weight_method: rank                   # 组合构建方法：mean_variance（CVXPY均值-方差）/ rank（排序线性加权）
-  top_n: 40                             # 持仓股票数量（更多分散度降低波动）
-  turnover_limit: 0.50                  # 最大换手率（单边）
-  risk_aversion: 1.5                    # 风险厌恶系数（rank模式下仅用于参考，降低以加大alpha权重）
-  max_weight: 0.10                      # 单股最大权重（rank模式自动约束）
+  weight_method: mean_variance          # 均值-方差优化（引入协方差风险控制，压制波动）
+  top_n: 60                             # 持仓增至60只，增强分散化降低波动
+  turnover_limit: 0.30                  # 收紧换手率，降低交易成本
+  risk_aversion: 3.0                    # 强风险厌恶（主动压制组合波动率）
+  max_weight: 0.05                      # 单股权重减半，强制分散
   sector_neutral: false                 # 是否行业中性（暂不支持行业数据）
   size_neutral: false                   # 是否市值中性（先关闭以验证基础流程）
 

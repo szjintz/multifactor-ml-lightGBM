@@ -312,8 +312,6 @@ class BacktestEngine:
 
         weights_df = pd.DataFrame(weights_history, index=rebalance_dates[:len(weights_history)])
         total_return = (1 + returns).prod() - 1
-        ann_factor = 252.0 / hp
-        # 使用正确的年化Sharpe（基于实际 periods_per_year）
         periods_per_year_for_sharpe = ann_periods_per_year
         sharpe = returns.mean() / returns.std() * np.sqrt(periods_per_year_for_sharpe) if returns.std() > 0 else 0
         max_dd = ((1 + returns).cumprod() / (1 + returns).cumprod().cummax() - 1).min()
