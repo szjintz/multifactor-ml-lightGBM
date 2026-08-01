@@ -59,7 +59,7 @@ monte_carlo:
   seed: 42                              # 随机种子
 
 fundamental:
-  cache_dir: /home/jinqh/lightGBM_qlib/data/qlib_fundamental_cache  # 基本面数据缓存目录
+  cache_dir: /home/jintz/lightGBM_qlib/data/qlib_fundamental_cache  # 基本面数据缓存目录
   use_akshare: true                     # 使用 Akshare 获取基本面数据（已有完整缓存，后续运行快）
 
 run:
